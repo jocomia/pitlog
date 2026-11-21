@@ -67,12 +67,12 @@ can join (home router or a phone hotspot).
        icon again. It must open normally.
 
 [ ] 9. Sync test: Wi-Fi back ON. In PitLog: Sessions > + New session >
-       + New run, type anything. Data & Sync > "Sync to laptop now".
+       + New run, type anything. Data > "Sync to laptop now".
        You should see "Sync OK" in green, and the laptop window shows
        "Synced at ...". Check the laptop folder now has "backups" and
        "history" folders.
 
-[ ] 10. Fill in Data & Sync > Settings once: car name, defaults for new
+[ ] 10. Fill in Data > Settings once: car name, defaults for new
         sessions (drivers, car number, transponder, class), units, target
         hot pressures, allowed +/- range, minimum tread.
 
@@ -174,7 +174,7 @@ copy of the app, nothing more.
 
 Backups on Android (the laptop Wi-Fi sync is blocked by Chrome for apps
 installed from https, so use files instead):
-- Data & Sync > "Save backup file" puts a .json file in Downloads.
+- Data > "Save backup file" puts a .json file in Downloads.
 - "Share backup" sends it to Google Drive, Gmail, Quick Share, and so on.
 - "Open a backup file to restore" loads a backup back in.
 - Into the laptop history: copy the file to the laptop, then run
@@ -190,7 +190,7 @@ repository. Change the VERSION line at the top of sw.js (for example
 pitlog-1.3.1), or phones keep the old copy. Phones get the update the next
 time they open PitLog with internet, and it asks to reload.
 
-Extras that only work on newer phones and tablets (Data & Sync > Settings):
+Extras that only work on newer phones and tablets (Data > Settings):
 - Keep the screen on while PitLog is open.
 - Vibrate when a drive time warning appears.
 
@@ -207,7 +207,7 @@ fuel per lap and rules from your logged runs. Tap a row for the stop-by-stop
 plan. Lap time is treated as constant (no traffic, safety cars or fuel
 weight), so use it to compare options and adjust on the day.
 
-Pre-run checklist: Data & Sync > Settings > one item per line. Every run's
+Pre-run checklist: Data > Settings > one item per line. Every run's
 Before tab shows the ticks, and Results warns about anything not ticked
 once the car has gone out.
 
@@ -219,7 +219,7 @@ SYNCING TO THE LAPTOP
 =====================
 1. Laptop: start serve.py (Install day step 3).
 2. iPad: join the same Wi-Fi.
-3. PitLog > Data & Sync > Sync to laptop now.
+3. PitLog > Data > Sync to laptop now.
 
 The orange "to sync" badge at the top shows how many changes are waiting.
 A yellow banner on the Sessions screen warns you after 24 hours without a
@@ -228,7 +228,7 @@ sync. Sync after every session if you can, at least after every event day.
 What you get on the laptop
   backups/   One full copy of the iPad per sync, named by date and time.
              Never overwritten. Restore one onto the iPad with
-             Data & Sync > "Get latest backup from laptop" then "Restore".
+             Data > "Get latest backup from laptop" then "Restore".
   history/   runs.csv       one row per run, every run ever synced
              sessions.csv   one row per session
              sync-log.csv   what came in and when
@@ -252,7 +252,7 @@ sync shows an error asking you to close it (your backup is still saved).
 
 If sync says it could not reach the laptop: check the iPad and laptop are on
 the same Wi-Fi, serve.py is running, and the address matches. You can type
-the laptop address into the box on the Data & Sync screen if it changed.
+the laptop address into the box on the Data screen if it changed.
 
 
 END OF SEASON: FREEING SPACE ON THE IPAD
@@ -260,7 +260,7 @@ END OF SEASON: FREEING SPACE ON THE IPAD
 Safari gives PitLog about 5 MB. Data & Sync shows how much is used. When it
 gets past a few thousand KB:
 1. Sync to the laptop and check it says "Sync OK".
-2. Data & Sync > "Remove all sessions and runs from this iPad".
+2. Data > "Remove all sessions and runs from this iPad".
 The laptop history keeps everything. You can undo once.
 
 

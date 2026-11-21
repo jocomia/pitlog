@@ -12,107 +12,206 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="apple-touch-icon" href="icon.png">
 <style>
+/* PitLog 1.4 design. Old-browser safe: no flexbox, grid, calc() or CSS variables, so it also runs on the iPad 1. */
 *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.35;background:#eef0f3;color:#14171a;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.4;background:#f2f3f5;color:#101418;-webkit-tap-highlight-color:rgba(0,0,0,0);padding-bottom:84px}
 [data-act]{cursor:pointer}
-.top{background:#14171a;color:#fff;padding:8px 12px}
-.top:after,.row:after,.bar:after,.cf:after{content:"";display:table;clear:both}
-.brand{float:left;font-weight:bold;font-size:22px;line-height:44px;margin-right:14px}
-.brand span{color:#ff6a13}
-.brand small{font-size:13px;font-weight:normal;color:#aab3bd;margin-left:6px}
-.nav{float:left}
-.nav button{-webkit-appearance:none;float:left;background:transparent;border:0;color:#cfd6dd;font-size:16px;font-weight:bold;min-height:44px;padding:0 14px;border-radius:8px;font-family:inherit;cursor:pointer}
-.nav button.on{background:#ff6a13;color:#fff}
-.tr{float:right;text-align:right;line-height:44px;font-size:13px;color:#9fd8b0}
-.tr .pill{margin-left:6px}
-.wrap{padding:12px}
-.card{background:#fff;-webkit-border-radius:10px;border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid #dde1e6}
-h2{font-size:22px;line-height:44px}
-h3{font-size:17px;margin:0 0 8px}
-p{margin-bottom:8px}
+.cf:after,.row:after,.bar:after,.appbar:after,.runcard:after,.sesscard:after,.tiles:after{content:"";display:table;clear:both}
 .fl{float:left}.fr{float:right}
-.sub{font-size:14px;color:#5b6570}
+.wrap{padding:12px;max-width:1000px;margin:0 auto}
+
+/* header */
+.appbar{background:#14171a;color:#fff;padding:10px 12px 12px;min-height:60px}
+.appbar .back{float:left;width:44px;height:44px;margin:0 8px 0 -4px;border-radius:22px;background:rgba(255,255,255,0.08);text-align:center;line-height:42px;font-size:28px;color:#fff;font-weight:300}
+.appbar .ttl{overflow:hidden;padding-top:1px}
+.appbar .ttl b{display:block;font-size:20px;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.appbar .ttl b span.brand{display:inline;font-size:inherit;color:#ff6a13;margin:0}
+.appbar .ttl > span{display:block;font-size:13px;color:#aab3bd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.appbar .acts{float:right;margin-left:8px;text-align:right}
+.appbar .acts .nb{display:inline-block;width:40px;height:40px;border-radius:20px;background:rgba(255,255,255,0.1);color:#fff;text-align:center;line-height:38px;font-size:22px;margin-left:6px;vertical-align:middle}
+.appbar .acts .nb.off{opacity:0.25}
+.savest{display:block;font-size:11px;color:#9fd8b0;margin-top:4px;min-height:14px}
+.brand{color:#ff6a13}
+
+/* bottom tab bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#ffffff;border-top:1px solid #e3e6ea;display:table;width:100%;table-layout:fixed;height:68px;box-shadow:0 -2px 12px rgba(0,0,0,0.06)}
+.tabbar .tab{display:table-cell;text-align:center;vertical-align:middle;color:#6b7280;font-size:12px;font-weight:600;position:relative}
+.tabbar .tab svg{display:block;margin:0 auto 3px;width:26px;height:26px}
+.tabbar .tab.on{color:#ff6a13}
+.tabbar .tab .dot{position:absolute;top:6px;left:50%;margin-left:8px;background:#ff6a13;color:#fff;border-radius:10px;font-size:11px;line-height:18px;min-width:18px;padding:0 5px}
+body.kb .tabbar{display:none}
+
+/* cards */
+.card{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(16,20,24,0.06),0 1px 8px rgba(16,20,24,0.04)}
+h2{font-size:22px;line-height:30px;margin:4px 0 10px}
+h3{font-size:17px;margin:0 0 10px}
+h3 .sub{font-weight:normal}
+p{margin-bottom:8px}
+.sub{font-size:14px;color:#6b7280}
+.hint{font-size:13px;color:#6b7280;margin-top:8px}
 .bar{margin-bottom:10px}
-.btn{-webkit-appearance:none;display:inline-block;min-height:44px;padding:0 16px;line-height:42px;-webkit-border-radius:8px;border-radius:8px;border:1px solid #c5cbd3;background:#fff;color:#14171a;font-size:16px;font-weight:bold;margin:0 6px 6px 0;text-decoration:none;font-family:inherit;cursor:pointer;vertical-align:middle}
-.btn.pri{background:#ff6a13;border-color:#ff6a13;color:#fff}
-.btn.dng{border-color:#c62828;color:#c62828}
-.btn.sm{min-height:36px;line-height:34px;padding:0 12px;font-size:14px}
-.fld{display:block;margin-bottom:8px}
-.lb{display:block;font-size:13px;color:#5b6570;margin-bottom:3px;font-weight:bold}
-.lb i{font-style:normal;font-weight:normal}
-input[type=text],input[type=number],select,textarea{-webkit-appearance:none;width:100%;font-size:18px;padding:8px 10px;min-height:44px;border:1px solid #c5cbd3;-webkit-border-radius:8px;border-radius:8px;background:#fff;color:#14171a;font-family:inherit}
-textarea{min-height:70px;font-size:16px}
-input:focus,select:focus,textarea:focus{border-color:#ff6a13;outline:none}
+.sec{font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.6px;margin:18px 4px 8px}
+
+/* fold-out cards */
+.fold{padding:0}
+.fold .fh{padding:14px;min-height:52px}
+.fold .fh h3{margin:0;display:inline;font-size:17px}
+.fold .fh .fnote{float:right;font-size:13px;color:#6b7280;margin-right:26px;margin-top:2px}
+.fold .fh .chev{float:right;width:10px;height:10px;border-right:2px solid #9aa3ad;border-bottom:2px solid #9aa3ad;margin-top:4px;-webkit-transform:rotate(45deg);transform:rotate(45deg)}
+.fold.open .fh .chev{-webkit-transform:rotate(-135deg);transform:rotate(-135deg);margin-top:9px}
+.fold .fb{padding:0 14px 14px;display:none}
+.fold.open .fb{display:block}
+
+/* buttons */
+.btn{-webkit-appearance:none;display:inline-block;min-height:46px;padding:0 18px;line-height:46px;border-radius:12px;border:0;background:#eef0f3;color:#101418;font-size:16px;font-weight:600;margin:0 8px 8px 0;text-decoration:none;font-family:inherit;cursor:pointer;vertical-align:middle;text-align:center}
+.btn.pri{background:#ff6a13;color:#fff}
+.btn.dng{background:#fdecec;color:#c62828}
+.btn.sm{min-height:38px;line-height:38px;padding:0 14px;font-size:14px;border-radius:10px}
+.btn.block{display:block;width:100%;margin-right:0}
+.bigbtn{display:block;width:100%;min-height:64px;line-height:64px;font-size:20px;font-weight:700;border-radius:16px;border:0;background:#ff6a13;color:#fff;text-align:center;margin:4px 0 12px;-webkit-appearance:none;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(255,106,19,0.3)}
+.bigbtn.go{background:#16a34a;box-shadow:0 4px 14px rgba(22,163,74,0.3)}
+.bigbtn.ghost{background:#fff;color:#101418;box-shadow:0 1px 2px rgba(16,20,24,0.08)}
+.btnrow .btn{margin-bottom:8px}
+
+/* fields */
+.fld{display:block;margin-bottom:12px}
+.lb{display:block;font-size:13px;color:#4b5563;margin-bottom:5px;font-weight:600}
+.lb i{font-style:normal;font-weight:normal;color:#9aa3ad}
+input[type=text],input[type=number],select,textarea{-webkit-appearance:none;width:100%;font-size:18px;padding:10px 12px;min-height:50px;border:2px solid #eef0f3;border-radius:12px;background:#f5f6f8;color:#101418;font-family:inherit}
+textarea{min-height:84px;font-size:16px;line-height:1.4}
+input:focus,select:focus,textarea:focus{border-color:#ff6a13;background:#fff;outline:none}
+input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#a3aab3}
 .selw{position:relative;display:block}
-.selw:after{content:"\25BE";position:absolute;right:12px;top:11px;pointer-events:none;color:#5b6570}
-.selw select{padding-right:30px}
-.chk{display:block;min-height:44px;padding:9px 0;line-height:1.3;font-weight:bold}
-.chk input{width:26px;height:26px;vertical-align:middle;margin-right:8px}
+.selw:after{content:"\25BE";position:absolute;right:14px;top:13px;pointer-events:none;color:#6b7280}
+.selw select{padding-right:34px}
+.chk{display:block;min-height:48px;padding:11px 0;line-height:1.3;font-weight:600;border-bottom:1px solid #f0f1f3}
+.chk:last-child{border-bottom:0}
+.chk input{width:24px;height:24px;vertical-align:middle;margin:-3px 12px 0 2px}
 .row{margin:0 -6px}
 .col{float:left;padding:0 6px}
 .c2{width:50%}.c3{width:33.333%}.c4{width:25%}
-.car{border:2px dashed #c5cbd3;-webkit-border-radius:14px;border-radius:14px;padding:4px 6px}
-.axle{text-align:center;font-size:12px;letter-spacing:3px;color:#8a949e;font-weight:bold;padding:2px 0}
-.cn{float:left;width:50%;padding:6px}
-.cnh{font-weight:bold;font-size:14px;margin-bottom:4px}
-.mini{font-size:12px;color:#8a949e;text-align:center;font-weight:bold}
+
+/* car corners */
+.car{position:relative;padding:2px 0}
+.axle{text-align:center;font-size:11px;letter-spacing:3px;color:#9aa3ad;font-weight:700;padding:2px 0 4px}
+.cn{float:left;width:50%;padding:5px}
+.cnin{background:#f5f6f8;border-radius:14px;padding:8px}
+.cnh{font-weight:700;font-size:13px;margin-bottom:6px;color:#4b5563}
+.cnh b{display:inline-block;background:#14171a;color:#fff;border-radius:6px;padding:0 6px;margin-right:6px;font-size:12px;line-height:20px}
+.car input[type=number]{text-align:center;font-size:24px;font-weight:700;min-height:56px;background:#fff;border-color:#e6e8eb}
+.car input[type=number]:focus{border-color:#ff6a13}
+.mini{font-size:11px;color:#9aa3ad;text-align:center;font-weight:700;text-transform:uppercase;margin-bottom:3px}
 .tt .col{padding:0 3px}.tt{margin:0 -3px}
-.tt input{padding:8px 4px;text-align:center}
-.live{font-size:14px;color:#5b6570;margin-top:4px;min-height:18px}
-.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.car .tt input[type=number]{padding:8px 2px;font-size:19px;min-height:50px}
+.live{font-size:13px;color:#4b5563;margin-top:6px;min-height:16px;text-align:center}
+
+/* lists */
+.sesscard{padding:14px}
+.badge{float:left;min-width:54px;height:54px;border-radius:14px;background:#14171a;color:#fff;text-align:center;line-height:54px;font-weight:800;font-size:20px;margin-right:12px;padding:0 6px}
+.badge.none{background:#eef0f3;color:#9aa3ad;font-size:14px}
+.sesscard .mid{overflow:hidden}
+.sesscard h3{margin:2px 0 3px;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.runcard{background:#fff;border-radius:16px;padding:12px 14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(16,20,24,0.06)}
+.runcard .no{float:left;width:46px;height:46px;border-radius:23px;background:#eef0f3;text-align:center;line-height:46px;font-weight:800;font-size:18px;margin-right:12px}
+.runcard.out .no{background:#ff6a13;color:#fff}
+.runcard.done .no{background:#dcfce7;color:#166534}
+.runcard .side{float:right;text-align:right;margin-left:8px}
+.runcard .side b{display:block;font-size:17px}
+.runcard .side span{font-size:12px;color:#6b7280}
+.runcard .mid{overflow:hidden}
+.runcard .mid b{font-size:16px}
+.runcard .mid .sub{font-size:13px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flag{display:inline-block;background:#fdecec;color:#c62828;border-radius:8px;font-size:12px;font-weight:700;padding:1px 7px;margin-left:6px}
+
+/* summary tiles */
+.tiles{margin:0 -5px 6px}
+.tile{float:left;width:25%;padding:5px}
+.tile div{background:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 1px 2px rgba(16,20,24,0.06);min-height:72px}
+.tile span{display:block;font-size:11px;color:#6b7280;text-transform:uppercase;font-weight:700;letter-spacing:0.4px}
+.tile b{display:block;font-size:21px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile.hi div{background:#14171a;color:#fff}.tile.hi span{color:#aab3bd}
+.tile.bad div{background:#fdecec}.tile.bad b{color:#c62828}
+.tile.ok div{background:#ecfdf3}.tile.ok b{color:#166534}
+
+/* tables */
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
 table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{padding:8px 6px;border-bottom:1px solid #e3e6ea;text-align:left;white-space:nowrap}
-th{font-size:12px;color:#5b6570;text-transform:uppercase}
+th,td{padding:9px 6px;border-bottom:1px solid #f0f1f3;text-align:left;white-space:nowrap}
+th{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px}
 td.n,th.n{text-align:right}
 tr.tap:active td{background:#fff3ea}
-.seg{display:inline-block;border:1px solid #ff6a13;-webkit-border-radius:8px;border-radius:8px;overflow:hidden;margin-bottom:12px;vertical-align:middle}
-.seg button{-webkit-appearance:none;float:left;border:0;background:transparent;color:#ff6a13;font-size:16px;font-weight:bold;min-height:44px;padding:0 18px;font-family:inherit;cursor:pointer}
-.seg button.on{background:#ff6a13;color:#fff}
-.pill{display:inline-block;padding:2px 8px;-webkit-border-radius:10px;border-radius:10px;font-size:12px;font-weight:bold;line-height:16px;vertical-align:middle}
-.p-out{background:#fff0e0;color:#b45309}.p-done{background:#e3f4e8;color:#2e7d32}.p-new{background:#e8ebef;color:#5b6570}.p-sync{background:#fff0e0;color:#b45309}
-.warn{padding:8px 10px;-webkit-border-radius:8px;border-radius:8px;margin-bottom:6px;font-size:15px}
-.w-high{background:#fde8e8;color:#a31515;border-left:5px solid #c62828}
-.w-med{background:#fff4e0;color:#8a4b00;border-left:5px solid #e08a00}
-.w-info{background:#e8f0fb;color:#0d47a1;border-left:5px solid #1565c0}
-.w-ok{background:#e3f4e8;color:#1b5e20;border-left:5px solid #2e7d32}
-.hint{font-size:13px;color:#6b7580;margin-top:6px}
-.stat{display:inline-block;min-width:150px;margin:0 14px 12px 0;vertical-align:top}
-.stat span{display:block;font-size:12px;color:#6b7580;text-transform:uppercase;font-weight:bold}
-.stat b{display:block;font-size:22px}
-.stamp{min-height:44px;line-height:44px;font-size:18px;font-weight:bold}
-.stamp .btn{margin-left:6px;margin-bottom:0}
-.watch{font-size:80px;font-weight:bold;text-align:center;font-family:"Courier New",Courier,monospace;padding:10px 0}
-.sess h3{margin:4px 0}
-.good{color:#2e7d32}.bad{color:#c62828}
+
+/* segmented control */
+.seg{display:inline-block;background:#e6e8eb;border-radius:12px;padding:3px;margin-bottom:12px;vertical-align:middle}
+.seg button{-webkit-appearance:none;float:left;border:0;background:transparent;color:#4b5563;font-size:15px;font-weight:700;min-height:40px;padding:0 16px;font-family:inherit;cursor:pointer;border-radius:9px}
+.seg button.on{background:#fff;color:#101418;box-shadow:0 1px 3px rgba(0,0,0,0.12)}
+.seg.full{display:block;width:100%}
+.seg.full:after{content:"";display:table;clear:both}
+.seg.full button{float:left;width:33.333%;min-height:44px;padding:0 4px}
+.feel button{min-height:40px;padding:0 10px;font-size:14px}
+
+/* pills, warnings, stats */
+.pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:12px;font-weight:700;line-height:17px;vertical-align:middle}
+.p-out{background:#fff0e0;color:#b45309}.p-done{background:#dcfce7;color:#166534}.p-new{background:#eef0f3;color:#4b5563}.p-sync{background:#ff6a13;color:#fff}
+.warn{padding:11px 13px;border-radius:12px;margin-bottom:8px;font-size:15px}
+.w-high{background:#fdecec;color:#991b1b}
+.w-med{background:#fff4e0;color:#8a4b00}
+.w-info{background:#eaf1ff;color:#1e40af}
+.w-ok{background:#ecfdf3;color:#166534}
+.stat{display:inline-block;min-width:140px;margin:0 14px 12px 0;vertical-align:top}
+.stat span{display:block;font-size:11px;color:#6b7280;text-transform:uppercase;font-weight:700}
+.stat b{display:block;font-size:21px}
+.stamp{min-height:46px;line-height:46px;font-size:20px;font-weight:700}
+.stamp .btn{margin:0 0 0 6px}
+.timebox{background:#f5f6f8;border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.timebox b{font-size:22px}
+.timebox .btn{margin:0 0 0 6px}
+.watch{font-size:76px;font-weight:800;text-align:center;font-family:"Courier New",Courier,monospace;padding:6px 0 10px}
+.good{color:#16a34a}.bad{color:#c62828}
 canvas{display:block}
+
+/* tool picker */
+.tgrid{margin:0 -5px 6px}
+.tgrid:after{content:"";display:table;clear:both}
+.tcell{float:left;width:16.666%;padding:5px}
+.tcell div{background:#fff;border-radius:14px;padding:12px 6px;text-align:center;font-weight:700;font-size:14px;box-shadow:0 1px 2px rgba(16,20,24,0.06);min-height:58px}
+.tcell.on div{background:#14171a;color:#fff}
+.tcell i{display:block;font-style:normal;font-size:20px;line-height:22px;margin-bottom:2px}
+
+/* dark theme */
+body.dark{background:#0b0d10;color:#eceff3}
+.dark .card,.dark .runcard,.dark .tile div,.dark .tcell div,.dark .bigbtn.ghost{background:#171a1f;box-shadow:none;color:#eceff3}
+.dark .tabbar{background:#171a1f;border-color:#262a31}
+.dark .btn{background:#262a31;color:#eceff3}
+.dark .btn.pri{background:#ff6a13;color:#fff}
+.dark .btn.dng{background:#3a1414;color:#ff8a80}
+.dark input[type=text],.dark input[type=number],.dark select,.dark textarea{background:#0f1216;color:#eceff3;border-color:#262a31}
+.dark .cnin,.dark .timebox{background:#0f1216}
+.dark .car input[type=number]{background:#171a1f;border-color:#262a31}
+.dark th,.dark td,.dark .chk{border-color:#262a31}
+.dark .lb,.dark .sub,.dark .live,.dark th,.dark .hint,.dark .stat span,.dark .tile span,.dark .sec,.dark .cnh{color:#9aa4ae}
+.dark .seg{background:#262a31}.dark .seg button{color:#9aa4ae}.dark .seg button.on{background:#0f1216;color:#fff}
+.dark .runcard .no,.dark .badge.none{background:#262a31;color:#eceff3}
+.dark .w-high{background:#3a1414;color:#ffb4b4}.dark .w-med{background:#3a2a10;color:#ffd08a}.dark .w-info{background:#10233d;color:#a9c8ff}.dark .w-ok{background:#12301a;color:#a8e0b4}
+.dark .tcell.on div,.dark .tile.hi div{background:#ff6a13;color:#fff}
+
+/* phones */
 @media (max-width: 640px) {
-.wrap{padding:8px}
-.top{padding:6px 8px}
-.brand{font-size:18px;margin-right:6px}.brand small{display:none}
-.nav button{padding:0 8px;font-size:14px}
-.tr{float:none;clear:both;line-height:22px;text-align:left}
+.wrap{padding:10px}
 .c3,.c4{width:50%}.c2{width:100%}
 .tt .c3{width:33.333%}
-.seg{display:block;white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.seg button{float:none;display:inline-block;padding:0 10px;font-size:14px}
+.tile{width:50%}
+.tcell{width:33.333%}
+.seg:not(.full){display:block;white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.seg:not(.full) button{float:none;display:inline-block}
 .stat{min-width:120px;margin-right:8px}
-h2{font-size:20px}
-.watch{font-size:56px}
-.card{padding:10px}
+.watch{font-size:58px}
+.cn{padding:4px}
+.cnin{padding:6px}
+.car .tt input[type=number]{font-size:17px}
 }
 @media (max-width: 400px) { .c3{width:100%} .tt .c3{width:33.333%} }
-body.dark{background:#0e1013;color:#eceff3}
-.dark .card{background:#1a1e23;border-color:#2b3037}
-.dark .btn{background:#232830;border-color:#3a414b;color:#eceff3}
-.dark .btn.pri{background:#ff6a13;border-color:#ff6a13;color:#fff}
-.dark .btn.dng{color:#ff8a80;border-color:#c62828}
-.dark input[type=text],.dark input[type=number],.dark select,.dark textarea{background:#0f1216;color:#eceff3;border-color:#3a414b}
-.dark th,.dark td{border-color:#2b3037}
-.dark .lb,.dark .sub,.dark .live,.dark th,.dark .hint,.dark .stat span{color:#9aa4ae}
-.dark .car{border-color:#3a414b}
-.dark .w-high{background:#3a1414;color:#ffb4b4}.dark .w-med{background:#3a2a10;color:#ffd08a}.dark .w-info{background:#10233d;color:#a9c8ff}.dark .w-ok{background:#12301a;color:#a8e0b4}
-.dark tr.tap:active td{background:#2a2018}
 </style>
 </head>
 <body>
@@ -121,7 +220,7 @@ body.dark{background:#0e1013;color:#eceff3}
 (function () {
   'use strict';
 
-  var VERSION = '1.3.0';
+  var VERSION = '1.4.0';
   var KEY = 'pitlog_v1', KEY_PREV = 'pitlog_prev', KEY_UI = 'pitlog_ui', KEY_WATCH = 'pitlog_watch';
   var C4 = ['FL', 'FR', 'RL', 'RR'];
   var CNAME = { FL: 'Front left', FR: 'Front right', RL: 'Rear left', RR: 'Rear right' };
@@ -318,7 +417,7 @@ body.dark{background:#0e1013;color:#eceff3}
   function defUI() {
     return {
       view: 'sessions', sessionId: null, runId: null, runTab: 'before', tool: 'fuel',
-      an: { sessionId: '', metric: 'best', a: '', b: '' },
+      an: { sessionId: '', metric: 'best', a: '', b: '' }, open: {},
       t: { strat: { mode: 'laps', raceLaps: null, raceMin: null, lapTime: null, fpl: null, tank: null, startFuel: null, reserve: null, refuel: null, pitLoss: null, tyreTime: null, tyreLife: null, concurrent: true, minStat: null, maxStint: null, minStops: null, pick: null },
         fuel: { laps: null, fpl: null, margin: null, inTank: null }, pc: { p1: null, t1: null, t2: null },
         cw: { FL: null, FR: null, RL: null, RR: null }, cv: { cat: 'Pressure', from: '', val: null } }
@@ -490,7 +589,7 @@ body.dark{background:#0e1013;color:#eceff3}
     else shown = trim0(toShow(kind, v), dpOf(kind));
     if (kind === 'ta') return '<textarea' + attrs(scope, path, kind) + ' rows="3" placeholder="' + esc(ph || '') + '">' + esc(shown) + '</textarea>';
     if (kind === 's' || kind === 'lap') return '<input type="text" autocorrect="off" autocapitalize="off"' + attrs(scope, path, kind) + ' value="' + esc(shown) + '" placeholder="' + esc(ph || '') + '">';
-    return '<input type="number" step="any"' + attrs(scope, path, kind) + ' value="' + esc(shown) + '" placeholder="' + esc(ph || '') + '">';
+    return '<input type="number" step="any" inputmode="decimal"' + attrs(scope, path, kind) + ' value="' + esc(shown) + '" placeholder="' + esc(ph || '') + '">';
   }
   function sel(scope, obj, path, opts) {
     var v = getPath(obj, path), h = '<span class="selw"><select' + attrs(scope, path, 's') + '>';
@@ -510,7 +609,7 @@ body.dark{background:#0e1013;color:#eceff3}
   function btn(label, act, arg, cls) { return '<button type="button" class="btn ' + (cls || '') + '" data-act="' + act + '"' + (arg !== undefined && arg !== null ? ' data-arg="' + esc(arg) + '"' : '') + '>' + label + '</button>'; }
   function stat(label, value) { return '<div class="stat"><span>' + esc(label) + '</span><b>' + value + '</b></div>'; }
   function carGrid(fn) {
-    function cell(c) { return '<div class="cn"><div class="cnh">' + c + ' <span class="sub">' + CNAME[c] + '</span></div>' + fn(c) + '</div>'; }
+    function cell(c) { return '<div class="cn"><div class="cnin"><div class="cnh"><b>' + c + '</b>' + CNAME[c] + '</div>' + fn(c) + '</div></div>'; }
     return '<div class="car"><div class="axle">FRONT</div><div class="cf">' + cell('FL') + cell('FR') + '</div><div class="cf">' + cell('RL') + cell('RR') + '</div><div class="axle">REAR</div></div>';
   }
   function stampFld(label, run, field) {
@@ -526,29 +625,73 @@ body.dark{background:#0e1013;color:#eceff3}
     return h;
   }
 
-  /* ---------- top bar ---------- */
+  /* ---------- header and bottom tabs ---------- */
   function pendingCount() { return pendingItems().length; }
-  function renderTop() {
-    var v = S.view, nav = [['sessions', 'Sessions'], ['analysis', 'Analysis'], ['tools', 'Tools'], ['data', 'Data & Sync']], h = '';
-    for (var i = 0; i < nav.length; i++) {
-      var on = nav[i][0] === v || (nav[i][0] === 'sessions' && (v === 'session' || v === 'run'));
-      h += '<button type="button" class="' + (on ? 'on' : '') + '" data-act="nav" data-arg="' + nav[i][0] + '">' + nav[i][1] + '</button>';
+  var ICON = {
+    sessions: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4L17 12H5"/></svg>',
+    analysis: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20h16"/><path d="M7 16v-5"/><path d="M12 16V6"/><path d="M17 16v-8"/></svg>',
+    tools: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h4"/><path d="M12 17h8"/><circle cx="10" cy="17" r="2"/></svg>',
+    data: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14-4.5L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4.5l2-2.5"/><path d="M20 20v-5h-5"/></svg>'
+  };
+  function tabbar() {
+    var v = S.view, tabs = [['sessions', 'Sessions'], ['analysis', 'Analysis'], ['tools', 'Tools'], ['data', 'Data']], h = '<div class="tabbar">', pc = pendingCount();
+    for (var i = 0; i < tabs.length; i++) {
+      var k = tabs[i][0], on = k === v || (k === 'sessions' && (v === 'session' || v === 'run'));
+      h += '<div class="tab' + (on ? ' on' : '') + '" data-act="nav" data-arg="' + k + '">' + ICON[k] + tabs[i][1] + (k === 'data' && pc ? '<span class="dot">' + pc + '</span>' : '') + '</div>';
     }
-    var pc = pendingCount();
-    return '<div class="top"><div class="brand">Pit<span>Log</span><small>' + esc(st().car) + '</small></div><div class="nav">' + h +
-      '</div><div class="tr"><span id="saveSt"></span>' + (pc ? '<span class="pill p-sync" data-act="nav" data-arg="data">' + pc + ' to sync</span>' : '') + '</div></div>';
+    return h + '</div>';
+  }
+  function renderTop() {
+    var v = S.view, back = '', title = '', subt = '', acts = '';
+    if (v === 'session') {
+      var s = curSession();
+      back = '<div class="back" data-act="nav" data-arg="sessions">&#8249;</div>';
+      title = (s.carNo ? '#' + esc(s.carNo) + ' ' : '') + esc(s.event || 'New session');
+      subt = esc([s.date, s.type, s.track].filter(function (x) { return !!x; }).join(' · '));
+    } else if (v === 'run') {
+      var run = curRun(), ss = findSession(run.sessionId), rs = runsOf(run.sessionId), idx = 0;
+      for (var i = 0; i < rs.length; i++) if (rs[i].id === run.id) idx = i;
+      back = '<div class="back" data-act="openSession" data-arg="' + ss.id + '">&#8249;</div>';
+      title = (ss.carNo ? '#' + esc(ss.carNo) + ' · ' : '') + 'Run ' + run.no;
+      subt = esc([drvOf(run, ss), ss.event, run.timeIn ? 'done' : (run.timeOut ? 'on track since ' + hms(run.timeOut).slice(0, 5) : 'in garage')].filter(function (x) { return !!x; }).join(' · '));
+      acts = '<span class="nb' + (idx > 0 ? '" data-act="openRun" data-arg="' + rs[idx - 1].id : ' off') + '">&#8249;</span><span class="nb' + (idx < rs.length - 1 ? '" data-act="openRun" data-arg="' + rs[idx + 1].id : ' off') + '">&#8250;</span>';
+    } else {
+      title = { sessions: 'Pit<span class="brand">Log</span>', analysis: 'Analysis', tools: 'Tools', data: 'Data &amp; Sync' }[v] || 'PitLog';
+      subt = v === 'sessions' ? esc(st().car || 'Pit-lane logger') : '';
+    }
+    return '<div class="appbar">' + back + '<div class="acts">' + acts + '<span class="savest" id="saveSt"></span></div><div class="ttl"><b>' + title + '</b>' + (subt ? '<span>' + subt + '</span>' : '') + '</div></div>';
   }
 
-  /* ---------- views ---------- */
+  /* ---------- small layout helpers ---------- */
+  function fold(key, title, body, defOpen, note) {
+    var open = S.open && S.open[key] !== undefined ? !!S.open[key] : !!defOpen;
+    return '<div class="card fold' + (open ? ' open' : '') + '"><div class="fh" data-act="fold" data-arg="' + key + '"><span class="chev"></span>' + (note ? '<span class="fnote">' + note + '</span>' : '') + '<h3>' + title + '</h3></div><div class="fb">' + body + '</div></div>';
+  }
+  function tiles(list) {
+    var h = '<div class="tiles">';
+    for (var i = 0; i < list.length; i++) h += '<div class="tile ' + (list[i][2] || '') + '"><div><span>' + esc(list[i][0]) + '</span><b>' + list[i][1] + '</b></div></div>';
+    return h + '</div>';
+  }
+  function anyNum(o) { for (var k in o) if (o.hasOwnProperty(k) && isNum(o[k])) return true; return false; }
+  function feelRow(run, key, label) {
+    var v = run.a[key], opts = ['Understeer', 'Neutral', 'Oversteer'], h = '<div class="fld"><span class="lb">' + label + '</span><div class="seg full feel">';
+    for (var i = 0; i < opts.length; i++) h += '<button type="button" class="' + (v === opts[i] ? 'on' : '') + '" data-act="feel" data-arg="' + key + ':' + opts[i] + '">' + opts[i] + '</button>';
+    return h + '</div></div>';
+  }
+  function timeBox(run, field, label) {
+    return '<div class="timebox"><span class="lb">' + label + '</span><b>' + hms(run[field]) + '</b> ' + btn('Edit', 'editStamp', field, 'sm') + btn('Clear', 'clearStamp', field, 'sm') + '</div>';
+  }
+
+  /* ---------- sessions ---------- */
   function backupBanner() {
     if (!DB.runs.length) return '';
     var last = Math.max(DB.lastBackup || 0, DB.sync.lastSync || 0);
     if (last && Date.now() - last < 24 * 3600 * 1000) return '';
-    return '<div class="warn w-med" data-act="nav" data-arg="data">' + (last ? 'No backup or sync since ' + dateTime(last) + '.' : 'Your data has never been backed up or synced.') + ' Tap here to go to Data & Sync.</div>';
+    return '<div class="warn w-med" data-act="nav" data-arg="data">' + (last ? 'No backup or sync since ' + dateTime(last) + '.' : 'Your data has never been backed up or synced.') + ' Tap here to back up.</div>';
   }
   function vSessions() {
     var h = backupBanner();
-    h += '<div class="bar"><h2 class="fl">Sessions</h2><div class="fr">' + btn('+ New session', 'newSession', null, 'pri') + '</div></div>';
+    h += '<button type="button" class="bigbtn" data-act="newSession">+ New session</button>';
     var list = sortedSessions(), cars = [], i0;
     for (i0 = 0; i0 < list.length; i0++) { var cn = (list[i0].carNo || '').trim(); if (cn && cars.indexOf(cn) < 0) cars.push(cn); }
     cars.sort(function (a, b) { return (parseFloat(a) || 0) - (parseFloat(b) || 0) || (a > b ? 1 : -1); });
@@ -560,115 +703,117 @@ body.dark{background:#0e1013;color:#eceff3}
     }
     if (S.carFilter) list = list.filter(function (x) { return (x.carNo || '').trim() === S.carFilter; });
     if (!list.length) {
-      return h + card('Welcome to PitLog', '<p>1. Go to <b>Data &amp; Sync</b> and set your units and target hot pressures.</p>' +
-        '<p>2. Tap <b>+ New session</b> for each practice, qualifying or race.</p>' +
-        '<p>3. In a session, add a run every time the car goes out. Fill <b>Before</b> when it leaves, <b>After</b> when it comes back, then read <b>Results</b>.</p>' +
-        '<p class="hint">Everything saves on this iPad as you type. No internet needed.</p>' + '<div class="warn ' + (cacheOk() ? 'w-ok' : 'w-med') + '" id="cacheSt">' + cacheStatus() + '</div>');
+      return h + card('Welcome to PitLog', '<p><b>1.</b> Open <b>Data</b> (bottom right) and set your units, target hot pressures and default drivers.</p>' +
+        '<p><b>2.</b> Tap <b>+ New session</b> for each practice, qualifying or race.</p>' +
+        '<p><b>3.</b> In a session, tap <b>+ New run</b> each time the car goes out. Fill <b>Before</b>, tap <b>Car leaves now</b>, then fill <b>After</b> when it comes back and read <b>Results</b>.</p>' +
+        '<p class="hint">Everything saves as you type. No internet needed.</p>' + '<div class="warn ' + (cacheOk() ? 'w-ok' : 'w-med') + '" id="cacheSt">' + cacheStatus() + '</div>');
     }
     for (var i = 0; i < list.length; i++) {
       var s = list[i], rs = runsOf(s.id), out = 0;
       for (var j = 0; j < rs.length; j++) if (isOut(rs[j])) out++;
-      var meta = [s.date, s.track, s.type, s.carNo ? '#' + s.carNo : '', lineup(s).join(', ')].filter(function (x) { return !!x; }).join(' · ');
-      h += '<div class="card sess" data-act="openSession" data-arg="' + s.id + '"><div class="fr">' + (out ? '<span class="pill p-out">' + out + ' on track</span> ' : '') +
-        '<span class="pill p-new">' + rs.length + ' run' + (rs.length === 1 ? '' : 's') + '</span></div><h3>' + (s.carNo ? '<span style="color:#ff6a13">#' + esc(s.carNo) + '</span> ' : '') + esc(s.event || 'Untitled session') + '</h3><div class="sub">' + esc(meta) + '</div></div>';
+      var meta = [s.date, s.type, s.track].filter(function (x) { return !!x; }).join(' · ');
+      h += '<div class="card sesscard" data-act="openSession" data-arg="' + s.id + '"><div class="badge' + (s.carNo ? '' : ' none') + '">' + (s.carNo ? '#' + esc(s.carNo) : 'car') + '</div><div class="mid">' +
+        '<h3>' + esc(s.event || 'Untitled session') + '</h3><div class="sub">' + esc(meta) + '</div><div class="sub">' + esc(lineup(s).join(', ') || 'No driver set') + '</div>' +
+        '<div style="margin-top:6px">' + (out ? '<span class="pill p-out">' + out + ' on track</span> ' : '') + '<span class="pill p-new">' + rs.length + ' run' + (rs.length === 1 ? '' : 's') + '</span></div></div></div>';
     }
     return h;
   }
   function vSession() {
     var s = curSession(), rs = runsOf(s.id), h = '';
-    h += '<div class="bar">' + btn('‹ Sessions', 'nav', 'sessions', 'sm') + '</div>';
-    h += card('Session details',
-      row([col(3, fld('Event', inp('session', s, 'event', 's', 'e.g. Round 3'))), col(3, fld('Track', inp('session', s, 'track', 's'))), col(3, fld('Date', inp('session', s, 'date', 's', 'YYYY-MM-DD')))]) +
+    h += '<div id="drvWrap">' + drvWrapHtml(s) + '</div>';
+    h += '<button type="button" class="bigbtn" data-act="newRun">+ New run</button>';
+    if (!rs.length) h += '<p class="sub" style="margin:0 4px 12px">No runs yet. Tap <b>+ New run</b> before the car goes out.</p>';
+    for (var i = rs.length - 1; i >= 0; i--) {
+      var r = rs[i], c = calc(r), hi = 0;
+      for (var k = 0; k < c.warn.length; k++) if (c.warn[k].l !== 'info') hi++;
+      var cls = r.timeIn ? 'done' : (r.timeOut ? 'out' : '');
+      var line = [r.tyreSet ? 'Set ' + r.tyreSet : '', r.timeOut ? 'out ' + hms(r.timeOut).slice(0, 5) : '', r.timeIn ? 'in ' + hms(r.timeIn).slice(0, 5) : '', isNum(c.laps) ? c.laps + ' laps' : ''].filter(function (x) { return !!x; }).join(' · ');
+      h += '<div class="runcard ' + cls + '" data-act="openRun" data-arg="' + r.id + '"><div class="no">' + r.no + '</div>' +
+        '<div class="side"><b>' + lapFmt(c.best) + '</b><span>' + (isNum(c.fpl) ? F(c.fpl) + '/lap' : 'best lap') + '</span></div>' +
+        '<div class="mid"><b>' + esc(drvOf(r, s) || 'Run ' + r.no) + '</b> ' + statusPill(r) + (hi ? '<span class="flag">' + hi + ' to check</span>' : '') + '<div class="sub">' + esc(line || 'Not started') + '</div></div></div>';
+    }
+    var sum = [s.carNo ? '#' + s.carNo : '', s.cls, lineup(s).join(', ')].filter(function (x) { return !!x; }).join(' · ');
+    h += '<div class="sec">Session</div>';
+    h += fold('sd_' + s.id, 'Session details', row([col(3, fld('Event', inp('session', s, 'event', 's', 'e.g. Round 3'))), col(3, fld('Track', inp('session', s, 'track', 's'))), col(3, fld('Date', inp('session', s, 'date', 's', 'YYYY-MM-DD')))]) +
       row([col(3, fld('Session type', sel('session', s, 'type', TYPES))), col(3, fld('Car', inp('session', s, 'car', 's', 'Make / model or team car name'))), col(3, fld('Class', inp('session', s, 'cls', 's')))]) +
       row([col(3, fld('Car number', inp('session', s, 'carNo', 's', 'e.g. 27'))), col(3, fld('Transponder number', inp('session', s, 'transponder', 's'))), col(3, '')]) +
-      '<p class="lb" style="margin-top:6px">Drivers</p>' +
-      row([col(4, inp('session', s, 'drivers.0', 's', 'Driver 1')), col(4, inp('session', s, 'drivers.1', 's', 'Driver 2')), col(4, inp('session', s, 'drivers.2', 's', 'Driver 3')), col(4, inp('session', s, 'drivers.3', 's', 'Driver 4'))]) +
-      '<p class="hint">One driver: fill Driver 1 only. Shared car: list everyone, and each run picks who is driving.</p>' +
-      '<p class="lb" style="margin-top:10px">Drive time rules (optional, leave empty if your series has none)</p>' +
-      row([col(4, fld('Race length', inp('session', s, 'raceLen', 'n'), 'min')), col(4, fld('Min drive per driver', inp('session', s, 'minDrive', 'n'), 'min')), col(4, fld('Max drive per driver', inp('session', s, 'maxDrive', 'n'), 'min')), col(4, fld('Max stint', inp('session', s, 'maxStint', 'n'), 'min'))]) +
-      fld('Notes', inp('session', s, 'notes', 'ta')));
-    h += '<div id="drvWrap">' + drvWrapHtml(s) + '</div>';
-    var t = '<div class="bar"><h3 class="fl">Runs</h3><div class="fr">' + btn('+ New run', 'newRun', null, 'pri') + '</div></div>';
-    if (!rs.length) t += '<p class="sub">No runs yet. Tap <b>+ New run</b> before the car goes out.</p>';
-    else {
-      t += '<div class="tblw"><table><tr><th>Run</th><th>Status</th><th>Driver</th><th>Tyre set</th><th>Out</th><th>In</th><th class="n">Laps</th><th class="n">Best</th><th class="n">Fuel/lap</th><th class="n">Flags</th></tr>';
-      for (var i = 0; i < rs.length; i++) {
-        var r = rs[i], c = calc(r), hi = 0;
-        for (var k = 0; k < c.warn.length; k++) if (c.warn[k].l !== 'info') hi++;
-        t += '<tr class="tap" data-act="openRun" data-arg="' + r.id + '"><td><b>' + r.no + '</b></td><td>' + statusPill(r) + '</td><td>' + esc(drvOf(r, s) || '-') + '</td><td>' + esc(r.tyreSet || '-') + '</td><td>' + (hms(r.timeOut) || '-') +
-          '</td><td>' + (hms(r.timeIn) || '-') + '</td><td class="n">' + (isNum(c.laps) ? c.laps : '-') + '</td><td class="n">' + lapFmt(c.best) + '</td><td class="n">' + F(c.fpl) +
-          '</td><td class="n">' + (hi ? '<span class="bad"><b>' + hi + '</b></span>' : (c.warn.length ? c.warn.length : '-')) + '</td></tr>';
-      }
-      t += '</table></div>';
-    }
-    h += card('', t);
-    h += '<div>' + btn('Analysis for this session', 'anSession', s.id) + btn('Add another car to this session', 'copySession', null) + btn('Delete session', 'delSession', null, 'dng') + '</div>';
+      fld('Notes', inp('session', s, 'notes', 'ta')), !s.event || !rs.length, s.event ? esc(sum) : '');
+    h += fold('dr_' + s.id, 'Drivers', row([col(4, inp('session', s, 'drivers.0', 's', 'Driver 1')), col(4, inp('session', s, 'drivers.1', 's', 'Driver 2')), col(4, inp('session', s, 'drivers.2', 's', 'Driver 3')), col(4, inp('session', s, 'drivers.3', 's', 'Driver 4'))]) +
+      '<p class="hint">One driver: fill Driver 1 only. Shared car: list everyone, and each run picks who is driving.</p>', !lineup(s).length || !rs.length, esc(lineup(s).length + ' driver' + (lineup(s).length === 1 ? '' : 's')));
+    h += fold('ru_' + s.id, 'Drive time rules', '<p class="hint" style="margin-top:0">Optional. Leave empty if your series has none.</p>' +
+      row([col(4, fld('Race length', inp('session', s, 'raceLen', 'n'), 'min')), col(4, fld('Min drive per driver', inp('session', s, 'minDrive', 'n'), 'min')), col(4, fld('Max drive per driver', inp('session', s, 'maxDrive', 'n'), 'min')), col(4, fld('Max stint', inp('session', s, 'maxStint', 'n'), 'min'))]), false, hasRules(s) ? 'set' : 'none');
+    h += '<div class="btnrow">' + btn('Analysis for this session', 'anSession', s.id) + btn('Add another car', 'copySession', null) + btn('Delete session', 'delSession', null, 'dng') + '</div>';
     return h;
   }
+
+  /* ---------- one run ---------- */
   function vRun() {
-    var run = curRun(), s = findSession(run.sessionId), rs = runsOf(run.sessionId), idx = 0, h = '';
+    var run = curRun(), tabs = [['before', 'Before'], ['after', 'After'], ['results', 'Results']], seg = '<div class="seg full">';
     S.sessionId = run.sessionId;
-    for (var i = 0; i < rs.length; i++) if (rs[i].id === run.id) idx = i;
-    h += '<div class="bar"><div class="fl">' + btn('‹ ' + esc(sessName(s)), 'openSession', s.id, 'sm') + '</div><div class="fr">' +
-      (idx > 0 ? btn('‹ Run ' + rs[idx - 1].no, 'openRun', rs[idx - 1].id, 'sm') : '') +
-      (idx < rs.length - 1 ? btn('Run ' + rs[idx + 1].no + ' ›', 'openRun', rs[idx + 1].id, 'sm') : '') + '</div></div>';
-    var tabs = [['before', 'Before (cold)'], ['after', 'After (hot)'], ['results', 'Results']], seg = '<div class="seg">';
-    for (i = 0; i < tabs.length; i++) seg += '<button type="button" class="' + (S.runTab === tabs[i][0] ? 'on' : '') + '" data-act="runTab" data-arg="' + tabs[i][0] + '">' + tabs[i][1] + '</button>';
-    seg += '</div>';
-    h += '<div class="cf"><h2 class="fl" style="margin-right:14px">' + (s.carNo ? '<span style="color:#ff6a13">#' + esc(s.carNo) + '</span> ' : '') + 'Run ' + run.no + ' ' + statusPill(run) + (drvOf(run, s) ? ' <span class="sub" style="font-size:16px">' + esc(drvOf(run, s)) + '</span>' : '') + '</h2>' + seg + '</div>';
+    for (var i = 0; i < tabs.length; i++) seg += '<button type="button" class="' + (S.runTab === tabs[i][0] ? 'on' : '') + '" data-act="runTab" data-arg="' + tabs[i][0] + '">' + tabs[i][1] + '</button>';
+    var h = seg + '</div>';
     if (S.runTab === 'after') h += vAfter(run);
     else if (S.runTab === 'results') h += vResults(run);
     else h += vBefore(run);
     return h;
   }
   function vBefore(run) {
-    var h = '', prev = prevRunOf(run);
+    var h = '', prev = prevRunOf(run), i;
     if (run.prefill) h += '<div class="warn w-info">Copied from Run ' + run.prefill.from + ': ' + esc(run.prefill.f.join(', ')) + '. Check these before the car goes out. ' + btn('Checked', 'dismissPrefill', null, 'sm') + '</div>';
     var lu = lineup(findSession(run.sessionId)), dOpts = [''].concat(lu);
     if (run.driver && dOpts.indexOf(run.driver) < 0) dOpts.push(run.driver);
-    h += card('Run info',
-      (lu.length > 1 || (run.driver && lu.indexOf(run.driver) < 0) ? row([col(3, fld('Driver this stint', sel('run', run, 'driver', dOpts))), col(3, ''), col(3, '')]) : '') +
-      row([col(3, fld('Tyre set ID', inp('run', run, 'tyreSet', 's', 'e.g. S4'))), col(3, fld('Compound', inp('run', run, 'compound', 's'))), col(3, fld('Weather', sel('run', run, 'weather', WEATHER)))]) +
-      row([col(3, fld('Ambient temp', inp('run', run, 'ambient', 't'), tl())), col(3, fld('Track temp', inp('run', run, 'trackT', 't'), tl())), col(3, stampFld('Time out', run, 'timeOut'))]));
+    h += card('Car and tyres',
+      (lu.length > 1 || (run.driver && lu.indexOf(run.driver) < 0) ? fld('Driver this stint', sel('run', run, 'driver', dOpts)) : '') +
+      row([col(2, fld('Tyre set', inp('run', run, 'tyreSet', 's', 'e.g. S4'))), col(2, fld('Compound', inp('run', run, 'compound', 's')))]));
     var recBtn = '';
     if (prev) {
       var pr = calc(prev), has = false;
-      for (var i = 0; i < C4.length; i++) if (isNum(pr.rec[C4[i]])) has = true;
-      if (has) recBtn = btn('Use Run ' + prev.no + ' recommended cold pressures', 'useRec', prev.id, 'sm');
+      for (i = 0; i < C4.length; i++) if (isNum(pr.rec[C4[i]])) has = true;
+      if (has) recBtn = btn('Use Run ' + prev.no + ' recommendation', 'useRec', prev.id, 'sm pri');
     }
-    h += card('Cold pressures <span class="sub">(' + pu().l + ')</span>', carGrid(function (c) { return inp('run', run, 'b.p.' + c, 'p'); }) + '<div style="margin-top:8px">' + recBtn + '</div>');
-    h += card('Tread depth before <span class="sub">(mm)</span>', carGrid(function (c) { return inp('run', run, 'b.tread.' + c, 'n'); }));
-    h += card('Fuel and ride height', row([col(3, fld('Fuel in car', inp('run', run, 'b.fuel', 'f'), fu().l)), col(3, fld('Ride height front', inp('run', run, 'b.rhF', 'n'), 'mm')), col(3, fld('Ride height rear', inp('run', run, 'b.rhR', 'n'), 'mm'))]));
+    h += card('Cold pressures <span class="sub">' + pu().l + '</span>', carGrid(function (c) { return inp('run', run, 'b.p.' + c, 'p'); }) +
+      '<div style="margin-top:10px">' + recBtn + btn('All same as FL', 'pfill', 'all', 'sm') + btn('Copy front to rear', 'pfill', 'axle', 'sm') + '</div>');
+    h += card('Fuel', fld('Fuel in car', inp('run', run, 'b.fuel', 'f'), fu().l));
     var cl = checkItems();
     if (cl.length) {
       var ck = '', done = 0;
       for (var ci = 0; ci < cl.length; ci++) { ck += chk('run', run, 'check.' + ci, cl[ci]); if (run.check && run.check[ci]) done++; }
-      h += card('Pre-run checklist <span class="sub">(' + done + ' of ' + cl.length + ' ticked when this screen opened)</span>', ck);
+      h += card('Checklist <span class="sub">' + done + ' of ' + cl.length + '</span>', ck);
     }
-    h += card('Setup changes for this run', inp('run', run, 'setup', 'ta', 'e.g. +1 click rear rebound, front wing +0.5'));
-    h += '<div>' + btn('Car is back: go to After', 'runTab', 'after', 'pri') + '</div>';
+    if (!run.timeOut) h += '<button type="button" class="bigbtn" data-act="stamp" data-arg="timeOut">Car leaves now</button>';
+    else h += timeBox(run, 'timeOut', 'Car left at') + '<button type="button" class="bigbtn go" data-act="runTab" data-arg="after">Car is back: fill After</button>';
+    h += '<div class="sec">More</div>';
+    h += fold('cond', 'Conditions', row([col(3, fld('Weather', sel('run', run, 'weather', WEATHER))), col(3, fld('Ambient', inp('run', run, 'ambient', 't'), tl())), col(3, fld('Track', inp('run', run, 'trackT', 't'), tl()))]), true);
+    h += fold('setup', 'Setup changes', inp('run', run, 'setup', 'ta', 'e.g. +1 click rear rebound, front wing +0.5'), !!run.setup);
+    h += fold('treadB', 'Tread depth before <span class="sub">mm</span>', carGrid(function (c) { return inp('run', run, 'b.tread.' + c, 'n'); }), anyNum(run.b.tread));
+    h += fold('rh', 'Ride height <span class="sub">mm</span>', row([col(2, fld('Front', inp('run', run, 'b.rhF', 'n'))), col(2, fld('Rear', inp('run', run, 'b.rhR', 'n')))]), isNum(run.b.rhF) || isNum(run.b.rhR));
+    if (!run.timeOut) h += fold('tOut', 'Set time out by hand', stampFld('Time out', run, 'timeOut'), false);
     return h;
   }
   function tyreCell(run, c) {
-    var left = c === 'FL' || c === 'RL', order = left ? ['o', 'm', 'i'] : ['i', 'm', 'o'], nm = { o: 'Outer', m: 'Middle', i: 'Inner' }, h = '<div class="row tt">';
+    var left = c === 'FL' || c === 'RL', order = left ? ['o', 'm', 'i'] : ['i', 'm', 'o'], nm = { o: 'Out', m: 'Mid', i: 'In' }, h = '<div class="row tt">';
     for (var i = 0; i < 3; i++) h += '<div class="col c3"><div class="mini">' + nm[order[i]] + '</div>' + inp('run', run, 'a.t.' + c + '.' + order[i], 't') + '</div>';
     return h + '</div><div class="live" id="lv-t-' + c + '"></div>';
   }
   function vAfter(run) {
     var h = '';
-    h += card('Back in',
-      row([col(3, stampFld('Time in', run, 'timeIn')), col(3, fld('Laps completed', inp('run', run, 'a.laps', 'n'))), col(3, '<div class="live" id="lv-stint" style="padding-top:22px">' + stintLine(run, Date.now()) + '</div>')]) +
-      fld('Lap times', inp('run', run, 'a.lapTimes', 'ta', 'One per line or separated by spaces, e.g. 1:32.456 1:31.980'), 'm:ss.sss') + '<div class="live" id="lv-laps"></div>');
-    h += card('Hot pressures <span class="sub">(' + pu().l + ')</span>', carGrid(function (c) { return inp('run', run, 'a.p.' + c, 'p') + '<div class="live" id="lv-b-' + c + '"></div>'; }));
-    h += card('Tyre temps <span class="sub">(' + tl() + ', laid out as you look at the car from above)</span>', carGrid(function (c) { return tyreCell(run, c); }));
-    h += card('Tread depth after <span class="sub">(mm)</span>', carGrid(function (c) { return inp('run', run, 'a.tread.' + c, 'n'); }));
-    h += card('Brake temps <span class="sub">(optional, ' + tl() + ')</span>', carGrid(function (c) { return inp('run', run, 'a.brake.' + c, 't'); }));
-    h += card('Fuel and engine', row([col(3, fld('Fuel left in car', inp('run', run, 'a.fuel', 'f'), fu().l)), col(3, fld('Oil temp', inp('run', run, 'a.oil', 't'), tl())), col(3, fld('Water temp', inp('run', run, 'a.water', 't'), tl()))]));
-    h += card('Driver feedback', row([col(3, fld('Corner entry', sel('run', run, 'a.fbE', FEEL))), col(3, fld('Mid corner', sel('run', run, 'a.fbM', FEEL))), col(3, fld('Corner exit', sel('run', run, 'a.fbX', FEEL)))]) +
-      fld('Notes', inp('run', run, 'a.notes', 'ta', 'What the driver said, issues, ideas')));
-    h += card('Pit stop', row([col(3, fld('Fuel added', inp('run', run, 'stop.fuelAdded', 'f'), fu().l)), col(3, fld('Stop time', inp('run', run, 'stop.dur', 'n'), 'seconds')), col(3, '<div style="padding-top:18px">' + chk('run', run, 'stop.tyresChanged', 'New tyres fitted') + (lineup(findSession(run.sessionId)).length > 1 ? chk('run', run, 'stop.driverChange', 'Driver change') : '') + '</div>')]) +
-      fld('Work done', inp('run', run, 'stop.work', 'ta')));
-    h += '<div>' + btn('See results', 'runTab', 'results', 'pri') + '</div>';
+    if (run.timeOut && !run.timeIn) h += '<div class="live" id="lv-stint" style="font-size:15px;margin:0 0 8px">' + stintLine(run, Date.now()) + '</div><button type="button" class="bigbtn" data-act="stamp" data-arg="timeIn">Car came in now</button>';
+    else if (run.timeIn) h += timeBox(run, 'timeIn', 'Car came in at') + '<div class="live" id="lv-stint" style="margin:-6px 0 10px">' + stintLine(run, Date.now()) + '</div>';
+    else h += '<div class="warn w-info">This run has no time out yet. Use the Before tab to send the car out, or set times by hand below.</div>';
+    h += card('Hot pressures <span class="sub">' + pu().l + '</span>', carGrid(function (c) { return inp('run', run, 'a.p.' + c, 'p') + '<div class="live" id="lv-b-' + c + '"></div>'; }));
+    h += card('Tyre temps <span class="sub">' + tl() + ', seen from above</span>', carGrid(function (c) { return tyreCell(run, c); }));
+    h += card('Laps', row([col(2, fld('Laps completed', inp('run', run, 'a.laps', 'n'))), col(2, fld('Fuel left in car', inp('run', run, 'a.fuel', 'f'), fu().l))]) +
+      fld('Lap times', inp('run', run, 'a.lapTimes', 'ta', 'e.g. 1:32.456 1:31.980 (one per line or with spaces)'), 'm:ss.sss') + '<div class="live" id="lv-laps" style="text-align:left"></div>');
+    h += card('Driver feedback', feelRow(run, 'fbE', 'Corner entry') + feelRow(run, 'fbM', 'Mid corner') + feelRow(run, 'fbX', 'Corner exit') + fld('Notes', inp('run', run, 'a.notes', 'ta', 'What the driver said, issues, ideas')));
+    h += card('Pit stop', row([col(2, fld('Fuel added', inp('run', run, 'stop.fuelAdded', 'f'), fu().l)), col(2, fld('Stop time', inp('run', run, 'stop.dur', 'n'), 'seconds'))]) +
+      chk('run', run, 'stop.tyresChanged', 'New tyres fitted') + (lineup(findSession(run.sessionId)).length > 1 ? chk('run', run, 'stop.driverChange', 'Driver change') : '') +
+      '<div style="margin-top:10px">' + fld('Work done', inp('run', run, 'stop.work', 'ta')) + '</div>');
+    h += '<button type="button" class="bigbtn go" data-act="runTab" data-arg="results">See results</button>';
+    h += '<div class="sec">More</div>';
+    h += fold('treadA', 'Tread depth after <span class="sub">mm</span>', carGrid(function (c) { return inp('run', run, 'a.tread.' + c, 'n'); }), anyNum(run.a.tread) || anyNum(run.b.tread));
+    h += fold('brake', 'Brake temps <span class="sub">' + tl() + '</span>', carGrid(function (c) { return inp('run', run, 'a.brake.' + c, 't'); }), anyNum(run.a.brake));
+    h += fold('eng', 'Engine temps', row([col(2, fld('Oil', inp('run', run, 'a.oil', 't'), tl())), col(2, fld('Water', inp('run', run, 'a.water', 't'), tl()))]), isNum(run.a.oil) || isNum(run.a.water));
+    h += fold('tIn', 'Set times by hand', stampFld('Time out', run, 'timeOut') + stampFld('Time in', run, 'timeIn'), false);
     return h;
   }
   function updateLive() {
@@ -678,57 +823,59 @@ body.dark{background:#0e1013;color:#eceff3}
     for (var i = 0; i < C4.length; i++) {
       var c = C4[i], tg = target(c);
       e = $('lv-b-' + c);
-      if (e) e.innerHTML = isNum(r.build[c]) ? 'Build ' + Pd(r.build[c]) + (isNum(tg) ? ' · target ' + P(tg) : '') : (isNum(run.b.p[c]) ? 'Cold was ' + P(run.b.p[c]) : 'No cold pressure logged');
+      if (e) e.innerHTML = isNum(r.build[c]) ? 'Build <b>' + Pd(r.build[c]) + '</b>' + (isNum(tg) ? ' · target ' + trim0(toShow('p', tg), pu().dp) : '') : (isNum(run.b.p[c]) ? 'Cold was ' + P(run.b.p[c]) : 'No cold pressure');
       e = $('lv-t-' + c);
       var t = r.tyre[c];
-      if (e) e.innerHTML = isNum(t.avg) ? 'Avg ' + T(t.avg) + (isNum(t.spread) ? ' · In-Out ' + Td(t.spread) : '') + (isNum(t.mid) ? ' · Mid vs edges ' + Td(t.mid) : '') : '';
+      if (e) e.innerHTML = isNum(t.avg) ? 'Avg <b>' + T(t.avg) + '</b>' + (isNum(t.spread) ? ' · In-Out ' + Td(t.spread) : '') : '';
     }
     e = $('lv-laps');
     if (e) e.innerHTML = r.lapList.length ? r.lapList.length + ' lap times read · best ' + lapFmt(r.best) + (r.badTok ? ' · <span class="bad">' + r.badTok + ' not readable</span>' : '') : (r.badTok ? '<span class="bad">Lap times not readable</span>' : '');
   }
   function vResults(run) {
-    var r = calc(run), s = st(), h = '', i, c;
+    var r = calc(run), s = st(), h = '', i, c, nHigh = 0;
+    for (i = 0; i < r.warn.length; i++) if (r.warn[i].l !== 'info') nHigh++;
+    h += tiles([['Best lap', lapFmt(r.best), 'hi'], ['Clean avg', lapFmt(r.cleanAvg)], ['Fuel per lap', F(r.fpl)], ['Laps', isNum(r.laps) ? r.laps : '-'],
+      ['Build front', Pd(r.buildF)], ['Build rear', Pd(r.buildR)], ['Next run fuel', F(r.nextFuel)], ['To check', r.warn.length ? String(r.warn.length) : 'none', nHigh ? 'bad' : (r.warn.length ? '' : 'ok')]]);
     h += card('Checks', warnList(r.warn));
-    var t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Cold</th><th class="n">Hot</th><th class="n">Build</th><th class="n">Target hot</th><th class="n">Rec. cold next run</th></tr>';
+    var t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Cold</th><th class="n">Hot</th><th class="n">Build</th><th class="n">Target</th><th class="n">Rec. cold next run</th></tr>';
     for (i = 0; i < C4.length; i++) {
       c = C4[i];
-      t += '<tr><td><b>' + c + '</b></td><td class="n">' + P(run.b.p[c]) + '</td><td class="n">' + P(run.a.p[c]) + '</td><td class="n">' + Pd(r.build[c]) + '</td><td class="n">' + P(target(c)) + '</td><td class="n"><b>' + P(r.rec[c]) + '</b></td></tr>';
+      t += '<tr><td><b>' + c + '</b></td><td class="n">' + P(run.b.p[c]) + '</td><td class="n">' + P(run.a.p[c]) + '</td><td class="n">' + Pd(r.build[c]) + '</td><td class="n">' + P(target(c)) + '</td><td class="n" style="color:#ff6a13"><b>' + P(r.rec[c]) + '</b></td></tr>';
     }
-    t += '</table></div><p class="hint">Avg build front ' + Pd(r.buildF) + ', rear ' + Pd(r.buildR) + '. Rec. cold = cold + (target hot - measured hot). It assumes similar conditions next run. If track or air temp changes a lot, also check Tools &gt; Pressure.' +
-      (!isNum(s.targetHotF) || !isNum(s.targetHotR) ? ' <b>Set target hot pressures in Data &amp; Sync to get recommendations.</b>' : '') + '</p>';
+    t += '</table></div><p class="hint">Rec. cold = cold + (target hot - measured hot), assuming similar conditions next run. If track or air temp changes a lot, check Tools &gt; Pressure.' +
+      (!isNum(s.targetHotF) || !isNum(s.targetHotR) ? ' <b>Set target hot pressures in Data to get recommendations.</b>' : '') + '</p>';
     h += card('Pressures', t);
-    t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Inner</th><th class="n">Middle</th><th class="n">Outer</th><th class="n">Avg</th><th class="n">In - Out</th><th class="n">Mid vs edges</th><th>Reading</th></tr>';
+    t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">In</th><th class="n">Mid</th><th class="n">Out</th><th class="n">Avg</th><th class="n">In - Out</th><th class="n">Mid vs edges</th><th>Reading</th></tr>';
     for (i = 0; i < C4.length; i++) {
       c = C4[i];
       var tc = run.a.t[c], ty = r.tyre[c];
       t += '<tr><td><b>' + c + '</b></td><td class="n">' + T(tc.i) + '</td><td class="n">' + T(tc.m) + '</td><td class="n">' + T(tc.o) + '</td><td class="n"><b>' + T(ty.avg) + '</b></td><td class="n">' + Td(ty.spread) + '</td><td class="n">' + Td(ty.mid) + '</td><td>' + esc(reading(c, r)) + '</td></tr>';
     }
-    t += '</table></div>' + '<div style="margin-top:10px">' + stat('Front avg', T(r.tempF)) + stat('Rear avg', T(r.tempR)) + stat('Front - rear', Td(sub(r.tempF, r.tempR))) + stat('Left avg', T(r.tempL)) + stat('Right avg', T(r.tempRt)) + stat('Left - right', Td(sub(r.tempL, r.tempRt))) + '</div>' +
-      '<p class="hint">Readings are hints from your thresholds in Data &amp; Sync, not rules. Middle hotter than edges usually points to high pressure, edges hotter to low pressure.</p>';
+    t += '</table></div>' + '<div style="margin-top:12px">' + stat('Front avg', T(r.tempF)) + stat('Rear avg', T(r.tempR)) + stat('Front - rear', Td(sub(r.tempF, r.tempR))) + stat('Left - right', Td(sub(r.tempL, r.tempRt))) + '</div>' +
+      '<p class="hint">Readings are hints from your thresholds in Data, not rules. Middle hotter than edges usually means high pressure, edges hotter means low.</p>';
     h += card('Tyre temps', t);
-    t = stat('Laps', isNum(r.laps) ? r.laps : '-') + stat('Time on track', dur(r.trackMs)) + stat('Best lap', lapFmt(r.best)) + stat('Clean lap avg', lapFmt(r.cleanAvg) + (r.cleanN ? ' <span class="sub">(' + r.cleanN + ')</span>' : '')) +
-      stat('Consistency (std dev)', isNum(r.sd) ? fx(r.sd, 3) + ' s' : '-') + stat('Slowest lap', lapFmt(r.worst)) +
-      '<br>' + stat('Fuel used', F(r.fuelUsed)) + stat('Fuel per lap', F(r.fpl)) + stat('Fuel for next run', F(r.nextFuel)) + stat('Laps on that fuel', fx(r.lapsOnNext, 1)) + stat('Next run fuel weight', isNum(r.nextFuel) && isNum(s.density) ? fx(r.nextFuel * s.density, 1) + ' kg' : '-');
+    t = stat('Time on track', dur(r.trackMs)) + stat('Consistency', isNum(r.sd) ? fx(r.sd, 3) + ' s' : '-') + stat('Slowest lap', lapFmt(r.worst)) + stat('Fuel used', F(r.fuelUsed)) +
+      stat('Laps on next fuel', fx(r.lapsOnNext, 1)) + stat('Next fuel weight', isNum(r.nextFuel) && isNum(s.density) ? fx(r.nextFuel * s.density, 1) + ' kg' : '-');
     if (r.lapList.length) {
       t += '<div class="tblw"><table><tr><th>Lap</th><th class="n">Time</th><th class="n">To best</th><th>Clean?</th></tr>';
       for (i = 0; i < r.lapList.length; i++) {
         var lt = r.lapList[i];
-        t += '<tr><td>' + (i + 1) + '</td><td class="n"' + (lt === r.best ? ' style="font-weight:bold;color:#2e7d32"' : '') + '>' + lapFmt(lt) + '</td><td class="n">' + (lt === r.best ? 'best' : '+' + fx(lt - r.best, 3)) + '</td><td>' + (lt <= r.cleanLim ? 'yes' : '<span class="sub">no (out of ' + s.cleanPct + '%)</span>') + '</td></tr>';
+        t += '<tr><td>' + (i + 1) + '</td><td class="n"' + (lt === r.best ? ' style="font-weight:bold;color:#16a34a"' : '') + '>' + lapFmt(lt) + '</td><td class="n">' + (lt === r.best ? 'best' : '+' + fx(lt - r.best, 3)) + '</td><td>' + (lt <= r.cleanLim ? 'yes' : '<span class="sub">no (over ' + s.cleanPct + '%)</span>') + '</td></tr>';
       }
       t += '</table></div>';
     }
-    h += card('Laps and fuel', t);
+    h += fold('rLaps', 'Laps and fuel', t, true);
     t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Before</th><th class="n">After</th><th class="n">Wear</th><th class="n">Per lap</th><th class="n">Laps to min</th></tr>';
     for (i = 0; i < C4.length; i++) {
       c = C4[i];
       t += '<tr><td><b>' + c + '</b></td><td class="n">' + fx(run.b.tread[c], 2) + '</td><td class="n">' + fx(run.a.tread[c], 2) + '</td><td class="n">' + fx(r.wear[c], 2) + '</td><td class="n">' + fx(r.wpl[c], 3) + '</td><td class="n">' + fx(r.ltm[c], 0) + '</td></tr>';
     }
-    t += '</table></div><p class="hint">Tread in mm.' + (isNum(s.minTread) ? '' : ' Set a minimum tread in Data &amp; Sync to see laps to minimum.') + '</p>';
-    h += card('Tyre wear', t);
+    t += '</table></div><p class="hint">Tread in mm.' + (isNum(s.minTread) ? '' : ' Set a minimum tread in Data to see laps to minimum.') + '</p>';
+    h += fold('rWear', 'Tyre wear', t, anyNum(r.wear));
     var last = runsOf(run.sessionId);
     last = last[last.length - 1];
-    h += '<div>' + (last.id === run.id ? btn('Start Run ' + (run.no + 1), 'newRun', null, 'pri') : '') + btn('Delete this run', 'delRun', null, 'dng') + '</div>';
-    h += '<p class="hint">Created ' + dateTime(run.created) + ' · last changed ' + dateTime(run.modified) + '</p>';
+    if (last.id === run.id) h += '<button type="button" class="bigbtn" data-act="newRun">Start Run ' + (run.no + 1) + '</button>';
+    h += '<div class="btnrow">' + btn('Delete this run', 'delRun', null, 'dng') + '</div><p class="hint">Created ' + dateTime(run.created) + ' · last changed ' + dateTime(run.modified) + '</p>';
     return h;
   }
 
@@ -1036,6 +1183,7 @@ body.dark{background:#0e1013;color:#eceff3}
     rd.onload = function () {
       var box = $('importBox');
       if (box) box.value = String(rd.result || '');
+      openFold('restore');
       alert('Loaded ' + f.name + ' into the Restore box. Tap "Restore" to use it.');
     };
     rd.readAsText(f);
@@ -1063,7 +1211,7 @@ body.dark{background:#0e1013;color:#eceff3}
     if (!findSession(S.an.sessionId)) S.an.sessionId = findSession(S.sessionId) ? S.sessionId : list[0].id;
     var opts = [];
     for (var i = 0; i < list.length; i++) opts.push({ v: list[i].id, l: (list[i].date ? list[i].date + ' · ' : '') + sessName(list[i]) });
-    h += '<div class="bar"><h2 class="fl" style="margin-right:12px">Analysis</h2><div class="fl" style="width:420px;max-width:100%;padding-top:2px">' + sel('ui', S, 'an.sessionId', opts) + '</div></div>';
+    h += '<div class="bar" style="max-width:520px">' + fld('Session', sel('ui', S, 'an.sessionId', opts)) + '</div>';
     var rs = runsOf(S.an.sessionId);
     if (!rs.length) return h + card('', '<p class="sub">No runs in this session yet.</p>');
     var t = '<div class="tblw"><table><tr><th>Run</th><th>Driver</th><th>Set</th><th class="n">Laps</th><th class="n">Best</th><th class="n">Clean avg</th><th class="n">Fuel/lap</th><th class="n">Hot F/R</th><th class="n">Build F/R</th><th class="n">Temp F/R</th><th class="n">Track</th></tr>', best = null, bestId = null, cs = {};
@@ -1174,9 +1322,9 @@ body.dark{background:#0e1013;color:#eceff3}
     Speed: [['km/h', 1], ['mph', 1.609344], ['m/s', 3.6]]
   };
   function vTools() {
-    var tools = [['strat', 'Strategy'], ['fuel', 'Fuel'], ['pc', 'Pressure'], ['cw', 'Corner weights'], ['cv', 'Convert'], ['timer', 'Stopwatch']], h = '<div class="bar"><h2 class="fl" style="margin-right:14px">Tools</h2><div class="seg">';
-    for (var i = 0; i < tools.length; i++) h += '<button type="button" class="' + (S.tool === tools[i][0] ? 'on' : '') + '" data-act="tool" data-arg="' + tools[i][0] + '">' + tools[i][1] + '</button>';
-    h += '</div></div>';
+    var tools = [['strat', 'Strategy'], ['fuel', 'Fuel'], ['pc', 'Pressure'], ['cw', 'Weights'], ['cv', 'Convert'], ['timer', 'Stopwatch']], h = '<div class="tgrid">';
+    for (var i = 0; i < tools.length; i++) h += '<div class="tcell' + (S.tool === tools[i][0] ? ' on' : '') + '" data-act="tool" data-arg="' + tools[i][0] + '"><div>' + tools[i][1] + '</div></div>';
+    h += '</div>';
     var t = S.t, b = '';
     if (S.tool === 'strat') {
       h += card('Race strategy scenarios', stratForm());
@@ -1267,48 +1415,60 @@ body.dark{background:#0e1013;color:#eceff3}
   function stopTick() { if (watchTimer) { clearInterval(watchTimer); watchTimer = null; } }
 
   /* ---------- data & sync view ---------- */
+  function openFold(key) {
+    S.open[key] = true; saveUI();
+    var hs = document.querySelectorAll('[data-act="fold"]');
+    for (var i = 0; i < hs.length; i++) if (hs[i].getAttribute('data-arg') === key && hs[i].parentNode.className.indexOf(' open') < 0) hs[i].parentNode.className += ' open';
+  }
   function vData() {
-    var s = st(), h = '<h2>Data &amp; Sync</h2>';
+    var s = st(), h = '';
     h += '<div class="warn ' + (cacheOk() ? 'w-ok' : 'w-med') + '" id="cacheSt">' + cacheStatus() + '</div>';
-    if (window.location.protocol === 'https:') h += card('Wi-Fi sync to laptop', '<p class="sub">Not available in the version installed from the internet: browsers block a secure web app from talking to the laptop helper. Use the backup files below instead. To add a backup file to the laptop history, run on the laptop: <b>python3 serve.py --merge yourfile.json</b></p>');
-    else h += card('Wi-Fi sync to laptop (no internet needed)', laptopPanel());
-    h += card('Settings',
-      row([col(3, fld('Car / team name', inp('settings', s, 'car', 's'))), col(3, fld('Screen theme', sel('settings', s, 'theme', [{ v: 'light', l: 'Light (sunlight)' }, { v: 'dark', l: 'Dark (night)' }]))), col(3, '')]) +
-      '<p class="lb" style="margin-top:6px">Defaults for new sessions (fill once)</p>' +
-      row([col(4, fld('Driver 1', inp('settings', s, 'defDrivers.0', 's'))), col(4, fld('Driver 2', inp('settings', s, 'defDrivers.1', 's'))), col(4, fld('Driver 3', inp('settings', s, 'defDrivers.2', 's'))), col(4, fld('Driver 4', inp('settings', s, 'defDrivers.3', 's')))]) +
-      row([col(3, fld('Car number', inp('settings', s, 'defCarNo', 's'))), col(3, fld('Transponder', inp('settings', s, 'defTransponder', 's'))), col(3, fld('Class', inp('settings', s, 'defClass', 's')))]) +
-      row([col(3, fld('Pressure unit', sel('settings', s, 'pUnit', [{ v: 'psi', l: 'psi' }, { v: 'bar', l: 'bar' }, { v: 'kpa', l: 'kPa' }]))), col(3, fld('Temperature unit', sel('settings', s, 'tUnit', [{ v: 'C', l: '°C' }, { v: 'F', l: '°F' }]))), col(3, fld('Fuel unit', sel('settings', s, 'fUnit', [{ v: 'L', l: 'Litres' }, { v: 'gal', l: 'US gallons' }])))]) +
-      '<p class="hint">Changing units only changes the display. Data is kept the same underneath.</p>' +
-      row([col(3, fld('Target hot pressure front', inp('settings', s, 'targetHotF', 'p'), pu().l)), col(3, fld('Target hot pressure rear', inp('settings', s, 'targetHotR', 'p'), pu().l)), col(3, fld('Allowed +/- from target', inp('settings', s, 'hotTol', 'p'), pu().l))]) +
-      row([col(3, fld('Minimum tread', inp('settings', s, 'minTread', 'n'), 'mm')), col(3, fld('Fuel density', inp('settings', s, 'density', 'n'), 'kg per L')), col(3, fld('Tank capacity', inp('settings', s, 'tank', 'f'), fu().l))]) +
-      row([col(3, fld('Clean lap window', inp('settings', s, 'cleanPct', 'n'), '% of best')), col(3, fld('Flag fuel per lap off by more than', inp('settings', s, 'fplCheck', 'n'), '%')), col(3, fld('Warn before drive time limits', inp('settings', s, 'ruleWarn', 'n'), 'min'))]) +
-      row([col(3, fld('Tyre reading: max In - Out spread', inp('settings', s, 'spreadThr', 'td'), tl())), col(3, fld('Tyre reading: middle vs edges', inp('settings', s, 'midThr', 'td'), tl())), col(3, '')]) +
-      '<p class="hint">Leave a box empty to switch that check off. Use your tyre supplier\'s numbers for the tyre reading thresholds.</p>' +
-      fld('Pre-run checklist (one item per line, shown on every run)', inp('settings', s, 'checklist', 'ta', 'e.g.\nWheel nuts torqued\nCold pressures set\nFuel checked\nTape and covers off')) +
-      '<p class="hint">Edit the list between events, not in the middle of a session (ticks are matched by position).</p>' +
-      (canWake() ? chk('settings', s, 'keepAwake', 'Keep the screen on while PitLog is open') : '') +
-      (navigator.vibrate ? chk('settings', s, 'buzz', 'Vibrate on drive time warnings') : ''));
+    if (installPrompt) h += '<button type="button" class="bigbtn" data-act="install">Install PitLog on this device</button>';
     if (canSaveFile()) {
-      h += card('Backup files (works offline)', btn('Save backup file', 'fileBackup', null, 'pri') + (canShareFile() ? btn('Share backup', 'shareBackup') : '') +
-        btn('Save runs spreadsheet (CSV)', 'fileCsv') + (canShareFile() ? btn('Share CSV', 'shareCsv') : '') +
-        '<p class="hint">Share sends the file to Google Drive, email, Quick Share and so on. A backup file can be restored on this phone, another phone or the iPad (put it in the laptop "backups" folder, then use "Get latest backup from laptop" on the iPad).</p>' +
-        '<label class="fld"><span class="lb">Open a backup file to restore</span><input type="file" id="fileIn" accept=".json,application/json"></label>');
+      h += card('Backup', '<div class="btnrow">' + btn('Save backup file', 'fileBackup', null, 'pri') + (canShareFile() ? btn('Share backup', 'shareBackup') : '') +
+        btn('Save runs spreadsheet', 'fileCsv') + (canShareFile() ? btn('Share spreadsheet', 'shareCsv') : '') + '</div>' +
+        '<p class="hint">Last backup: ' + dateTime(DB.lastBackup) + '. Share sends the file to Google Drive, Gmail, Quick Share and so on.</p>' +
+        '<label class="fld" style="margin-top:12px"><span class="lb">Restore from a backup file</span><input type="file" id="fileIn" accept=".json,application/json"></label>');
     }
-    if (installPrompt) h += card('Install', btn('Install PitLog on this device', 'install', null, 'pri') + '<p class="hint">Adds PitLog to your home screen as its own app that works offline.</p>');
-    h += card('Backup and export as text (works offline)', btn('Make backup', 'exportJSON', null, 'pri') + btn('Export spreadsheet (CSV)', 'exportCSV') +
-      '<span id="mailWrap"></span><textarea id="exportBox" rows="6" placeholder="Backup or CSV text appears here. Tap and hold, Select All, Copy, then paste it into Notes or an email."></textarea>' +
-      '<p class="hint">Last backup made: ' + dateTime(DB.lastBackup) + '. A backup is only safe once you have copied it off this iPad (or synced).</p>');
+    if (window.location.protocol === 'https:') h += fold('sync', 'Wi-Fi sync to laptop', '<p class="sub">Not available in the version installed from the internet: browsers block a secure web app from talking to the laptop helper. Use backup files instead. To add a backup file to the laptop history, run on the laptop: <b>python3 serve.py --merge yourfile.json</b></p>', false, 'use files');
+    else h += fold('sync', 'Wi-Fi sync to laptop', laptopPanel(), true, pendingCount() ? pendingCount() + ' waiting' : 'up to date');
+    h += '<div class="sec">Settings</div>';
+    h += fold('setCar', 'Car and default drivers',
+      row([col(2, fld('Car / team name', inp('settings', s, 'car', 's'))), col(2, fld('Screen theme', sel('settings', s, 'theme', [{ v: 'light', l: 'Light (sunlight)' }, { v: 'dark', l: 'Dark (night)' }])))]) +
+      '<p class="lb" style="margin-top:4px">Filled in on every new session</p>' +
+      row([col(4, fld('Driver 1', inp('settings', s, 'defDrivers.0', 's'))), col(4, fld('Driver 2', inp('settings', s, 'defDrivers.1', 's'))), col(4, fld('Driver 3', inp('settings', s, 'defDrivers.2', 's'))), col(4, fld('Driver 4', inp('settings', s, 'defDrivers.3', 's')))]) +
+      row([col(3, fld('Car number', inp('settings', s, 'defCarNo', 's'))), col(3, fld('Transponder', inp('settings', s, 'defTransponder', 's'))), col(3, fld('Class', inp('settings', s, 'defClass', 's')))]),
+      !s.car && !s.defDrivers[0], esc(s.car || ''));
+    h += fold('setUnits', 'Units and targets',
+      row([col(3, fld('Pressure', sel('settings', s, 'pUnit', [{ v: 'psi', l: 'psi' }, { v: 'bar', l: 'bar' }, { v: 'kpa', l: 'kPa' }]))), col(3, fld('Temperature', sel('settings', s, 'tUnit', [{ v: 'C', l: '°C' }, { v: 'F', l: '°F' }]))), col(3, fld('Fuel', sel('settings', s, 'fUnit', [{ v: 'L', l: 'Litres' }, { v: 'gal', l: 'US gallons' }])))]) +
+      '<p class="hint" style="margin:-4px 0 12px">Changing units only changes the display. Data is kept the same underneath.</p>' +
+      row([col(3, fld('Target hot front', inp('settings', s, 'targetHotF', 'p'), pu().l)), col(3, fld('Target hot rear', inp('settings', s, 'targetHotR', 'p'), pu().l)), col(3, fld('Allowed +/-', inp('settings', s, 'hotTol', 'p'), pu().l))]) +
+      row([col(3, fld('Minimum tread', inp('settings', s, 'minTread', 'n'), 'mm')), col(3, fld('Fuel density', inp('settings', s, 'density', 'n'), 'kg per L')), col(3, fld('Tank capacity', inp('settings', s, 'tank', 'f'), fu().l))]),
+      !isNum(s.targetHotF), pu().l + ' · ' + tl() + ' · ' + fu().l);
+    h += fold('setChecks', 'Checks and warnings',
+      row([col(3, fld('Clean lap window', inp('settings', s, 'cleanPct', 'n'), '% of best')), col(3, fld('Flag fuel per lap off by', inp('settings', s, 'fplCheck', 'n'), '%')), col(3, fld('Warn before drive limits', inp('settings', s, 'ruleWarn', 'n'), 'min'))]) +
+      row([col(2, fld('Tyre reading: max In - Out spread', inp('settings', s, 'spreadThr', 'td'), tl())), col(2, fld('Tyre reading: middle vs edges', inp('settings', s, 'midThr', 'td'), tl()))]) +
+      '<p class="hint">Leave a box empty to switch that check off. Use your tyre supplier\'s numbers for the tyre reading thresholds.</p>', false);
+    h += fold('setList', 'Pre-run checklist and device',
+      fld('Checklist (one item per line, shown on every run)', inp('settings', s, 'checklist', 'ta', 'e.g.\nWheel nuts torqued\nCold pressures set\nFuel checked\nTape and covers off')) +
+      '<p class="hint" style="margin-top:-4px">Edit the list between events, not mid-session (ticks are matched by position).</p>' +
+      (canWake() ? chk('settings', s, 'keepAwake', 'Keep the screen on while PitLog is open') : '') +
+      (navigator.vibrate ? chk('settings', s, 'buzz', 'Vibrate on drive time warnings') : ''), false, checkItems().length ? checkItems().length + ' items' : 'off');
+    h += '<div class="sec">Backup as text</div>';
+    h += fold('txt', 'Copy or email a backup', '<div class="btnrow">' + btn('Make backup', 'exportJSON', null, 'pri') + btn('Export spreadsheet (CSV)', 'exportCSV') + '<span id="mailWrap"></span></div>' +
+      '<textarea id="exportBox" rows="6" placeholder="Backup or CSV text appears here. Tap and hold, Select All, Copy, then paste it into Notes or an email."></textarea>' +
+      '<p class="hint">Last backup made: ' + dateTime(DB.lastBackup) + '. A backup is only safe once it is off this device (or synced).</p>', !canSaveFile());
     var prev = null;
     try { prev = localStorage.getItem(KEY_PREV); } catch (e) { prev = null; }
-    h += card('Restore from backup', '<textarea id="importBox" rows="4" placeholder="Paste backup text here"></textarea>' + btn('Restore (replaces everything)', 'restore', null, 'dng') +
-      (prev ? btn('Undo last restore / delete', 'undoRestore') : ''));
+    h += fold('restore', 'Restore', '<textarea id="importBox" rows="4" placeholder="Paste backup text here, or load a file above"></textarea><div class="btnrow" style="margin-top:8px">' + btn('Restore (replaces everything)', 'restore', null, 'dng') +
+      (prev ? btn('Undo last restore / delete', 'undoRestore') : '') + '</div>', false);
     var used = 0;
     try { used = (JSON.stringify(DB).length + (prev ? prev.length : 0)) * 2; } catch (e2) { used = 0; }
     var lg = '';
     for (var i = 0; i < Math.min(30, DB.log.length); i++) lg += '<tr><td>' + dateTime(DB.log[i].t) + '</td><td>' + esc(DB.log[i].m) + '</td></tr>';
-    h += card('Storage and activity', '<p>' + DB.sessions.length + ' sessions, ' + DB.runs.length + ' runs. About ' + Math.round(used / 1024) + ' KB used. Safari gives each web app about 5 MB, so export and delete old sessions well before that.</p>' +
-      (lg ? '<div class="tblw"><table><tr><th>When</th><th>What</th></tr>' + lg + '</table></div>' : '') + '<p class="hint">PitLog ' + VERSION + '</p>');
-    h += card('Free up space', btn('Remove all sessions and runs from this iPad', 'wipe', null, 'dng') + '<p class="hint">Use at the end of a season after a successful sync. The laptop history keeps everything. Settings are kept. You can undo once with "Undo last restore / delete".</p>');
+    h += fold('storage', 'Storage and activity', '<p>' + DB.sessions.length + ' sessions, ' + DB.runs.length + ' runs. About ' + Math.round(used / 1024) + ' KB used. Browsers give PitLog about 5 MB, so back up and clear old seasons well before that.</p>' +
+      (lg ? '<div class="tblw"><table><tr><th>When</th><th>What</th></tr>' + lg + '</table></div>' : '') + '<p class="hint">PitLog ' + VERSION + '</p>', false, Math.round(used / 1024) + ' KB');
+    h += fold('wipe', 'Free up space', btn('Remove all sessions and runs from this device', 'wipe', null, 'dng') + '<p class="hint">Use at the end of a season after a successful sync or backup. Settings are kept. You can undo once with "Undo last restore / delete".</p>', false);
     return h;
   }
   /* ---------- offline status ---------- */
@@ -1505,6 +1665,7 @@ body.dark{background:#0e1013;color:#eceff3}
       if (!ok || !r || !r.ok || !isObj(r.data)) { lapMsg('<span class="bad"><b>' + esc(r && r.err ? r.err : 'Could not get a backup from ' + base + '.') + '</b></span>'); return; }
       var box = $('importBox');
       if (box) box.value = JSON.stringify(r.data);
+      openFold('restore');
       lapMsg('Loaded ' + esc(r.file) + ' (' + (r.data.sessions || []).length + ' sessions, ' + (r.data.runs || []).length + ' runs) into the Restore box below. Tap <b>Restore</b> to use it.');
     }, 90000);
   }
@@ -1559,6 +1720,31 @@ body.dark{background:#0e1013;color:#eceff3}
       S.sessionId = s.id; go('session');
     },
     openSession: function (id) { S.sessionId = id; go('session'); },
+    fold: function (k, el) {
+      var c = el.parentNode, open = c.className.indexOf(' open') >= 0;
+      c.className = open ? c.className.replace(' open', '') : c.className + ' open';
+      S.open[k] = !open; saveUI();
+    },
+    feel: function (a, el) {
+      var p = a.split(':'), run = curRun(); if (!run) return;
+      run.a[p[0]] = run.a[p[0]] === p[1] ? '' : p[1];
+      run.modified = Date.now(); scheduleSave(true);
+      var bs = el.parentNode.getElementsByTagName('button');
+      for (var i = 0; i < bs.length; i++) bs[i].className = bs[i].getAttribute('data-arg') === p[0] + ':' + run.a[p[0]] ? 'on' : '';
+    },
+    pfill: function (mode) {
+      var run = curRun(), q = run.b.p;
+      if (!isNum(q.FL)) { alert('Enter the FL cold pressure first.'); return; }
+      if (mode === 'all') {
+        if ((isNum(q.FR) && q.FR !== q.FL) || (isNum(q.RL) && q.RL !== q.FL) || (isNum(q.RR) && q.RR !== q.FL)) { if (!confirm('Replace FR, RL and RR with ' + P(q.FL) + '?')) return; }
+        q.FR = q.RL = q.RR = q.FL;
+      } else {
+        if (!isNum(q.FR)) q.FR = q.FL;
+        if ((isNum(q.RL) && q.RL !== q.FL) || (isNum(q.RR) && q.RR !== q.FR)) { if (!confirm('Replace the rear pressures with the fronts?')) return; }
+        q.RL = q.FL; q.RR = q.FR;
+      }
+      run.modified = Date.now(); save(); render();
+    },
     carFilter: function (c) { S.carFilter = c || ''; go('sessions'); },
     refreshDrv: function () { var e = $('drvBox'), s = curSession(); if (e && s) e.innerHTML = driverCard(s, Date.now()); },
     copySession: function () {
@@ -1686,7 +1872,7 @@ body.dark{background:#0e1013;color:#eceff3}
 
   /* ---------- render ---------- */
   function render() {
-    document.body.className = st().theme === 'dark' ? 'dark' : '';
+    document.body.className = (st().theme === 'dark' ? 'dark' : '') + (document.body.className.indexOf('kb') >= 0 ? ' kb' : '');
     if (S.view === 'run' && !curRun()) S.view = curSession() ? 'session' : 'sessions';
     if (S.view === 'session' && !curSession()) S.view = 'sessions';
     var v = S.view, body;
@@ -1696,7 +1882,7 @@ body.dark{background:#0e1013;color:#eceff3}
     else if (v === 'tools') body = vTools();
     else if (v === 'data') body = vData();
     else body = vSessions();
-    $('app').innerHTML = renderTop() + '<div class="wrap">' + body + '</div>';
+    $('app').innerHTML = renderTop() + '<div class="wrap">' + body + '</div>' + tabbar();
     if (v === 'analysis') drawChart();
     if (v === 'tools') { refreshTool(); if (S.tool === 'timer') startTick(); else stopTick(); } else stopTick();
     if (v === 'run') updateLive();
@@ -1734,6 +1920,28 @@ body.dark{background:#0e1013;color:#eceff3}
     }
     window.addEventListener('beforeinstallprompt', function (ev) { ev.preventDefault(); installPrompt = ev; if (S.view === 'data') render(); }, false);
     document.addEventListener('visibilitychange', function () { applyWake(); }, false);
+    // Hide the bottom tabs while the on-screen keyboard is open.
+    function setKb(on) {
+      var has = document.body.className.indexOf('kb') >= 0;
+      if (on && !has) document.body.className += ' kb';
+      else if (!on && has) document.body.className = document.body.className.replace(/\s*kb/g, '');
+    }
+    if (window.visualViewport) {
+      // Newer phones: the visible area shrinks when the keyboard opens.
+      var baseH = window.visualViewport.height;
+      var kbCheck = function () { var hh = window.visualViewport.height; if (hh > baseH) baseH = hh; setKb(hh < baseH * 0.78); };
+      window.visualViewport.addEventListener('resize', kbCheck, false);
+      window.addEventListener('orientationchange', function () { setTimeout(function () { baseH = window.visualViewport.height; kbCheck(); }, 500); }, false);
+    } else {
+      // Old Safari (iPad 1): hide while a text box has focus.
+      document.addEventListener('focus', function (e) {
+        var t = e.target;
+        if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && t.type !== 'checkbox' && t.type !== 'file') setKb(true);
+      }, true);
+      document.addEventListener('blur', function () {
+        setTimeout(function () { var a = document.activeElement; if (!a || !/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) setKb(false); }, 60);
+      }, true);
+    }
     applyWake();
     render();
   }

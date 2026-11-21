@@ -1,7 +1,7 @@
 /* PitLog offline worker (Android and other modern browsers).
    Keeps a copy of the app on the device so it opens with no internet.
    Bump VERSION whenever any file changes, so phones pick up the update. */
-var VERSION = 'pitlog-1.3.0';
+var VERSION = 'pitlog-1.4.0';
 var FILES = ['./', './index.html', './manifest.webmanifest', './icon.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function (e) {
