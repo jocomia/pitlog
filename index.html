@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html manifest="pitlog.appcache">
+<head>
+<meta charset="utf-8">
+<title>PitLog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="PitLog">
+<meta name="theme-color" content="#14171a">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="icon.png">
+<style>
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.35;background:#eef0f3;color:#14171a;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+[data-act]{cursor:pointer}
+.top{background:#14171a;color:#fff;padding:8px 12px}
+.top:after,.row:after,.bar:after,.cf:after{content:"";display:table;clear:both}
+.brand{float:left;font-weight:bold;font-size:22px;line-height:44px;margin-right:14px}
+.brand span{color:#ff6a13}
+.brand small{font-size:13px;font-weight:normal;color:#aab3bd;margin-left:6px}
+.nav{float:left}
+.nav button{-webkit-appearance:none;float:left;background:transparent;border:0;color:#cfd6dd;font-size:16px;font-weight:bold;min-height:44px;padding:0 14px;border-radius:8px;font-family:inherit;cursor:pointer}
+.nav button.on{background:#ff6a13;color:#fff}
+.tr{float:right;text-align:right;line-height:44px;font-size:13px;color:#9fd8b0}
+.tr .pill{margin-left:6px}
+.wrap{padding:12px}
+.card{background:#fff;-webkit-border-radius:10px;border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid #dde1e6}
+h2{font-size:22px;line-height:44px}
+h3{font-size:17px;margin:0 0 8px}
+p{margin-bottom:8px}
+.fl{float:left}.fr{float:right}
+.sub{font-size:14px;color:#5b6570}
+.bar{margin-bottom:10px}
+.btn{-webkit-appearance:none;display:inline-block;min-height:44px;padding:0 16px;line-height:42px;-webkit-border-radius:8px;border-radius:8px;border:1px solid #c5cbd3;background:#fff;color:#14171a;font-size:16px;font-weight:bold;margin:0 6px 6px 0;text-decoration:none;font-family:inherit;cursor:pointer;vertical-align:middle}
+.btn.pri{background:#ff6a13;border-color:#ff6a13;color:#fff}
+.btn.dng{border-color:#c62828;color:#c62828}
+.btn.sm{min-height:36px;line-height:34px;padding:0 12px;font-size:14px}
+.fld{display:block;margin-bottom:8px}
+.lb{display:block;font-size:13px;color:#5b6570;margin-bottom:3px;font-weight:bold}
+.lb i{font-style:normal;font-weight:normal}
+input[type=text],input[type=number],select,textarea{-webkit-appearance:none;width:100%;font-size:18px;padding:8px 10px;min-height:44px;border:1px solid #c5cbd3;-webkit-border-radius:8px;border-radius:8px;background:#fff;color:#14171a;font-family:inherit}
+textarea{min-height:70px;font-size:16px}
+input:focus,select:focus,textarea:focus{border-color:#ff6a13;outline:none}
+.selw{position:relative;display:block}
+.selw:after{content:"\25BE";position:absolute;right:12px;top:11px;pointer-events:none;color:#5b6570}
+.selw select{padding-right:30px}
+.chk{display:block;min-height:44px;padding:9px 0;line-height:1.3;font-weight:bold}
+.chk input{width:26px;height:26px;vertical-align:middle;margin-right:8px}
+.row{margin:0 -6px}
+.col{float:left;padding:0 6px}
+.c2{width:50%}.c3{width:33.333%}.c4{width:25%}
+.car{border:2px dashed #c5cbd3;-webkit-border-radius:14px;border-radius:14px;padding:4px 6px}
+.axle{text-align:center;font-size:12px;letter-spacing:3px;color:#8a949e;font-weight:bold;padding:2px 0}
+.cn{float:left;width:50%;padding:6px}
+.cnh{font-weight:bold;font-size:14px;margin-bottom:4px}
+.mini{font-size:12px;color:#8a949e;text-align:center;font-weight:bold}
+.tt .col{padding:0 3px}.tt{margin:0 -3px}
+.tt input{padding:8px 4px;text-align:center}
+.live{font-size:14px;color:#5b6570;margin-top:4px;min-height:18px}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:8px 6px;border-bottom:1px solid #e3e6ea;text-align:left;white-space:nowrap}
+th{font-size:12px;color:#5b6570;text-transform:uppercase}
+td.n,th.n{text-align:right}
+tr.tap:active td{background:#fff3ea}
+.seg{display:inline-block;border:1px solid #ff6a13;-webkit-border-radius:8px;border-radius:8px;overflow:hidden;margin-bottom:12px;vertical-align:middle}
+.seg button{-webkit-appearance:none;float:left;border:0;background:transparent;color:#ff6a13;font-size:16px;font-weight:bold;min-height:44px;padding:0 18px;font-family:inherit;cursor:pointer}
+.seg button.on{background:#ff6a13;color:#fff}
+.pill{display:inline-block;padding:2px 8px;-webkit-border-radius:10px;border-radius:10px;font-size:12px;font-weight:bold;line-height:16px;vertical-align:middle}
+.p-out{background:#fff0e0;color:#b45309}.p-done{background:#e3f4e8;color:#2e7d32}.p-new{background:#e8ebef;color:#5b6570}.p-sync{background:#fff0e0;color:#b45309}
+.warn{padding:8px 10px;-webkit-border-radius:8px;border-radius:8px;margin-bottom:6px;font-size:15px}
+.w-high{background:#fde8e8;color:#a31515;border-left:5px solid #c62828}
+.w-med{background:#fff4e0;color:#8a4b00;border-left:5px solid #e08a00}
+.w-info{background:#e8f0fb;color:#0d47a1;border-left:5px solid #1565c0}
+.w-ok{background:#e3f4e8;color:#1b5e20;border-left:5px solid #2e7d32}
+.hint{font-size:13px;color:#6b7580;margin-top:6px}
+.stat{display:inline-block;min-width:150px;margin:0 14px 12px 0;vertical-align:top}
+.stat span{display:block;font-size:12px;color:#6b7580;text-transform:uppercase;font-weight:bold}
+.stat b{display:block;font-size:22px}
+.stamp{min-height:44px;line-height:44px;font-size:18px;font-weight:bold}
+.stamp .btn{margin-left:6px;margin-bottom:0}
+.watch{font-size:80px;font-weight:bold;text-align:center;font-family:"Courier New",Courier,monospace;padding:10px 0}
+.sess h3{margin:4px 0}
+.good{color:#2e7d32}.bad{color:#c62828}
+canvas{display:block}
+@media (max-width: 640px) {
+.wrap{padding:8px}
+.top{padding:6px 8px}
+.brand{font-size:18px;margin-right:6px}.brand small{display:none}
+.nav button{padding:0 8px;font-size:14px}
+.tr{float:none;clear:both;line-height:22px;text-align:left}
+.c3,.c4{width:50%}.c2{width:100%}
+.tt .c3{width:33.333%}
+.seg{display:block;white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.seg button{float:none;display:inline-block;padding:0 10px;font-size:14px}
+.stat{min-width:120px;margin-right:8px}
+h2{font-size:20px}
+.watch{font-size:56px}
+.card{padding:10px}
+}
+@media (max-width: 400px) { .c3{width:100%} .tt .c3{width:33.333%} }
+body.dark{background:#0e1013;color:#eceff3}
+.dark .card{background:#1a1e23;border-color:#2b3037}
+.dark .btn{background:#232830;border-color:#3a414b;color:#eceff3}
+.dark .btn.pri{background:#ff6a13;border-color:#ff6a13;color:#fff}
+.dark .btn.dng{color:#ff8a80;border-color:#c62828}
+.dark input[type=text],.dark input[type=number],.dark select,.dark textarea{background:#0f1216;color:#eceff3;border-color:#3a414b}
+.dark th,.dark td{border-color:#2b3037}
+.dark .lb,.dark .sub,.dark .live,.dark th,.dark .hint,.dark .stat span{color:#9aa4ae}
+.dark .car{border-color:#3a414b}
+.dark .w-high{background:#3a1414;color:#ffb4b4}.dark .w-med{background:#3a2a10;color:#ffd08a}.dark .w-info{background:#10233d;color:#a9c8ff}.dark .w-ok{background:#12301a;color:#a8e0b4}
+.dark tr.tap:active td{background:#2a2018}
+</style>
+</head>
+<body>
+<div id="app"><div class="wrap">Loading PitLog...</div></div>
+<script>
+(function () {
+  'use strict';
+
+  var VERSION = '1.3.0';
+  var KEY = 'pitlog_v1', KEY_PREV = 'pitlog_prev', KEY_UI = 'pitlog_ui', KEY_WATCH = 'pitlog_watch';
+  var C4 = ['FL', 'FR', 'RL', 'RR'];
+  var CNAME = { FL: 'Front left', FR: 'Front right', RL: 'Rear left', RR: 'Rear right' };
+  var TYPES = ['Practice', 'Qualifying', 'Race', 'Test', 'Shakedown'];
+  var WEATHER = ['', 'Dry', 'Damp', 'Wet', 'Mixed'];
+  var FEEL = ['', 'Understeer', 'Neutral', 'Oversteer'];
+  var ATM_PSI = 14.696;
+
+  var DB, S, W, saveTimer = null, watchTimer = null, syncBusy = false;
+
+  /* ---------- small helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function uid() { return 'x' + Date.now().toString(36) + Math.floor(Math.random() * 1e8).toString(36); }
+  function isNum(v) { return typeof v === 'number' && !isNaN(v) && isFinite(v); }
+  function isArr(v) { return Object.prototype.toString.call(v) === '[object Array]'; }
+  function isObj(v) { return v !== null && typeof v === 'object' && !isArr(v); }
+  function num(str) {
+    if (str === null || str === undefined) return null;
+    str = String(str).replace(',', '.').trim();
+    if (str === '') return null;
+    var v = parseFloat(str);
+    return isNum(v) ? v : null;
+  }
+  function round(v, dp) { var m = Math.pow(10, dp); return Math.round(v * m) / m; }
+  function trim0(v, dp) { return isNum(v) ? String(round(v, dp)) : ''; }
+  function fx(v, dp) { return isNum(v) ? v.toFixed(dp) : '-'; }
+  function sgn(v, dp) { if (!isNum(v)) return '-'; var s = v.toFixed(dp); return v > 0 ? '+' + s : s; }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function hms(ts) { if (!ts) return ''; var d = new Date(ts); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
+  function dateTime(ts) { if (!ts) return 'never'; var d = new Date(ts); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + hms(ts); }
+  function today() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function dur(ms) {
+    if (!isNum(ms) || ms < 0) return '-';
+    var s = Math.round(ms / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), ss = s % 60;
+    return (h ? h + ':' + pad(m) : m) + ':' + pad(ss);
+  }
+  function lapFmt(sec) {
+    if (!isNum(sec)) return '-';
+    sec = Math.round(sec * 1000) / 1000;
+    var m = Math.floor(sec / 60), s = sec - m * 60, str = s.toFixed(3);
+    if (m > 0) { if (s < 10) str = '0' + str; return m + ':' + str; }
+    return str;
+  }
+  function parseLap(tok) {
+    tok = tok.trim();
+    if (!tok) return null;
+    if (tok.indexOf(':') >= 0) {
+      var p = tok.split(':');
+      if (p.length !== 2) return null;
+      var m = parseInt(p[0], 10), s = parseFloat(p[1]);
+      if (isNaN(m) || isNaN(s)) return null;
+      return m * 60 + s;
+    }
+    var v = parseFloat(tok);
+    return isNum(v) && /^[0-9.]+$/.test(tok) ? v : null;
+  }
+  function parseLaps(str) {
+    var out = { list: [], bad: 0 };
+    if (!str) return out;
+    var toks = String(str).split(/[\s;,]+/);
+    for (var i = 0; i < toks.length; i++) {
+      if (!toks[i]) continue;
+      var v = parseLap(toks[i]);
+      if (isNum(v) && v > 0) out.list.push(v); else out.bad++;
+    }
+    return out;
+  }
+  function avg(arr) { var s = 0, n = 0; for (var i = 0; i < arr.length; i++) if (isNum(arr[i])) { s += arr[i]; n++; } return n ? s / n : null; }
+  function sub(a, b) { return isNum(a) && isNum(b) ? a - b : null; }
+  function stdev(arr) {
+    if (arr.length < 2) return null;
+    var m = avg(arr), s = 0;
+    for (var i = 0; i < arr.length; i++) s += (arr[i] - m) * (arr[i] - m);
+    return Math.sqrt(s / (arr.length - 1));
+  }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function deepFill(t, tpl) {
+    for (var k in tpl) {
+      if (!tpl.hasOwnProperty(k)) continue;
+      if (t[k] === undefined) t[k] = isObj(tpl[k]) || isArr(tpl[k]) ? clone(tpl[k]) : tpl[k];
+      else if (isObj(tpl[k]) && isObj(t[k])) deepFill(t[k], tpl[k]);
+    }
+    return t;
+  }
+  function getPath(o, path) {
+    var p = path.split('.');
+    for (var i = 0; i < p.length; i++) { if (o === null || o === undefined) return null; o = o[p[i]]; }
+    return o === undefined ? null : o;
+  }
+  function setPath(o, path, v) {
+    var p = path.split('.');
+    for (var i = 0; i < p.length - 1; i++) { if (o[p[i]] === null || typeof o[p[i]] !== 'object') o[p[i]] = {}; o = o[p[i]]; }
+    o[p[p.length - 1]] = v;
+  }
+
+  /* ---------- units (stored inside the app as psi, deg C, litres, mm, kg) ---------- */
+  var PU = { psi: { f: 1, dp: 2, l: 'psi' }, bar: { f: 1 / 14.5038, dp: 3, l: 'bar' }, kpa: { f: 6.89476, dp: 1, l: 'kPa' } };
+  var FU = { L: { f: 1, dp: 2, l: 'L' }, gal: { f: 1 / 3.78541, dp: 2, l: 'US gal' } };
+  function st() { return DB.settings; }
+  function pu() { return PU[st().pUnit] || PU.psi; }
+  function fu() { return FU[st().fUnit] || FU.L; }
+  function tl() { return st().tUnit === 'F' ? '°F' : '°C'; }
+  function toShow(kind, v) {
+    if (!isNum(v)) return null;
+    if (kind === 'p') return v * pu().f;
+    if (kind === 't') return st().tUnit === 'F' ? v * 9 / 5 + 32 : v;
+    if (kind === 'td') return st().tUnit === 'F' ? v * 9 / 5 : v;
+    if (kind === 'f') return v * fu().f;
+    return v;
+  }
+  function toStore(kind, v) {
+    if (!isNum(v)) return null;
+    if (kind === 'p') return v / pu().f;
+    if (kind === 't') return st().tUnit === 'F' ? (v - 32) * 5 / 9 : v;
+    if (kind === 'td') return st().tUnit === 'F' ? v * 5 / 9 : v;
+    if (kind === 'f') return v / fu().f;
+    return v;
+  }
+  function dpOf(kind) {
+    if (kind === 'p') return pu().dp;
+    if (kind === 'f') return fu().dp;
+    if (kind === 't' || kind === 'td') return 1;
+    return 3;
+  }
+  function P(v) { return isNum(v) ? trim0(toShow('p', v), pu().dp) + ' ' + pu().l : '-'; }
+  function Pd(v) { return isNum(v) ? sgn(toShow('p', v), pu().dp) : '-'; }
+  function T(v) { return isNum(v) ? fx(toShow('t', v), 1) + tl() : '-'; }
+  function Td(v) { return isNum(v) ? sgn(toShow('td', v), 1) + '°' : '-'; }
+  function F(v) { return isNum(v) ? fx(toShow('f', v), 2) + ' ' + fu().l : '-'; }
+
+  /* ---------- data model ---------- */
+  function defSettings() {
+    return {
+      car: '', keepAwake: false, buzz: true, checklist: '', defDriver: '', defDrivers: ['', '', '', ''], ruleWarn: 5, defCarNo: '', defTransponder: '', defClass: '', laptop: '', pUnit: 'psi', tUnit: 'C', fUnit: 'L', theme: 'light',
+      targetHotF: null, targetHotR: null, hotTol: null,
+      spreadThr: null, midThr: null, minTread: null,
+      density: 0.745, tank: null, cleanPct: 105, fplCheck: 10
+    };
+  }
+  function defSync() { return { url: '', key: '', lastSync: null, lastResult: '', state: {}, log: [] }; }
+  function defDB() { return { version: 1, created: Date.now(), settings: defSettings(), sync: defSync(), sessions: [], runs: [], tomb: [], log: [], lastBackup: null, lastLaptop: null }; }
+  function c4(v) { return { FL: v, FR: v, RL: v, RR: v }; }
+  function tt() { return { i: null, m: null, o: null }; }
+  function runTemplate() {
+    return {
+      id: '', sessionId: '', no: 1, created: 0, modified: 0, driver: '',
+      tyreSet: '', compound: '', weather: '', ambient: null, trackT: null,
+      timeOut: null, timeIn: null, setup: '', prefill: null, check: {},
+      b: { p: c4(null), tread: c4(null), fuel: null, rhF: null, rhR: null },
+      a: { p: c4(null), t: { FL: tt(), FR: tt(), RL: tt(), RR: tt() }, brake: c4(null), tread: c4(null),
+        fuel: null, laps: null, lapTimes: '', oil: null, water: null, fbE: '', fbM: '', fbX: '', notes: '' },
+      stop: { fuelAdded: null, tyresChanged: false, driverChange: false, dur: null, work: '' }
+    };
+  }
+  function sessionTemplate() { return { id: '', created: 0, modified: 0, event: '', track: '', date: '', type: 'Practice', car: '', carNo: '', transponder: '', cls: '', driver: '', drivers: ['', '', '', ''], raceLen: null, minDrive: null, maxDrive: null, maxStint: null, notes: '' }; }
+  function normalize(d) {
+    if (!isObj(d)) d = defDB();
+    if (!isObj(d.settings)) d.settings = {};
+    deepFill(d.settings, defSettings());
+    if (!isObj(d.sync)) d.sync = {};
+    deepFill(d.sync, defSync());
+    if (!isArr(d.sessions)) d.sessions = [];
+    if (!isArr(d.runs)) d.runs = [];
+    if (!isArr(d.tomb)) d.tomb = [];
+    if (!isArr(d.log)) d.log = [];
+    if (d.lastLaptop === undefined) d.lastLaptop = null;
+    for (var i = 0; i < d.sessions.length; i++) {
+      var ss = d.sessions[i];
+      if (!isArr(ss.drivers)) ss.drivers = [ss.driver || '', '', '', ''];
+      deepFill(ss, sessionTemplate());
+      while (ss.drivers.length < 4) ss.drivers.push('');
+    }
+    if (!isArr(d.settings.defDrivers)) d.settings.defDrivers = [d.settings.defDriver || '', '', '', ''];
+    while (d.settings.defDrivers.length < 4) d.settings.defDrivers.push('');
+    for (var j = 0; j < d.runs.length; j++) deepFill(d.runs[j], runTemplate());
+    return d;
+  }
+  function load() {
+    var raw = null, d = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) { raw = null; }
+    if (raw) {
+      try { d = JSON.parse(raw); } catch (e2) {
+        d = null;
+        try { localStorage.setItem(KEY + '_broken', raw); } catch (e3) { /* ignore */ }
+        alert('Saved data could not be read. A copy was kept and the app started fresh. Contact whoever set up PitLog.');
+      }
+    }
+    DB = normalize(d);
+  }
+  function defUI() {
+    return {
+      view: 'sessions', sessionId: null, runId: null, runTab: 'before', tool: 'fuel',
+      an: { sessionId: '', metric: 'best', a: '', b: '' },
+      t: { strat: { mode: 'laps', raceLaps: null, raceMin: null, lapTime: null, fpl: null, tank: null, startFuel: null, reserve: null, refuel: null, pitLoss: null, tyreTime: null, tyreLife: null, concurrent: true, minStat: null, maxStint: null, minStops: null, pick: null },
+        fuel: { laps: null, fpl: null, margin: null, inTank: null }, pc: { p1: null, t1: null, t2: null },
+        cw: { FL: null, FR: null, RL: null, RR: null }, cv: { cat: 'Pressure', from: '', val: null } }
+    };
+  }
+  function loadUI() {
+    var u = null;
+    try { u = JSON.parse(localStorage.getItem(KEY_UI) || 'null'); } catch (e) { u = null; }
+    S = deepFill(isObj(u) ? u : {}, defUI());
+    var w = null;
+    try { w = JSON.parse(localStorage.getItem(KEY_WATCH) || 'null'); } catch (e2) { w = null; }
+    W = deepFill(isObj(w) ? w : {}, { running: false, start: 0, acc: 0, splits: [] });
+  }
+  function saveUI() { try { localStorage.setItem(KEY_UI, JSON.stringify(S)); } catch (e) { /* ignore */ } }
+  function saveW() { try { localStorage.setItem(KEY_WATCH, JSON.stringify(W)); } catch (e) { /* ignore */ } }
+  function save() {
+    if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+    try {
+      localStorage.setItem(KEY, JSON.stringify(DB));
+      var e = $('saveSt'); if (e) e.innerHTML = 'Saved ' + hms(Date.now());
+      return true;
+    } catch (err) {
+      alert('Could not save! The iPad storage for PitLog may be full. Go to Data & Sync, export a backup now, then delete old sessions.');
+      return false;
+    }
+  }
+  function scheduleSave(now) {
+    if (now) { save(); return; }
+    if (saveTimer) clearTimeout(saveTimer);
+    var e = $('saveSt'); if (e) e.innerHTML = 'Saving...';
+    saveTimer = setTimeout(save, 400);
+  }
+  function flush() { if (saveTimer) save(); }
+  function log(msg) { DB.log.unshift({ t: Date.now(), m: msg }); if (DB.log.length > 300) DB.log.length = 300; }
+
+  function findSession(id) { for (var i = 0; i < DB.sessions.length; i++) if (DB.sessions[i].id === id) return DB.sessions[i]; return null; }
+  function findRun(id) { for (var i = 0; i < DB.runs.length; i++) if (DB.runs[i].id === id) return DB.runs[i]; return null; }
+  function curSession() { return findSession(S.sessionId); }
+  function curRun() { return findRun(S.runId); }
+  function runsOf(sid) {
+    var out = [];
+    for (var i = 0; i < DB.runs.length; i++) if (DB.runs[i].sessionId === sid) out.push(DB.runs[i]);
+    out.sort(function (a, b) { return a.no - b.no; });
+    return out;
+  }
+  function sessName(s) { if (!s) return 'Session'; return (s.event || 'Untitled') + (s.type ? ' · ' + s.type : ''); }
+  function sortedSessions() {
+    return DB.sessions.slice().sort(function (a, b) {
+      if ((a.date || '') !== (b.date || '')) return (b.date || '') > (a.date || '') ? 1 : -1;
+      return b.created - a.created;
+    });
+  }
+  function isOut(r) { return !!r.timeOut && !r.timeIn; }
+  function statusPill(r) {
+    if (r.timeIn) return '<span class="pill p-done">Done</span>';
+    if (r.timeOut) return '<span class="pill p-out">On track</span>';
+    return '<span class="pill p-new">In garage</span>';
+  }
+  function prevRunOf(run) {
+    var rs = runsOf(run.sessionId), p = null;
+    for (var i = 0; i < rs.length; i++) if (rs[i].no < run.no) p = rs[i];
+    return p;
+  }
+  function target(c) { return c === 'FL' || c === 'FR' ? st().targetHotF : st().targetHotR; }
+
+  /* ---------- calculations ---------- */
+  function calc(run) {
+    var s = st(), a = run.a, b = run.b, r = { build: {}, rec: {}, tyre: {}, wear: {}, wpl: {}, ltm: {}, warn: [] };
+    function W_(l, m) { r.warn.push({ l: l, m: m }); }
+    for (var k = 0; k < C4.length; k++) {
+      var c = C4[k], cold = b.p[c], hot = a.p[c], tg = target(c);
+      r.build[c] = sub(hot, cold);
+      r.rec[c] = isNum(cold) && isNum(hot) && isNum(tg) ? cold + (tg - hot) : null;
+      var t = a.t[c] || tt();
+      r.tyre[c] = { avg: avg([t.i, t.m, t.o]), spread: sub(t.i, t.o), mid: isNum(t.i) && isNum(t.m) && isNum(t.o) ? t.m - (t.i + t.o) / 2 : null };
+      r.wear[c] = sub(b.tread[c], a.tread[c]);
+      if (isNum(hot) && isNum(tg) && isNum(s.hotTol) && Math.abs(hot - tg) > s.hotTol)
+        W_('med', c + ' hot pressure ' + P(hot) + ' is ' + (hot > tg ? 'above' : 'below') + ' target ' + P(tg) + ' (' + Pd(hot - tg) + ').');
+      if (isNum(r.build[c]) && r.build[c] < 0)
+        W_('high', c + ' hot pressure is lower than cold. Possible slow puncture or an entry mistake. Check the tyre.');
+      if (isNum(r.wear[c]) && r.wear[c] < 0) W_('info', c + ' tread after is higher than before. Check the entry.');
+      if (isNum(s.minTread) && isNum(a.tread[c]) && a.tread[c] <= s.minTread)
+        W_('high', c + ' tread ' + a.tread[c] + ' mm is at or below your minimum (' + s.minTread + ' mm).');
+    }
+    r.buildF = avg([r.build.FL, r.build.FR]); r.buildR = avg([r.build.RL, r.build.RR]);
+    r.hotF = avg([a.p.FL, a.p.FR]); r.hotR = avg([a.p.RL, a.p.RR]);
+    r.coldF = avg([b.p.FL, b.p.FR]); r.coldR = avg([b.p.RL, b.p.RR]);
+    r.tempF = avg([r.tyre.FL.avg, r.tyre.FR.avg]); r.tempR = avg([r.tyre.RL.avg, r.tyre.RR.avg]);
+    r.tempL = avg([r.tyre.FL.avg, r.tyre.RL.avg]); r.tempRt = avg([r.tyre.FR.avg, r.tyre.RR.avg]);
+
+    var lp = parseLaps(a.lapTimes);
+    r.lapList = lp.list; r.badTok = lp.bad;
+    r.laps = isNum(a.laps) ? a.laps : (lp.list.length || null);
+    r.best = null; r.worst = null; r.avgAll = null; r.cleanAvg = null; r.cleanN = 0; r.sd = null;
+    if (lp.list.length) {
+      r.best = Math.min.apply(null, lp.list); r.worst = Math.max.apply(null, lp.list); r.avgAll = avg(lp.list);
+      var lim = r.best * (1 + (isNum(s.cleanPct) ? s.cleanPct - 100 : 5) / 100), clean = [];
+      for (var i = 0; i < lp.list.length; i++) if (lp.list[i] <= lim) clean.push(lp.list[i]);
+      r.cleanLim = lim; r.cleanAvg = avg(clean); r.cleanN = clean.length; r.sd = stdev(clean);
+    }
+    if (lp.bad) W_('info', lp.bad + ' lap time' + (lp.bad > 1 ? 's' : '') + ' could not be read. Use 1:32.456 or 92.456 format.');
+    if (isNum(a.laps) && lp.list.length && a.laps !== lp.list.length)
+      W_('info', 'Laps entered (' + a.laps + ') and lap times listed (' + lp.list.length + ') are different. Fuel per lap uses ' + a.laps + '.');
+
+    r.fuelUsed = sub(b.fuel, a.fuel);
+    r.fpl = isNum(r.fuelUsed) && isNum(r.laps) && r.laps > 0 ? r.fuelUsed / r.laps : null;
+    r.nextFuel = isNum(a.fuel) ? a.fuel + (isNum(run.stop.fuelAdded) ? run.stop.fuelAdded : 0) : null;
+    r.lapsOnNext = isNum(r.nextFuel) && isNum(r.fpl) && r.fpl > 0 ? r.nextFuel / r.fpl : null;
+    if (isNum(r.fuelUsed) && r.fuelUsed < 0) W_('info', 'Fuel after is higher than fuel before. Check the entries.');
+    if (isNum(s.tank) && isNum(r.nextFuel) && r.nextFuel > s.tank) W_('med', 'Fuel for next run (' + F(r.nextFuel) + ') is more than tank capacity (' + F(s.tank) + ').');
+    if (isNum(r.fpl) && r.fpl > 0 && isNum(s.fplCheck)) {
+      var so = sessFpl(run.sessionId, run.id);
+      if (so.n && Math.abs(r.fpl - so.avg) / so.avg * 100 > s.fplCheck)
+        W_('info', 'Fuel per lap ' + F(r.fpl) + ' is ' + fx(Math.abs(r.fpl - so.avg) / so.avg * 100, 0) + '% off the session average ' + F(so.avg) + '. Check laps count and fuel readings.');
+    }
+    for (k = 0; k < C4.length; k++) {
+      c = C4[k];
+      r.wpl[c] = isNum(r.wear[c]) && isNum(r.laps) && r.laps > 0 ? r.wear[c] / r.laps : null;
+      r.ltm[c] = isNum(s.minTread) && isNum(a.tread[c]) && isNum(r.wpl[c]) && r.wpl[c] > 0 ? (a.tread[c] - s.minTread) / r.wpl[c] : null;
+    }
+    r.trackMs = run.timeOut && run.timeIn ? run.timeIn - run.timeOut : null;
+    var cl = checkItems(), miss2 = [];
+    for (k = 0; k < cl.length; k++) if (!(run.check && run.check[k])) miss2.push(cl[k]);
+    if (run.timeOut && miss2.length) W_('med', 'Checklist not fully ticked: ' + miss2.join(', ') + '.');
+    if (run.timeIn && !run.timeOut) W_('info', 'Time in is set but time out is missing.');
+    if (run.timeIn) {
+      var miss = [];
+      for (k = 0; k < C4.length; k++) if (!isNum(a.p[C4[k]])) miss.push(C4[k]);
+      if (miss.length) W_('info', 'Hot pressures missing for ' + miss.join(', ') + '.');
+    }
+    return r;
+  }
+  function checkItems() {
+    var out = [], lines = String(st().checklist || '').split('\n');
+    for (var i = 0; i < lines.length && out.length < 25; i++) { var x = lines[i].trim(); if (x) out.push(x); }
+    return out;
+  }
+  function sessFpl(sid, exclude) {
+    var rs = runsOf(sid), v = [];
+    for (var i = 0; i < rs.length; i++) {
+      if (rs[i].id === exclude) continue;
+      var b = rs[i].b, a = rs[i].a, used = sub(b.fuel, a.fuel), lp = parseLaps(a.lapTimes);
+      var laps = isNum(a.laps) ? a.laps : (lp.list.length || null);
+      if (isNum(used) && used > 0 && isNum(laps) && laps > 0) v.push(used / laps);
+    }
+    return { avg: avg(v), n: v.length };
+  }
+  function reading(c, r) {
+    var t = r.tyre[c], s = st(), out = [];
+    if (isNum(s.midThr) && isNum(t.mid)) {
+      if (t.mid > s.midThr) out.push('Middle hot: pressure may be high');
+      else if (t.mid < -s.midThr) out.push('Edges hot: pressure may be low');
+    }
+    if (isNum(s.spreadThr) && isNum(t.spread)) {
+      if (t.spread > s.spreadThr) out.push('Inner very hot: check camber');
+      else if (t.spread < 0) out.push('Outer hotter than inner: check camber');
+    }
+    if (out.length) return out.join('. ');
+    if (!isNum(s.midThr) && !isNum(s.spreadThr)) return 'Set thresholds';
+    return isNum(t.avg) ? 'Looks even' : '-';
+  }
+
+  /* ---------- form builders ---------- */
+  function attrs(scope, path, kind) { return ' data-scope="' + scope + '" data-path="' + path + '" data-kind="' + kind + '"'; }
+  function inp(scope, obj, path, kind, ph) {
+    var v = getPath(obj, path), shown;
+    if (kind === 's' || kind === 'ta') shown = v === null ? '' : v;
+    else if (kind === 'lap') shown = isNum(v) ? lapFmt(v) : '';
+    else shown = trim0(toShow(kind, v), dpOf(kind));
+    if (kind === 'ta') return '<textarea' + attrs(scope, path, kind) + ' rows="3" placeholder="' + esc(ph || '') + '">' + esc(shown) + '</textarea>';
+    if (kind === 's' || kind === 'lap') return '<input type="text" autocorrect="off" autocapitalize="off"' + attrs(scope, path, kind) + ' value="' + esc(shown) + '" placeholder="' + esc(ph || '') + '">';
+    return '<input type="number" step="any"' + attrs(scope, path, kind) + ' value="' + esc(shown) + '" placeholder="' + esc(ph || '') + '">';
+  }
+  function sel(scope, obj, path, opts) {
+    var v = getPath(obj, path), h = '<span class="selw"><select' + attrs(scope, path, 's') + '>';
+    for (var i = 0; i < opts.length; i++) {
+      var o = isObj(opts[i]) ? opts[i] : { v: opts[i], l: opts[i] === '' ? '(none)' : opts[i] };
+      h += '<option value="' + esc(o.v) + '"' + (String(o.v) === String(v === null ? '' : v) ? ' selected' : '') + '>' + esc(o.l) + '</option>';
+    }
+    return h + '</select></span>';
+  }
+  function chk(scope, obj, path, label) {
+    return '<label class="chk"><input type="checkbox"' + attrs(scope, path, 'b') + (getPath(obj, path) ? ' checked' : '') + '>' + esc(label) + '</label>';
+  }
+  function fld(label, html, unit) { return '<label class="fld"><span class="lb">' + esc(label) + (unit ? ' <i>(' + esc(unit) + ')</i>' : '') + '</span>' + html + '</label>'; }
+  function col(n, html) { return '<div class="col c' + n + '">' + html + '</div>'; }
+  function row(cells) { return '<div class="row">' + cells.join('') + '</div>'; }
+  function card(title, body) { return '<div class="card">' + (title ? '<h3>' + title + '</h3>' : '') + body + '</div>'; }
+  function btn(label, act, arg, cls) { return '<button type="button" class="btn ' + (cls || '') + '" data-act="' + act + '"' + (arg !== undefined && arg !== null ? ' data-arg="' + esc(arg) + '"' : '') + '>' + label + '</button>'; }
+  function stat(label, value) { return '<div class="stat"><span>' + esc(label) + '</span><b>' + value + '</b></div>'; }
+  function carGrid(fn) {
+    function cell(c) { return '<div class="cn"><div class="cnh">' + c + ' <span class="sub">' + CNAME[c] + '</span></div>' + fn(c) + '</div>'; }
+    return '<div class="car"><div class="axle">FRONT</div><div class="cf">' + cell('FL') + cell('FR') + '</div><div class="cf">' + cell('RL') + cell('RR') + '</div><div class="axle">REAR</div></div>';
+  }
+  function stampFld(label, run, field) {
+    var v = run[field];
+    return '<div class="fld"><span class="lb">' + label + '</span><div class="stamp">' + (v ? hms(v) : '<span class="sub">Not set</span>') +
+      btn('Now', 'stamp', field, 'sm pri') + btn('Edit', 'editStamp', field, 'sm') + (v ? btn('Clear', 'clearStamp', field, 'sm') : '') + '</div></div>';
+  }
+  function warnList(list) {
+    if (!list.length) return '<div class="warn w-ok">No issues found in the numbers entered.</div>';
+    var order = { high: 0, med: 1, info: 2 }, h = '';
+    list = list.slice().sort(function (a, b) { return order[a.l] - order[b.l]; });
+    for (var i = 0; i < list.length; i++) h += '<div class="warn w-' + list[i].l + '">' + (list[i].l === 'high' ? '<b>Stop and check:</b> ' : '') + esc(list[i].m) + '</div>';
+    return h;
+  }
+
+  /* ---------- top bar ---------- */
+  function pendingCount() { return pendingItems().length; }
+  function renderTop() {
+    var v = S.view, nav = [['sessions', 'Sessions'], ['analysis', 'Analysis'], ['tools', 'Tools'], ['data', 'Data & Sync']], h = '';
+    for (var i = 0; i < nav.length; i++) {
+      var on = nav[i][0] === v || (nav[i][0] === 'sessions' && (v === 'session' || v === 'run'));
+      h += '<button type="button" class="' + (on ? 'on' : '') + '" data-act="nav" data-arg="' + nav[i][0] + '">' + nav[i][1] + '</button>';
+    }
+    var pc = pendingCount();
+    return '<div class="top"><div class="brand">Pit<span>Log</span><small>' + esc(st().car) + '</small></div><div class="nav">' + h +
+      '</div><div class="tr"><span id="saveSt"></span>' + (pc ? '<span class="pill p-sync" data-act="nav" data-arg="data">' + pc + ' to sync</span>' : '') + '</div></div>';
+  }
+
+  /* ---------- views ---------- */
+  function backupBanner() {
+    if (!DB.runs.length) return '';
+    var last = Math.max(DB.lastBackup || 0, DB.sync.lastSync || 0);
+    if (last && Date.now() - last < 24 * 3600 * 1000) return '';
+    return '<div class="warn w-med" data-act="nav" data-arg="data">' + (last ? 'No backup or sync since ' + dateTime(last) + '.' : 'Your data has never been backed up or synced.') + ' Tap here to go to Data & Sync.</div>';
+  }
+  function vSessions() {
+    var h = backupBanner();
+    h += '<div class="bar"><h2 class="fl">Sessions</h2><div class="fr">' + btn('+ New session', 'newSession', null, 'pri') + '</div></div>';
+    var list = sortedSessions(), cars = [], i0;
+    for (i0 = 0; i0 < list.length; i0++) { var cn = (list[i0].carNo || '').trim(); if (cn && cars.indexOf(cn) < 0) cars.push(cn); }
+    cars.sort(function (a, b) { return (parseFloat(a) || 0) - (parseFloat(b) || 0) || (a > b ? 1 : -1); });
+    if (S.carFilter && cars.indexOf(S.carFilter) < 0) S.carFilter = '';
+    if (cars.length > 1) {
+      var sg = '<div class="seg"><button type="button" class="' + (!S.carFilter ? 'on' : '') + '" data-act="carFilter" data-arg="">All cars</button>';
+      for (i0 = 0; i0 < cars.length; i0++) sg += '<button type="button" class="' + (S.carFilter === cars[i0] ? 'on' : '') + '" data-act="carFilter" data-arg="' + esc(cars[i0]) + '">#' + esc(cars[i0]) + '</button>';
+      h += sg + '</div>';
+    }
+    if (S.carFilter) list = list.filter(function (x) { return (x.carNo || '').trim() === S.carFilter; });
+    if (!list.length) {
+      return h + card('Welcome to PitLog', '<p>1. Go to <b>Data &amp; Sync</b> and set your units and target hot pressures.</p>' +
+        '<p>2. Tap <b>+ New session</b> for each practice, qualifying or race.</p>' +
+        '<p>3. In a session, add a run every time the car goes out. Fill <b>Before</b> when it leaves, <b>After</b> when it comes back, then read <b>Results</b>.</p>' +
+        '<p class="hint">Everything saves on this iPad as you type. No internet needed.</p>' + '<div class="warn ' + (cacheOk() ? 'w-ok' : 'w-med') + '" id="cacheSt">' + cacheStatus() + '</div>');
+    }
+    for (var i = 0; i < list.length; i++) {
+      var s = list[i], rs = runsOf(s.id), out = 0;
+      for (var j = 0; j < rs.length; j++) if (isOut(rs[j])) out++;
+      var meta = [s.date, s.track, s.type, s.carNo ? '#' + s.carNo : '', lineup(s).join(', ')].filter(function (x) { return !!x; }).join(' · ');
+      h += '<div class="card sess" data-act="openSession" data-arg="' + s.id + '"><div class="fr">' + (out ? '<span class="pill p-out">' + out + ' on track</span> ' : '') +
+        '<span class="pill p-new">' + rs.length + ' run' + (rs.length === 1 ? '' : 's') + '</span></div><h3>' + (s.carNo ? '<span style="color:#ff6a13">#' + esc(s.carNo) + '</span> ' : '') + esc(s.event || 'Untitled session') + '</h3><div class="sub">' + esc(meta) + '</div></div>';
+    }
+    return h;
+  }
+  function vSession() {
+    var s = curSession(), rs = runsOf(s.id), h = '';
+    h += '<div class="bar">' + btn('‹ Sessions', 'nav', 'sessions', 'sm') + '</div>';
+    h += card('Session details',
+      row([col(3, fld('Event', inp('session', s, 'event', 's', 'e.g. Round 3'))), col(3, fld('Track', inp('session', s, 'track', 's'))), col(3, fld('Date', inp('session', s, 'date', 's', 'YYYY-MM-DD')))]) +
+      row([col(3, fld('Session type', sel('session', s, 'type', TYPES))), col(3, fld('Car', inp('session', s, 'car', 's', 'Make / model or team car name'))), col(3, fld('Class', inp('session', s, 'cls', 's')))]) +
+      row([col(3, fld('Car number', inp('session', s, 'carNo', 's', 'e.g. 27'))), col(3, fld('Transponder number', inp('session', s, 'transponder', 's'))), col(3, '')]) +
+      '<p class="lb" style="margin-top:6px">Drivers</p>' +
+      row([col(4, inp('session', s, 'drivers.0', 's', 'Driver 1')), col(4, inp('session', s, 'drivers.1', 's', 'Driver 2')), col(4, inp('session', s, 'drivers.2', 's', 'Driver 3')), col(4, inp('session', s, 'drivers.3', 's', 'Driver 4'))]) +
+      '<p class="hint">One driver: fill Driver 1 only. Shared car: list everyone, and each run picks who is driving.</p>' +
+      '<p class="lb" style="margin-top:10px">Drive time rules (optional, leave empty if your series has none)</p>' +
+      row([col(4, fld('Race length', inp('session', s, 'raceLen', 'n'), 'min')), col(4, fld('Min drive per driver', inp('session', s, 'minDrive', 'n'), 'min')), col(4, fld('Max drive per driver', inp('session', s, 'maxDrive', 'n'), 'min')), col(4, fld('Max stint', inp('session', s, 'maxStint', 'n'), 'min'))]) +
+      fld('Notes', inp('session', s, 'notes', 'ta')));
+    h += '<div id="drvWrap">' + drvWrapHtml(s) + '</div>';
+    var t = '<div class="bar"><h3 class="fl">Runs</h3><div class="fr">' + btn('+ New run', 'newRun', null, 'pri') + '</div></div>';
+    if (!rs.length) t += '<p class="sub">No runs yet. Tap <b>+ New run</b> before the car goes out.</p>';
+    else {
+      t += '<div class="tblw"><table><tr><th>Run</th><th>Status</th><th>Driver</th><th>Tyre set</th><th>Out</th><th>In</th><th class="n">Laps</th><th class="n">Best</th><th class="n">Fuel/lap</th><th class="n">Flags</th></tr>';
+      for (var i = 0; i < rs.length; i++) {
+        var r = rs[i], c = calc(r), hi = 0;
+        for (var k = 0; k < c.warn.length; k++) if (c.warn[k].l !== 'info') hi++;
+        t += '<tr class="tap" data-act="openRun" data-arg="' + r.id + '"><td><b>' + r.no + '</b></td><td>' + statusPill(r) + '</td><td>' + esc(drvOf(r, s) || '-') + '</td><td>' + esc(r.tyreSet || '-') + '</td><td>' + (hms(r.timeOut) || '-') +
+          '</td><td>' + (hms(r.timeIn) || '-') + '</td><td class="n">' + (isNum(c.laps) ? c.laps : '-') + '</td><td class="n">' + lapFmt(c.best) + '</td><td class="n">' + F(c.fpl) +
+          '</td><td class="n">' + (hi ? '<span class="bad"><b>' + hi + '</b></span>' : (c.warn.length ? c.warn.length : '-')) + '</td></tr>';
+      }
+      t += '</table></div>';
+    }
+    h += card('', t);
+    h += '<div>' + btn('Analysis for this session', 'anSession', s.id) + btn('Add another car to this session', 'copySession', null) + btn('Delete session', 'delSession', null, 'dng') + '</div>';
+    return h;
+  }
+  function vRun() {
+    var run = curRun(), s = findSession(run.sessionId), rs = runsOf(run.sessionId), idx = 0, h = '';
+    S.sessionId = run.sessionId;
+    for (var i = 0; i < rs.length; i++) if (rs[i].id === run.id) idx = i;
+    h += '<div class="bar"><div class="fl">' + btn('‹ ' + esc(sessName(s)), 'openSession', s.id, 'sm') + '</div><div class="fr">' +
+      (idx > 0 ? btn('‹ Run ' + rs[idx - 1].no, 'openRun', rs[idx - 1].id, 'sm') : '') +
+      (idx < rs.length - 1 ? btn('Run ' + rs[idx + 1].no + ' ›', 'openRun', rs[idx + 1].id, 'sm') : '') + '</div></div>';
+    var tabs = [['before', 'Before (cold)'], ['after', 'After (hot)'], ['results', 'Results']], seg = '<div class="seg">';
+    for (i = 0; i < tabs.length; i++) seg += '<button type="button" class="' + (S.runTab === tabs[i][0] ? 'on' : '') + '" data-act="runTab" data-arg="' + tabs[i][0] + '">' + tabs[i][1] + '</button>';
+    seg += '</div>';
+    h += '<div class="cf"><h2 class="fl" style="margin-right:14px">' + (s.carNo ? '<span style="color:#ff6a13">#' + esc(s.carNo) + '</span> ' : '') + 'Run ' + run.no + ' ' + statusPill(run) + (drvOf(run, s) ? ' <span class="sub" style="font-size:16px">' + esc(drvOf(run, s)) + '</span>' : '') + '</h2>' + seg + '</div>';
+    if (S.runTab === 'after') h += vAfter(run);
+    else if (S.runTab === 'results') h += vResults(run);
+    else h += vBefore(run);
+    return h;
+  }
+  function vBefore(run) {
+    var h = '', prev = prevRunOf(run);
+    if (run.prefill) h += '<div class="warn w-info">Copied from Run ' + run.prefill.from + ': ' + esc(run.prefill.f.join(', ')) + '. Check these before the car goes out. ' + btn('Checked', 'dismissPrefill', null, 'sm') + '</div>';
+    var lu = lineup(findSession(run.sessionId)), dOpts = [''].concat(lu);
+    if (run.driver && dOpts.indexOf(run.driver) < 0) dOpts.push(run.driver);
+    h += card('Run info',
+      (lu.length > 1 || (run.driver && lu.indexOf(run.driver) < 0) ? row([col(3, fld('Driver this stint', sel('run', run, 'driver', dOpts))), col(3, ''), col(3, '')]) : '') +
+      row([col(3, fld('Tyre set ID', inp('run', run, 'tyreSet', 's', 'e.g. S4'))), col(3, fld('Compound', inp('run', run, 'compound', 's'))), col(3, fld('Weather', sel('run', run, 'weather', WEATHER)))]) +
+      row([col(3, fld('Ambient temp', inp('run', run, 'ambient', 't'), tl())), col(3, fld('Track temp', inp('run', run, 'trackT', 't'), tl())), col(3, stampFld('Time out', run, 'timeOut'))]));
+    var recBtn = '';
+    if (prev) {
+      var pr = calc(prev), has = false;
+      for (var i = 0; i < C4.length; i++) if (isNum(pr.rec[C4[i]])) has = true;
+      if (has) recBtn = btn('Use Run ' + prev.no + ' recommended cold pressures', 'useRec', prev.id, 'sm');
+    }
+    h += card('Cold pressures <span class="sub">(' + pu().l + ')</span>', carGrid(function (c) { return inp('run', run, 'b.p.' + c, 'p'); }) + '<div style="margin-top:8px">' + recBtn + '</div>');
+    h += card('Tread depth before <span class="sub">(mm)</span>', carGrid(function (c) { return inp('run', run, 'b.tread.' + c, 'n'); }));
+    h += card('Fuel and ride height', row([col(3, fld('Fuel in car', inp('run', run, 'b.fuel', 'f'), fu().l)), col(3, fld('Ride height front', inp('run', run, 'b.rhF', 'n'), 'mm')), col(3, fld('Ride height rear', inp('run', run, 'b.rhR', 'n'), 'mm'))]));
+    var cl = checkItems();
+    if (cl.length) {
+      var ck = '', done = 0;
+      for (var ci = 0; ci < cl.length; ci++) { ck += chk('run', run, 'check.' + ci, cl[ci]); if (run.check && run.check[ci]) done++; }
+      h += card('Pre-run checklist <span class="sub">(' + done + ' of ' + cl.length + ' ticked when this screen opened)</span>', ck);
+    }
+    h += card('Setup changes for this run', inp('run', run, 'setup', 'ta', 'e.g. +1 click rear rebound, front wing +0.5'));
+    h += '<div>' + btn('Car is back: go to After', 'runTab', 'after', 'pri') + '</div>';
+    return h;
+  }
+  function tyreCell(run, c) {
+    var left = c === 'FL' || c === 'RL', order = left ? ['o', 'm', 'i'] : ['i', 'm', 'o'], nm = { o: 'Outer', m: 'Middle', i: 'Inner' }, h = '<div class="row tt">';
+    for (var i = 0; i < 3; i++) h += '<div class="col c3"><div class="mini">' + nm[order[i]] + '</div>' + inp('run', run, 'a.t.' + c + '.' + order[i], 't') + '</div>';
+    return h + '</div><div class="live" id="lv-t-' + c + '"></div>';
+  }
+  function vAfter(run) {
+    var h = '';
+    h += card('Back in',
+      row([col(3, stampFld('Time in', run, 'timeIn')), col(3, fld('Laps completed', inp('run', run, 'a.laps', 'n'))), col(3, '<div class="live" id="lv-stint" style="padding-top:22px">' + stintLine(run, Date.now()) + '</div>')]) +
+      fld('Lap times', inp('run', run, 'a.lapTimes', 'ta', 'One per line or separated by spaces, e.g. 1:32.456 1:31.980'), 'm:ss.sss') + '<div class="live" id="lv-laps"></div>');
+    h += card('Hot pressures <span class="sub">(' + pu().l + ')</span>', carGrid(function (c) { return inp('run', run, 'a.p.' + c, 'p') + '<div class="live" id="lv-b-' + c + '"></div>'; }));
+    h += card('Tyre temps <span class="sub">(' + tl() + ', laid out as you look at the car from above)</span>', carGrid(function (c) { return tyreCell(run, c); }));
+    h += card('Tread depth after <span class="sub">(mm)</span>', carGrid(function (c) { return inp('run', run, 'a.tread.' + c, 'n'); }));
+    h += card('Brake temps <span class="sub">(optional, ' + tl() + ')</span>', carGrid(function (c) { return inp('run', run, 'a.brake.' + c, 't'); }));
+    h += card('Fuel and engine', row([col(3, fld('Fuel left in car', inp('run', run, 'a.fuel', 'f'), fu().l)), col(3, fld('Oil temp', inp('run', run, 'a.oil', 't'), tl())), col(3, fld('Water temp', inp('run', run, 'a.water', 't'), tl()))]));
+    h += card('Driver feedback', row([col(3, fld('Corner entry', sel('run', run, 'a.fbE', FEEL))), col(3, fld('Mid corner', sel('run', run, 'a.fbM', FEEL))), col(3, fld('Corner exit', sel('run', run, 'a.fbX', FEEL)))]) +
+      fld('Notes', inp('run', run, 'a.notes', 'ta', 'What the driver said, issues, ideas')));
+    h += card('Pit stop', row([col(3, fld('Fuel added', inp('run', run, 'stop.fuelAdded', 'f'), fu().l)), col(3, fld('Stop time', inp('run', run, 'stop.dur', 'n'), 'seconds')), col(3, '<div style="padding-top:18px">' + chk('run', run, 'stop.tyresChanged', 'New tyres fitted') + (lineup(findSession(run.sessionId)).length > 1 ? chk('run', run, 'stop.driverChange', 'Driver change') : '') + '</div>')]) +
+      fld('Work done', inp('run', run, 'stop.work', 'ta')));
+    h += '<div>' + btn('See results', 'runTab', 'results', 'pri') + '</div>';
+    return h;
+  }
+  function updateLive() {
+    var run = curRun();
+    if (!run || S.view !== 'run' || S.runTab !== 'after') return;
+    var r = calc(run), e;
+    for (var i = 0; i < C4.length; i++) {
+      var c = C4[i], tg = target(c);
+      e = $('lv-b-' + c);
+      if (e) e.innerHTML = isNum(r.build[c]) ? 'Build ' + Pd(r.build[c]) + (isNum(tg) ? ' · target ' + P(tg) : '') : (isNum(run.b.p[c]) ? 'Cold was ' + P(run.b.p[c]) : 'No cold pressure logged');
+      e = $('lv-t-' + c);
+      var t = r.tyre[c];
+      if (e) e.innerHTML = isNum(t.avg) ? 'Avg ' + T(t.avg) + (isNum(t.spread) ? ' · In-Out ' + Td(t.spread) : '') + (isNum(t.mid) ? ' · Mid vs edges ' + Td(t.mid) : '') : '';
+    }
+    e = $('lv-laps');
+    if (e) e.innerHTML = r.lapList.length ? r.lapList.length + ' lap times read · best ' + lapFmt(r.best) + (r.badTok ? ' · <span class="bad">' + r.badTok + ' not readable</span>' : '') : (r.badTok ? '<span class="bad">Lap times not readable</span>' : '');
+  }
+  function vResults(run) {
+    var r = calc(run), s = st(), h = '', i, c;
+    h += card('Checks', warnList(r.warn));
+    var t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Cold</th><th class="n">Hot</th><th class="n">Build</th><th class="n">Target hot</th><th class="n">Rec. cold next run</th></tr>';
+    for (i = 0; i < C4.length; i++) {
+      c = C4[i];
+      t += '<tr><td><b>' + c + '</b></td><td class="n">' + P(run.b.p[c]) + '</td><td class="n">' + P(run.a.p[c]) + '</td><td class="n">' + Pd(r.build[c]) + '</td><td class="n">' + P(target(c)) + '</td><td class="n"><b>' + P(r.rec[c]) + '</b></td></tr>';
+    }
+    t += '</table></div><p class="hint">Avg build front ' + Pd(r.buildF) + ', rear ' + Pd(r.buildR) + '. Rec. cold = cold + (target hot - measured hot). It assumes similar conditions next run. If track or air temp changes a lot, also check Tools &gt; Pressure.' +
+      (!isNum(s.targetHotF) || !isNum(s.targetHotR) ? ' <b>Set target hot pressures in Data &amp; Sync to get recommendations.</b>' : '') + '</p>';
+    h += card('Pressures', t);
+    t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Inner</th><th class="n">Middle</th><th class="n">Outer</th><th class="n">Avg</th><th class="n">In - Out</th><th class="n">Mid vs edges</th><th>Reading</th></tr>';
+    for (i = 0; i < C4.length; i++) {
+      c = C4[i];
+      var tc = run.a.t[c], ty = r.tyre[c];
+      t += '<tr><td><b>' + c + '</b></td><td class="n">' + T(tc.i) + '</td><td class="n">' + T(tc.m) + '</td><td class="n">' + T(tc.o) + '</td><td class="n"><b>' + T(ty.avg) + '</b></td><td class="n">' + Td(ty.spread) + '</td><td class="n">' + Td(ty.mid) + '</td><td>' + esc(reading(c, r)) + '</td></tr>';
+    }
+    t += '</table></div>' + '<div style="margin-top:10px">' + stat('Front avg', T(r.tempF)) + stat('Rear avg', T(r.tempR)) + stat('Front - rear', Td(sub(r.tempF, r.tempR))) + stat('Left avg', T(r.tempL)) + stat('Right avg', T(r.tempRt)) + stat('Left - right', Td(sub(r.tempL, r.tempRt))) + '</div>' +
+      '<p class="hint">Readings are hints from your thresholds in Data &amp; Sync, not rules. Middle hotter than edges usually points to high pressure, edges hotter to low pressure.</p>';
+    h += card('Tyre temps', t);
+    t = stat('Laps', isNum(r.laps) ? r.laps : '-') + stat('Time on track', dur(r.trackMs)) + stat('Best lap', lapFmt(r.best)) + stat('Clean lap avg', lapFmt(r.cleanAvg) + (r.cleanN ? ' <span class="sub">(' + r.cleanN + ')</span>' : '')) +
+      stat('Consistency (std dev)', isNum(r.sd) ? fx(r.sd, 3) + ' s' : '-') + stat('Slowest lap', lapFmt(r.worst)) +
+      '<br>' + stat('Fuel used', F(r.fuelUsed)) + stat('Fuel per lap', F(r.fpl)) + stat('Fuel for next run', F(r.nextFuel)) + stat('Laps on that fuel', fx(r.lapsOnNext, 1)) + stat('Next run fuel weight', isNum(r.nextFuel) && isNum(s.density) ? fx(r.nextFuel * s.density, 1) + ' kg' : '-');
+    if (r.lapList.length) {
+      t += '<div class="tblw"><table><tr><th>Lap</th><th class="n">Time</th><th class="n">To best</th><th>Clean?</th></tr>';
+      for (i = 0; i < r.lapList.length; i++) {
+        var lt = r.lapList[i];
+        t += '<tr><td>' + (i + 1) + '</td><td class="n"' + (lt === r.best ? ' style="font-weight:bold;color:#2e7d32"' : '') + '>' + lapFmt(lt) + '</td><td class="n">' + (lt === r.best ? 'best' : '+' + fx(lt - r.best, 3)) + '</td><td>' + (lt <= r.cleanLim ? 'yes' : '<span class="sub">no (out of ' + s.cleanPct + '%)</span>') + '</td></tr>';
+      }
+      t += '</table></div>';
+    }
+    h += card('Laps and fuel', t);
+    t = '<div class="tblw"><table><tr><th>Corner</th><th class="n">Before</th><th class="n">After</th><th class="n">Wear</th><th class="n">Per lap</th><th class="n">Laps to min</th></tr>';
+    for (i = 0; i < C4.length; i++) {
+      c = C4[i];
+      t += '<tr><td><b>' + c + '</b></td><td class="n">' + fx(run.b.tread[c], 2) + '</td><td class="n">' + fx(run.a.tread[c], 2) + '</td><td class="n">' + fx(r.wear[c], 2) + '</td><td class="n">' + fx(r.wpl[c], 3) + '</td><td class="n">' + fx(r.ltm[c], 0) + '</td></tr>';
+    }
+    t += '</table></div><p class="hint">Tread in mm.' + (isNum(s.minTread) ? '' : ' Set a minimum tread in Data &amp; Sync to see laps to minimum.') + '</p>';
+    h += card('Tyre wear', t);
+    var last = runsOf(run.sessionId);
+    last = last[last.length - 1];
+    h += '<div>' + (last.id === run.id ? btn('Start Run ' + (run.no + 1), 'newRun', null, 'pri') : '') + btn('Delete this run', 'delRun', null, 'dng') + '</div>';
+    h += '<p class="hint">Created ' + dateTime(run.created) + ' · last changed ' + dateTime(run.modified) + '</p>';
+    return h;
+  }
+
+  /* ---------- drivers and drive time ---------- */
+  function lineup(s) {
+    var out = [];
+    if (!s || !isArr(s.drivers)) return out;
+    for (var i = 0; i < s.drivers.length; i++) { var n = String(s.drivers[i] || '').trim(); if (n && out.indexOf(n) < 0) out.push(n); }
+    return out;
+  }
+  function drvOf(run, s) { return String(run.driver || '').trim() || lineup(s)[0] || ''; }
+  function hasRules(s) { return isNum(s.minDrive) || isNum(s.maxDrive) || isNum(s.maxStint) || isNum(s.raceLen); }
+  function showDrivers(s) { return lineup(s).length > 1 || hasRules(s); }
+  function mins(ms) { return isNum(ms) ? dur(ms) : '-'; }
+  function warnMs() { return (isNum(st().ruleWarn) ? st().ruleWarn : 5) * 60000; }
+  function driveStats(s, now) {
+    var rs = runsOf(s.id), map = {}, order = [], warn = [], i, raceStart = null, lu = lineup(s), wm = warnMs();
+    var maxStint = isNum(s.maxStint) ? s.maxStint * 60000 : null, minD = isNum(s.minDrive) ? s.minDrive * 60000 : null, maxD = isNum(s.maxDrive) ? s.maxDrive * 60000 : null;
+    function get(n) { if (!map[n]) { map[n] = { name: n, stints: 0, ms: 0, liveMs: 0, live: false, laps: 0, lapList: [], fpl: [] }; order.push(n); } return map[n]; }
+    for (i = 0; i < lu.length; i++) get(lu[i]);
+    for (i = 0; i < rs.length; i++) {
+      var r = rs[i], n = drvOf(r, s) || '(no driver set)', d = get(n), c = calc(r);
+      if (r.timeOut && (raceStart === null || r.timeOut < raceStart)) raceStart = r.timeOut;
+      if (r.timeOut && r.timeIn) {
+        var ms = r.timeIn - r.timeOut;
+        d.ms += ms; d.stints++;
+        if (maxStint && ms > maxStint) warn.push({ l: 'high', m: n + ': Run ' + r.no + ' stint was ' + mins(ms) + ', over the max stint of ' + s.maxStint + ' min.' });
+      } else if (r.timeOut) {
+        var lm = Math.max(0, now - r.timeOut);
+        d.liveMs += lm; d.live = true; d.stints++;
+        if (maxStint) {
+          if (lm > maxStint) warn.push({ l: 'high', m: n + ' is over the max stint right now (' + mins(lm) + ' of ' + s.maxStint + ' min). Bring the car in.' });
+          else if (maxStint - lm <= wm) warn.push({ l: 'med', m: n + ' has ' + mins(maxStint - lm) + ' left in this stint (max ' + s.maxStint + ' min).' });
+        }
+      }
+      if (isNum(c.laps)) d.laps += c.laps;
+      d.lapList = d.lapList.concat(c.lapList);
+      if (isNum(c.fpl)) d.fpl.push(c.fpl);
+    }
+    var short = 0, rows = [];
+    for (i = 0; i < order.length; i++) {
+      var x = map[order[i]], tot = x.ms + x.liveMs, row_ = { name: x.name, stints: x.stints, total: tot, live: x.live, laps: x.laps, best: null, clean: null, fpl: avg(x.fpl), toMin: null, toMax: null };
+      if (x.lapList.length) {
+        row_.best = Math.min.apply(null, x.lapList);
+        var lim = row_.best * (1 + (isNum(st().cleanPct) ? st().cleanPct - 100 : 5) / 100), cl = [];
+        for (var j = 0; j < x.lapList.length; j++) if (x.lapList[j] <= lim) cl.push(x.lapList[j]);
+        row_.clean = avg(cl);
+      }
+      if (minD !== null) { row_.toMin = Math.max(0, minD - tot); if (lu.indexOf(x.name) >= 0) short += row_.toMin; }
+      if (maxD !== null) {
+        row_.toMax = maxD - tot;
+        if (tot > maxD) warn.push({ l: 'high', m: x.name + ' is over the max drive time (' + mins(tot) + ' of ' + s.maxDrive + ' min).' });
+        else if (x.live && maxD - tot <= wm) warn.push({ l: 'med', m: x.name + ' has ' + mins(maxD - tot) + ' of drive time left (max ' + s.maxDrive + ' min).' });
+      }
+      rows.push(row_);
+    }
+    var remaining = null;
+    if (isNum(s.raceLen) && raceStart) {
+      remaining = Math.max(0, s.raceLen * 60000 - (now - raceStart));
+      if (minD !== null && remaining > 0 && short > remaining)
+        warn.push({ l: 'high', m: 'Drivers still need ' + mins(short) + ' in total to reach the minimum drive time, but only ' + mins(remaining) + ' of race is left.' });
+    }
+    return { rows: rows, warn: warn, remaining: remaining, raceStart: raceStart, short: short, minD: minD, maxD: maxD };
+  }
+  function driverCard(s, now) {
+    var d = driveStats(s, now), h = '<h3>Drivers and drive time <span class="sub">as of ' + hms(now) + '</span> ' + btn('Refresh', 'refreshDrv', null, 'sm') + '</h3>';
+    if (hasRules(s) || d.warn.length) h += warnList(d.warn);
+    if (d.remaining !== null) h += '<p><b>Race time left: ' + mins(d.remaining) + '</b> <span class="sub">(race clock starts at the first Time out, ' + hms(d.raceStart) + ')</span></p>';
+    h += '<div class="tblw"><table><tr><th>Driver</th><th class="n">Stints</th><th class="n">Drive time</th><th class="n">Laps</th><th class="n">Best</th><th class="n">Clean avg</th><th class="n">Fuel/lap</th>' +
+      (d.minD !== null ? '<th class="n">Still needs (min rule)</th>' : '') + (d.maxD !== null ? '<th class="n">Left (max rule)</th>' : '') + '</tr>';
+    for (var i = 0; i < d.rows.length; i++) {
+      var r = d.rows[i];
+      h += '<tr><td><b>' + esc(r.name) + '</b>' + (r.live ? ' <span class="pill p-out">driving</span>' : '') + '</td><td class="n">' + r.stints + '</td><td class="n">' + mins(r.total) + '</td><td class="n">' + r.laps +
+        '</td><td class="n">' + lapFmt(r.best) + '</td><td class="n">' + lapFmt(r.clean) + '</td><td class="n">' + F(r.fpl) + '</td>' +
+        (d.minD !== null ? '<td class="n">' + (r.toMin > 0 ? '<span class="bad"><b>' + mins(r.toMin) + '</b></span>' : '<span class="good">done</span>') + '</td>' : '') +
+        (d.maxD !== null ? '<td class="n">' + (r.toMax < 0 ? '<span class="bad"><b>over by ' + mins(-r.toMax) + '</b></span>' : mins(r.toMax)) + '</td>' : '') + '</tr>';
+    }
+    h += '</table></div><p class="hint">Drive time counts from Time out to Time in as logged here, so tap Now at the right moments. Check how your series measures it (pit exit, timing line) and allow a margin. Numbers update every 15 seconds while a car is out.</p>';
+    return h;
+  }
+  function drvWrapHtml(s) { return showDrivers(s) ? '<div class="card" id="drvBox">' + driverCard(s, Date.now()) + '</div>' : ''; }
+  function stintLine(run, now) {
+    if (!run.timeOut) return '';
+    var s = findSession(run.sessionId), ms = (run.timeIn || now) - run.timeOut, t = (run.timeIn ? 'Stint: ' : 'Stint so far: ') + mins(ms);
+    if (s && isNum(s.maxStint)) {
+      var left = s.maxStint * 60000 - ms;
+      t += ' of max ' + s.maxStint + ' min';
+      if (left < 0) return '<span class="bad"><b>' + t + ' (OVER)</b></span>';
+      if (!run.timeIn && left <= warnMs()) return '<span class="bad"><b>' + t + ', ' + mins(left) + ' left</b></span>';
+    }
+    return t;
+  }
+  var drvTimer = null;
+  function startDrvTick() {
+    if (drvTimer) { clearInterval(drvTimer); drvTimer = null; }
+    var s = S.view === 'session' ? curSession() : (S.view === 'run' && curRun() ? findSession(curRun().sessionId) : null);
+    if (!s) return;
+    var rs = runsOf(s.id), live = false;
+    for (var i = 0; i < rs.length; i++) if (isOut(rs[i])) live = true;
+    if (!live) return;
+    lastWarnN = driveStats(s, Date.now()).warn.length;
+    drvTimer = setInterval(function () {
+      var nw = driveStats(s, Date.now()).warn.length;
+      if (nw > lastWarnN && st().buzz) buzz();
+      lastWarnN = nw;
+      var e = $('drvBox'), ss = curSession();
+      if (e && ss && S.view === 'session') e.innerHTML = driverCard(ss, Date.now());
+      var e2 = $('lv-stint'), run = curRun();
+      if (e2 && run && S.view === 'run') e2.innerHTML = stintLine(run, Date.now());
+    }, 15000);
+  }
+
+  /* ---------- race strategy scenarios ---------- */
+  function stratInputs() {
+    var t = S.t.strat;
+    return {
+      mode: t.mode === 'time' ? 'time' : 'laps', raceLaps: t.raceLaps, raceMin: t.raceMin, lapTime: t.lapTime, fpl: t.fpl,
+      tank: isNum(t.tank) ? t.tank : st().tank, startFuel: t.startFuel, reserve: t.reserve, refuel: t.refuel, pitLoss: t.pitLoss,
+      tyreTime: t.tyreTime, tyreLife: t.tyreLife, concurrent: !!t.concurrent, minStat: t.minStat, maxStint: t.maxStint, minStops: t.minStops
+    };
+  }
+  function stratPlan(I, L, n) {
+    var fpl = I.fpl, lt = I.lapTime, tank = isNum(I.tank) && I.tank > 0 ? I.tank : null;
+    var start = isNum(I.startFuel) && I.startFuel > 0 ? I.startFuel : tank;
+    var reserveL = (isNum(I.reserve) && I.reserve > 0 ? I.reserve : 0) * fpl;
+    var refuel = isNum(I.refuel) && I.refuel > 0 ? I.refuel : 0;
+    var pitLoss = isNum(I.pitLoss) ? I.pitLoss : 0, tyreT = isNum(I.tyreTime) ? I.tyreTime : 0;
+    var life = isNum(I.tyreLife) && I.tyreLife > 0 ? I.tyreLife : null, minStat = isNum(I.minStat) ? I.minStat : 0;
+    var maxStintLaps = isNum(I.maxStint) && I.maxStint > 0 ? Math.floor(I.maxStint * 60 / lt) : null;
+    var p = { n: n, laps: L, stints: [], stops: [], pit: 0, ok: true, why: [], tyreChanges: 0, fuelAdded: 0, startNeed: null, time: null };
+    function fail(m) { p.ok = false; if (p.why.indexOf(m) < 0) p.why.push(m); }
+    if (L < n + 1) { fail('More stops than laps'); return p; }
+    var base = Math.floor(L / (n + 1)), rem = L % (n + 1), k;
+    for (k = 0; k <= n; k++) p.stints.push(base + (k < rem ? 1 : 0));
+    p.startNeed = p.stints[0] * fpl + reserveL;
+    var fuel = start, setLaps = 0, lapsSoFar = 0;
+    for (k = 0; k <= n; k++) {
+      var sl = p.stints[k];
+      if (k === 0 && p.startNeed > start + 1e-9) fail('First stint needs ' + F(p.startNeed) + ' but the car starts with ' + F(start));
+      if (tank && sl * fpl + reserveL > tank + 1e-9) fail('A ' + sl + '-lap stint needs more fuel than the tank holds');
+      if (maxStintLaps !== null && sl > maxStintLaps) fail('Stints are longer than the max stint (about ' + maxStintLaps + ' laps)');
+      if (life && sl > life) fail('Stints are longer than tyre life (' + life + ' laps)');
+      fuel -= sl * fpl; setLaps += sl; lapsSoFar += sl;
+      if (k < n) {
+        var next = p.stints[k + 1], needNext = next * fpl + reserveL, add = 0;
+        if (fuel < needNext - 1e-9) {
+          if (!refuel) fail('No refuelling, and the fuel runs out');
+          else { add = needNext - fuel; if (tank && fuel + add > tank) add = tank - fuel; }
+        }
+        var tyres = life ? setLaps + next > life : false;
+        if (tyres) { p.tyreChanges++; setLaps = 0; }
+        var fT = refuel ? add / refuel : 0, tT = tyres ? tyreT : 0;
+        var stat = I.concurrent ? Math.max(fT, tT) : fT + tT;
+        stat = Math.max(stat, minStat);
+        var tot = pitLoss + stat;
+        p.stops.push({ lap: lapsSoFar, add: add, tyres: tyres, stat: stat, total: tot });
+        p.pit += tot; p.fuelAdded += add; fuel += add;
+      }
+    }
+    p.time = L * lt + p.pit;
+    return p;
+  }
+  function stratCalc(I) {
+    var out = { err: '', rows: [], best: null };
+    if (!isNum(I.lapTime) || I.lapTime <= 0) { out.err = 'Enter the average lap time.'; return out; }
+    if (!isNum(I.fpl) || I.fpl <= 0) { out.err = 'Enter fuel per lap.'; return out; }
+    var timeMode = I.mode === 'time';
+    if (timeMode ? !(I.raceMin > 0) : !(I.raceLaps > 0)) { out.err = 'Enter the race length.'; return out; }
+    if (!(isNum(I.tank) && I.tank > 0) && !(isNum(I.startFuel) && I.startFuel > 0)) { out.err = 'Enter tank capacity or starting fuel.'; return out; }
+    var n0 = isNum(I.minStops) && I.minStops > 0 ? Math.floor(I.minStops) : 0;
+    for (var n = n0; n <= n0 + 5; n++) {
+      var p;
+      if (timeMode) {
+        var raceSec = I.raceMin * 60, L = Math.floor(raceSec / I.lapTime) + 1;
+        for (var it = 0; it < 4; it++) {
+          p = stratPlan(I, L, n);
+          var L2 = Math.max(1, Math.floor((raceSec - p.pit) / I.lapTime) + 1);
+          if (L2 === L) break;
+          L = L2;
+        }
+        p = stratPlan(I, L, n);
+      } else p = stratPlan(I, Math.floor(I.raceLaps), n);
+      out.rows.push(p);
+    }
+    for (var i = 0; i < out.rows.length; i++) {
+      var r = out.rows[i];
+      if (!r.ok) continue;
+      if (!out.best) { out.best = r; continue; }
+      if (timeMode ? (r.laps > out.best.laps || (r.laps === out.best.laps && r.pit < out.best.pit)) : r.time < out.best.time) out.best = r;
+    }
+    return out;
+  }
+  function stratForm() {
+    var t = S.t.strat, time = t.mode === 'time', sid = S.sessionId && findSession(S.sessionId) ? S.sessionId : null;
+    return '<p class="hint" style="margin-top:0">Plan the race: how many stops, how long each stint, how much fuel to add. It tries several stop counts and shows which ones work.</p>' +
+      (sid ? btn('Fill from current session (' + esc(sessName(findSession(sid))) + ')', 'stratFill', null, 'sm') : '') +
+      row([col(4, fld('Race length in', sel('ui', S, 't.strat.mode', [{ v: 'laps', l: 'Laps' }, { v: 'time', l: 'Time' }]))),
+        col(4, time ? fld('Race length', inp('ui', S, 't.strat.raceMin', 'n'), 'min') : fld('Race length', inp('ui', S, 't.strat.raceLaps', 'n'), 'laps')),
+        col(4, fld('Average lap time', inp('ui', S, 't.strat.lapTime', 'lap', '2:00.500'), 'm:ss.s')), col(4, fld('Fuel per lap', inp('ui', S, 't.strat.fpl', 'f'), fu().l))]) +
+      row([col(4, fld('Tank capacity', inp('ui', S, 't.strat.tank', 'f', isNum(st().tank) ? trim0(toShow('f', st().tank), 2) : ''), fu().l)), col(4, fld('Fuel at the start', inp('ui', S, 't.strat.startFuel', 'f', 'full tank'), fu().l)),
+        col(4, fld('Reserve to keep', inp('ui', S, 't.strat.reserve', 'n', '0'), 'laps of fuel')), col(4, fld('Refuel speed', inp('ui', S, 't.strat.refuel', 'f', 'empty = no refuelling'), fu().l + ' per second'))]) +
+      row([col(4, fld('Pit lane time loss', inp('ui', S, 't.strat.pitLoss', 'n'), 'seconds')), col(4, fld('Tyre change time', inp('ui', S, 't.strat.tyreTime', 'n'), 'seconds')),
+        col(4, fld('Tyre life', inp('ui', S, 't.strat.tyreLife', 'n', 'empty = no limit'), 'laps')), col(4, '<div style="padding-top:18px">' + chk('ui', S, 't.strat.concurrent', 'Fuel and tyres at the same time') + '</div>')]) +
+      row([col(4, fld('Min stops (rule)', inp('ui', S, 't.strat.minStops', 'n', '0'))), col(4, fld('Max stint (rule)', inp('ui', S, 't.strat.maxStint', 'n'), 'min')),
+        col(4, fld('Min stop time (rule)', inp('ui', S, 't.strat.minStat', 'n'), 'seconds stationary')), col(4, '')]);
+  }
+  function stratOut() {
+    var I = stratInputs(), res = stratCalc(I), time = I.mode === 'time', h = '', i;
+    if (res.err) return card('Scenarios', '<p class="sub">' + esc(res.err) + '</p>');
+    var pickN = isNum(S.t.strat.pick) ? S.t.strat.pick : (res.best ? res.best.n : null), pick = null;
+    h += '<div class="tblw"><table><tr><th>Stops</th><th>Works?</th><th>Laps per stint</th><th class="n">Fuel added</th><th class="n">Tyre changes</th><th class="n">Time in pits</th><th class="n">' + (time ? 'Laps done' : 'Race time') + '</th></tr>';
+    for (i = 0; i < res.rows.length; i++) {
+      var r = res.rows[i], isBest = res.best && r.n === res.best.n;
+      if (r.n === pickN) pick = r;
+      h += '<tr class="tap" data-act="stratPick" data-arg="' + r.n + '"' + (r.n === pickN ? ' style="background:rgba(255,106,19,0.12)"' : '') + '><td><b>' + r.n + '</b>' + (isBest ? ' <span class="pill p-done">best</span>' : '') + '</td><td style="white-space:normal;min-width:130px">' + (r.ok ? '<span class="good"><b>yes</b></span>' : '<span class="bad">' + esc(r.why[0] || 'no') + '</span>') + '</td><td>' + (r.stints.length ? r.stints.join(' / ') : '-') +
+        '</td><td class="n">' + F(r.fuelAdded) + '</td><td class="n">' + r.tyreChanges + '</td><td class="n">' + mins(r.pit * 1000) + '</td><td class="n">' + (time ? r.laps : mins(r.time * 1000)) + '</td></tr>';
+    }
+    h += '</table></div>';
+    if (!res.best) h += '<div class="warn w-high">None of these stop counts work with these numbers. Check the reasons above.</div>';
+    if (pick) {
+      h += '<h3 style="margin-top:12px">Plan with ' + pick.n + ' stop' + (pick.n === 1 ? '' : 's') + '</h3>';
+      if (!pick.ok) h += warnList(pick.why.map(function (m) { return { l: 'high', m: m }; }));
+      h += '<p>Start with at least <b>' + F(pick.startNeed) + '</b> for the first ' + pick.stints[0] + ' laps.</p>';
+      if (pick.stops.length) {
+        h += '<div class="tblw"><table><tr><th>Stop</th><th class="n">Pit at end of lap</th><th class="n">Add fuel</th><th>Tyres</th><th class="n">Stationary</th><th class="n">Total stop</th></tr>';
+        for (i = 0; i < pick.stops.length; i++) {
+          var sp = pick.stops[i];
+          h += '<tr><td>' + (i + 1) + '</td><td class="n">' + sp.lap + '</td><td class="n">' + F(sp.add) + '</td><td>' + (sp.tyres ? 'change' : '-') + '</td><td class="n">' + fx(sp.stat, 1) + ' s</td><td class="n">' + fx(sp.total, 1) + ' s</td></tr>';
+        }
+        h += '</table></div>';
+      }
+    }
+    h += '<p class="hint">Tap a row to see its stop-by-stop plan. Stints are split as evenly as possible. Lap time is treated as constant, so traffic, safety cars and fuel weight are not included. Use it to compare options, then adjust on the day.' +
+      (time ? ' In a timed race, laps done includes the lap you are on when time runs out.' : '') + '</p>';
+    return card('Scenarios', h);
+  }
+  function stratFill() {
+    var s = findSession(S.sessionId);
+    if (!s) return;
+    var t = S.t.strat, rs = runsOf(s.id), cl = [], i, filled = [];
+    for (i = 0; i < rs.length; i++) { var c = calc(rs[i]); if (isNum(c.cleanAvg)) cl.push(c.cleanAvg); }
+    if (cl.length) { t.lapTime = round(avg(cl), 3); filled.push('lap time ' + lapFmt(t.lapTime) + ' (average of ' + cl.length + ' runs)'); }
+    var sf = sessFpl(s.id, null);
+    if (sf.n) { t.fpl = round(sf.avg, 4); filled.push('fuel per lap ' + F(sf.avg)); }
+    if (isNum(s.raceLen)) { t.mode = 'time'; t.raceMin = s.raceLen; filled.push('race length ' + s.raceLen + ' min'); }
+    if (isNum(s.maxStint)) { t.maxStint = s.maxStint; filled.push('max stint ' + s.maxStint + ' min'); }
+    if (isNum(st().tank) && !isNum(t.tank)) { t.tank = st().tank; filled.push('tank ' + F(st().tank)); }
+    t.pick = null;
+    saveUI(); render();
+    alert(filled.length ? 'Filled in: ' + filled.join(', ') + '. Check them before you trust the plan.' : 'This session has no finished runs with lap times or fuel yet.');
+  }
+
+  /* ---------- device extras (only where the browser supports them) ---------- */
+  var wakeSentinel = null, installPrompt = null, lastWarnN = 0;
+  function canWake() { return !!(window.navigator && navigator.wakeLock && navigator.wakeLock.request); }
+  function applyWake() {
+    if (!canWake()) return;
+    if (st().keepAwake && !wakeSentinel && (!document.visibilityState || document.visibilityState === 'visible')) {
+      try {
+        navigator.wakeLock.request('screen').then(function (sn) {
+          wakeSentinel = sn;
+          sn.addEventListener('release', function () { wakeSentinel = null; });
+        })['catch'](function () { wakeSentinel = null; });
+      } catch (e) { wakeSentinel = null; }
+    } else if (!st().keepAwake && wakeSentinel) {
+      try { wakeSentinel.release(); } catch (e2) { /* ignore */ }
+      wakeSentinel = null;
+    }
+  }
+  function buzz() { try { if (navigator.vibrate) navigator.vibrate([300, 150, 300]); } catch (e) { /* ignore */ } }
+  function canSaveFile() { var a = document.createElement('a'); return typeof a.download !== 'undefined' && !!window.Blob && !!window.URL && !!window.URL.createObjectURL; }
+  function canShareFile() {
+    try { return !!(navigator.canShare && window.File && navigator.canShare({ files: [new window.File(['x'], 'x.json', { type: 'application/json' })] })); } catch (e) { return false; }
+  }
+  function saveFile(name, text, type) {
+    var blob = new window.Blob([text], { type: type }), url = window.URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 1500);
+  }
+  function shareFile(name, text, type) {
+    try { navigator.share({ files: [new window.File([text], name, { type: type })], title: name })['catch'](function () { /* cancelled */ }); }
+    catch (e) { alert('Sharing is not available here. Use Save instead.'); }
+  }
+  function fileStamp() { var d = new Date(); return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '-' + pad(d.getHours()) + pad(d.getMinutes()); }
+  function payload() {
+    var calcs = {};
+    for (var i = 0; i < DB.runs.length; i++) calcs[DB.runs[i].id] = summary(DB.runs[i]);
+    return { app: 'PitLog', version: VERSION, sent: Date.now(), db: DB, calc: calcs };
+  }
+  function backupFile(share) {
+    flush();
+    DB.lastBackup = Date.now(); log('Backup file ' + (share ? 'shared' : 'saved')); save();
+    var name = 'pitlog-backup-' + fileStamp() + '.json', txt = JSON.stringify(payload());
+    if (share) shareFile(name, txt, 'application/json'); else saveFile(name, txt, 'application/json');
+    render();
+  }
+  function csvFile(share) {
+    var name = 'pitlog-runs-' + fileStamp() + '.csv', txt = '﻿' + csvText();
+    if (share) shareFile(name, txt, 'text/csv'); else saveFile(name, txt, 'text/csv');
+  }
+  function openBackupFile(input) {
+    var f = input.files && input.files[0];
+    if (!f || !window.FileReader) return;
+    var rd = new window.FileReader();
+    rd.onload = function () {
+      var box = $('importBox');
+      if (box) box.value = String(rd.result || '');
+      alert('Loaded ' + f.name + ' into the Restore box. Tap "Restore" to use it.');
+    };
+    rd.readAsText(f);
+  }
+
+  /* ---------- analysis ---------- */
+  var METRICS = [
+    { k: 'best', n: 'Best lap', v: function (run, r) { return r.best; }, f: lapFmt, d: 3 },
+    { k: 'clean', n: 'Clean lap average', v: function (run, r) { return r.cleanAvg; }, f: lapFmt, d: 3 },
+    { k: 'sd', n: 'Consistency (std dev, s)', v: function (run, r) { return r.sd; }, f: function (v) { return fx(v, 3); }, d: 3 },
+    { k: 'laps', n: 'Laps', v: function (run, r) { return r.laps; }, f: function (v) { return fx(v, 0); }, d: 0 },
+    { k: 'fpl', n: 'Fuel per lap', v: function (run, r) { return toShow('f', r.fpl); }, f: function (v) { return fx(v, 3); }, d: 3 },
+    { k: 'hotF', n: 'Avg hot pressure front', v: function (run, r) { return toShow('p', r.hotF); }, f: function (v) { return fx(v, pu().dp); }, d: 2 },
+    { k: 'hotR', n: 'Avg hot pressure rear', v: function (run, r) { return toShow('p', r.hotR); }, f: function (v) { return fx(v, pu().dp); }, d: 2 },
+    { k: 'buildF', n: 'Pressure build front', v: function (run, r) { return toShow('p', r.buildF); }, f: function (v) { return fx(v, pu().dp); }, d: 2 },
+    { k: 'buildR', n: 'Pressure build rear', v: function (run, r) { return toShow('p', r.buildR); }, f: function (v) { return fx(v, pu().dp); }, d: 2 },
+    { k: 'tempF', n: 'Avg tyre temp front', v: function (run, r) { return toShow('t', r.tempF); }, f: function (v) { return fx(v, 1); }, d: 1 },
+    { k: 'tempR', n: 'Avg tyre temp rear', v: function (run, r) { return toShow('t', r.tempR); }, f: function (v) { return fx(v, 1); }, d: 1 },
+    { k: 'trackT', n: 'Track temp', v: function (run) { return toShow('t', run.trackT); }, f: function (v) { return fx(v, 1); }, d: 1 }
+  ];
+  function metric(k) { for (var i = 0; i < METRICS.length; i++) if (METRICS[i].k === k) return METRICS[i]; return METRICS[0]; }
+  function vAnalysis() {
+    var list = sortedSessions(), h = '';
+    if (!list.length) return card('Analysis', '<p class="sub">No sessions yet.</p>');
+    if (!findSession(S.an.sessionId)) S.an.sessionId = findSession(S.sessionId) ? S.sessionId : list[0].id;
+    var opts = [];
+    for (var i = 0; i < list.length; i++) opts.push({ v: list[i].id, l: (list[i].date ? list[i].date + ' · ' : '') + sessName(list[i]) });
+    h += '<div class="bar"><h2 class="fl" style="margin-right:12px">Analysis</h2><div class="fl" style="width:420px;max-width:100%;padding-top:2px">' + sel('ui', S, 'an.sessionId', opts) + '</div></div>';
+    var rs = runsOf(S.an.sessionId);
+    if (!rs.length) return h + card('', '<p class="sub">No runs in this session yet.</p>');
+    var t = '<div class="tblw"><table><tr><th>Run</th><th>Driver</th><th>Set</th><th class="n">Laps</th><th class="n">Best</th><th class="n">Clean avg</th><th class="n">Fuel/lap</th><th class="n">Hot F/R</th><th class="n">Build F/R</th><th class="n">Temp F/R</th><th class="n">Track</th></tr>', best = null, bestId = null, cs = {};
+    for (i = 0; i < rs.length; i++) { cs[rs[i].id] = calc(rs[i]); if (isNum(cs[rs[i].id].best) && (best === null || cs[rs[i].id].best < best)) { best = cs[rs[i].id].best; bestId = rs[i].id; } }
+    for (i = 0; i < rs.length; i++) {
+      var r = cs[rs[i].id], run = rs[i];
+      t += '<tr class="tap" data-act="openRunRes" data-arg="' + run.id + '"><td><b>' + run.no + '</b></td><td>' + esc(drvOf(run, findSession(run.sessionId)) || '-') + '</td><td>' + esc(run.tyreSet || '-') + '</td><td class="n">' + (isNum(r.laps) ? r.laps : '-') + '</td><td class="n"' + (run.id === bestId ? ' style="font-weight:bold;color:#2e7d32"' : '') + '>' + lapFmt(r.best) +
+        '</td><td class="n">' + lapFmt(r.cleanAvg) + '</td><td class="n">' + F(r.fpl) + '</td><td class="n">' + fx(toShow('p', r.hotF), pu().dp) + ' / ' + fx(toShow('p', r.hotR), pu().dp) +
+        '</td><td class="n">' + Pd(r.buildF) + ' / ' + Pd(r.buildR) + '</td><td class="n">' + fx(toShow('t', r.tempF), 1) + ' / ' + fx(toShow('t', r.tempR), 1) + '</td><td class="n">' + T(run.trackT) + '</td></tr>';
+    }
+    t += '</table></div>';
+    var sf = sessFpl(S.an.sessionId, null);
+    t += '<p class="hint">Session fuel per lap average: ' + F(sf.avg) + (sf.n ? ' from ' + sf.n + ' run' + (sf.n > 1 ? 's' : '') : '') + '. Tap a run to open its results.</p>';
+    h += card('Session summary', t);
+    var mo = [];
+    for (i = 0; i < METRICS.length; i++) mo.push({ v: METRICS[i].k, l: METRICS[i].n });
+    h += card('Trend by run', '<div style="width:360px;max-width:100%;margin-bottom:8px">' + sel('ui', S, 'an.metric', mo) + '</div><div><canvas id="chart" width="600" height="260"></canvas></div>');
+    var ids = [];
+    for (i = 0; i < rs.length; i++) ids.push(rs[i].id);
+    if (ids.indexOf(S.an.a) < 0) S.an.a = rs.length > 1 ? rs[rs.length - 2].id : rs[0].id;
+    if (ids.indexOf(S.an.b) < 0) S.an.b = rs[rs.length - 1].id;
+    var ro = [];
+    for (i = 0; i < rs.length; i++) ro.push({ v: rs[i].id, l: 'Run ' + rs[i].no + (rs[i].tyreSet ? ' (' + rs[i].tyreSet + ')' : '') });
+    var A = findRun(S.an.a), B = findRun(S.an.b), ca = cs[A.id], cb = cs[B.id];
+    t = row([col(2, fld('Run A', sel('ui', S, 'an.a', ro))), col(2, fld('Run B', sel('ui', S, 'an.b', ro)))]);
+    t += '<div class="tblw"><table><tr><th>Measure</th><th class="n">Run ' + A.no + '</th><th class="n">Run ' + B.no + '</th><th class="n">B - A</th></tr>';
+    for (i = 0; i < METRICS.length; i++) {
+      var m = METRICS[i], va = m.v(A, ca), vb = m.v(B, cb);
+      t += '<tr><td>' + esc(m.n) + '</td><td class="n">' + (isNum(va) ? m.f(va) : '-') + '</td><td class="n">' + (isNum(vb) ? m.f(vb) : '-') + '</td><td class="n">' + sgn(sub(vb, va), m.d) + '</td></tr>';
+    }
+    t += '</table></div>';
+    h += card('Compare two runs', t);
+    h += card('Tyre sets (all sessions)', tyreSets());
+    return h;
+  }
+  function tyreSets() {
+    var map = {}, keys = [], all = DB.runs.slice().sort(function (a, b) { return a.created - b.created; });
+    for (var i = 0; i < all.length; i++) {
+      var run = all[i], ts = (run.tyreSet || '').trim().toUpperCase(), car = ((findSession(run.sessionId) || {}).carNo || '').trim(), k = car + '|' + ts;
+      if (!ts) continue;
+      if (!map[k]) { map[k] = { name: run.tyreSet.trim(), car: car, compound: '', runs: 0, laps: 0, tread: null, last: null }; keys.push(k); }
+      var m = map[k], r = calc(run);
+      m.runs++; if (isNum(r.laps)) m.laps += r.laps;
+      if (run.compound) m.compound = run.compound;
+      var tr = avg([run.a.tread.FL, run.a.tread.FR, run.a.tread.RL, run.a.tread.RR]);
+      if (isNum(tr)) m.tread = tr;
+      m.last = run;
+    }
+    if (!keys.length) return '<p class="sub">Enter a tyre set ID on each run to track sets here.</p>';
+    keys.sort(function (a, b) { return map[b].last.created - map[a].last.created; });
+    var t = '<div class="tblw"><table><tr><th>Car</th><th>Set</th><th>Compound</th><th class="n">Runs (heat cycles)</th><th class="n">Total laps</th><th class="n">Last avg tread</th><th>Last used</th></tr>';
+    for (i = 0; i < keys.length; i++) {
+      var x = map[keys[i]], ss = findSession(x.last.sessionId);
+      t += '<tr><td>' + (x.car ? '#' + esc(x.car) : '-') + '</td><td><b>' + esc(x.name) + '</b></td><td>' + esc(x.compound || '-') + '</td><td class="n">' + x.runs + '</td><td class="n">' + x.laps + '</td><td class="n">' + fx(x.tread, 2) + '</td><td>' + esc(sessName(ss)) + ', Run ' + x.last.no + '</td></tr>';
+    }
+    return t + '</table></div><p class="hint">Heat cycles count each run logged on that set.</p>';
+  }
+  function drawChart() {
+    var cv = $('chart');
+    if (!cv || !cv.getContext) return;
+    var w = cv.parentNode.clientWidth || 600, hgt = 260;
+    cv.width = w; cv.height = hgt;
+    var ctx = cv.getContext('2d'), dark = st().theme === 'dark', fg = dark ? '#cfd6dd' : '#3b444d', grid = dark ? '#2b3037' : '#e3e6ea';
+    var m = metric(S.an.metric), rs = runsOf(S.an.sessionId), pts = [], i;
+    for (i = 0; i < rs.length; i++) pts.push({ l: 'R' + rs[i].no, v: m.v(rs[i], calc(rs[i])) });
+    var vals = [];
+    for (i = 0; i < pts.length; i++) if (isNum(pts[i].v)) vals.push(pts[i].v);
+    ctx.clearRect(0, 0, w, hgt);
+    ctx.font = '13px Helvetica Neue, Helvetica, Arial';
+    ctx.fillStyle = fg;
+    if (!vals.length) { ctx.fillText('No data for this measure yet.', 20, 40); return; }
+    var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+    if (mn === mx) { mn -= Math.abs(mn) * 0.05 || 1; mx += Math.abs(mx) * 0.05 || 1; }
+    var padv = (mx - mn) * 0.12; mn -= padv; mx += padv;
+    var L = 78, R = 20, Tp = 22, B = 34, pw = w - L - R, ph = hgt - Tp - B;
+    function X(idx) { return pts.length === 1 ? L + pw / 2 : L + pw * idx / (pts.length - 1); }
+    function Y(v) { return Tp + ph - (v - mn) / (mx - mn) * ph; }
+    ctx.strokeStyle = grid; ctx.lineWidth = 1;
+    for (i = 0; i <= 4; i++) {
+      var gv = mn + (mx - mn) * i / 4, gy = Y(gv);
+      ctx.beginPath(); ctx.moveTo(L, gy); ctx.lineTo(w - R, gy); ctx.stroke();
+      ctx.fillStyle = fg; ctx.textAlign = 'right'; ctx.fillText(m.f(gv), L - 8, gy + 4);
+    }
+    ctx.strokeStyle = '#ff6a13'; ctx.lineWidth = 3; ctx.beginPath();
+    var started = false;
+    for (i = 0; i < pts.length; i++) {
+      if (!isNum(pts[i].v)) { started = false; continue; }
+      if (!started) { ctx.moveTo(X(i), Y(pts[i].v)); started = true; } else ctx.lineTo(X(i), Y(pts[i].v));
+    }
+    ctx.stroke();
+    ctx.textAlign = 'center';
+    for (i = 0; i < pts.length; i++) {
+      ctx.fillStyle = fg; ctx.fillText(pts[i].l, X(i), hgt - 10);
+      if (!isNum(pts[i].v)) continue;
+      ctx.fillStyle = '#ff6a13'; ctx.beginPath(); ctx.arc(X(i), Y(pts[i].v), 5, 0, Math.PI * 2, false); ctx.fill();
+      ctx.fillStyle = fg; ctx.fillText(m.f(pts[i].v), X(i), Y(pts[i].v) - 10);
+    }
+  }
+
+  /* ---------- tools ---------- */
+  var CONV = {
+    Pressure: [['psi', 1], ['bar', 14.5038], ['kPa', 0.145038]],
+    Temperature: [['°C', 0], ['°F', 0], ['K', 0]],
+    'Fuel volume': [['L', 1], ['US gal', 3.78541], ['UK gal', 4.54609]],
+    'Fuel litres to weight': [['L', -1], ['kg', 1], ['lb', 0.453592]],
+    Length: [['mm', 1], ['cm', 10], ['in', 25.4]],
+    Weight: [['kg', 1], ['lb', 0.453592]],
+    Speed: [['km/h', 1], ['mph', 1.609344], ['m/s', 3.6]]
+  };
+  function vTools() {
+    var tools = [['strat', 'Strategy'], ['fuel', 'Fuel'], ['pc', 'Pressure'], ['cw', 'Corner weights'], ['cv', 'Convert'], ['timer', 'Stopwatch']], h = '<div class="bar"><h2 class="fl" style="margin-right:14px">Tools</h2><div class="seg">';
+    for (var i = 0; i < tools.length; i++) h += '<button type="button" class="' + (S.tool === tools[i][0] ? 'on' : '') + '" data-act="tool" data-arg="' + tools[i][0] + '">' + tools[i][1] + '</button>';
+    h += '</div></div>';
+    var t = S.t, b = '';
+    if (S.tool === 'strat') {
+      h += card('Race strategy scenarios', stratForm());
+    } else if (S.tool === 'fuel') {
+      var sid = S.sessionId && findSession(S.sessionId) ? S.sessionId : null, sf = sid ? sessFpl(sid, null) : { n: 0 };
+      b = row([col(4, fld('Laps to go', inp('ui', S, 't.fuel.laps', 'n'))), col(4, fld('Fuel per lap', inp('ui', S, 't.fuel.fpl', 'f'), fu().l)), col(4, fld('Safety margin', inp('ui', S, 't.fuel.margin', 'n'), 'laps')), col(4, fld('Fuel in tank now', inp('ui', S, 't.fuel.inTank', 'f'), fu().l))]);
+      if (sf.n) b += btn('Use session average (' + F(sf.avg) + '/lap from ' + sf.n + ' run' + (sf.n > 1 ? 's' : '') + ')', 'fuelAvg', null, 'sm');
+      h += card('Fuel calculator', b);
+    } else if (S.tool === 'pc') {
+      h += card('Pressure vs temperature', row([col(3, fld('Pressure measured', inp('ui', S, 't.pc.p1', 'p'), pu().l)), col(3, fld('Tyre temp when measured', inp('ui', S, 't.pc.t1', 't'), tl())), col(3, fld('Tyre temp later', inp('ui', S, 't.pc.t2', 't'), tl()))]) +
+        '<p class="hint">Example: you set the pressures in a 22° garage, but the tyres will sit at 38° in the sun on the grid. This shows what the gauge will read then. Uses the gas law, so treat it as a close starting point.</p>');
+    } else if (S.tool === 'cw') {
+      h += card('Corner weights <span class="sub">(any unit, kg or lb)</span>', carGrid(function (c) { return inp('ui', S, 't.cw.' + c, 'n'); }));
+    } else if (S.tool === 'cv') {
+      var cats = [], cat = CONV[t.cv.cat] ? t.cv.cat : 'Pressure', us = [];
+      for (var k in CONV) if (CONV.hasOwnProperty(k)) cats.push(k);
+      for (i = 0; i < CONV[cat].length; i++) us.push(CONV[cat][i][0]);
+      if (us.indexOf(t.cv.from) < 0) t.cv.from = us[0];
+      h += card('Unit converter', row([col(3, fld('Type', sel('ui', S, 't.cv.cat', cats))), col(3, fld('From', sel('ui', S, 't.cv.from', us))), col(3, fld('Value', inp('ui', S, 't.cv.val', 'n')))]) +
+        (cat === 'Fuel litres to weight' ? '<p class="hint">Uses fuel density ' + st().density + ' kg/L from Data &amp; Sync.</p>' : ''));
+    } else {
+      var run = curRun();
+      h += card('Stopwatch / pit stop timer', '<div class="watch" id="watchDisp">' + fmtWatch(wElapsed()) + '</div><div style="text-align:center">' +
+        btn(W.running ? 'Stop' : (wElapsed() ? 'Resume' : 'Start'), 'wStart', null, 'pri') + btn('Split', 'wSplit') + btn('Reset', 'wReset') +
+        (run ? btn('Save as stop time for Run ' + run.no, 'wSave', null, 'sm') : '') + (run && W.splits.length ? btn('Add splits as lap times to Run ' + run.no, 'wLaps', null, 'sm') : '') + '</div>' + wSplits() + '<p class="hint">Keeps running even if you leave this screen or the app reloads.</p>');
+    }
+    h += '<div id="toolOut"></div>';
+    return h;
+  }
+  function toolOut() {
+    var t = S.t, s = st(), h = '', i;
+    if (S.tool === 'strat') return stratOut();
+    if (S.tool === 'fuel') {
+      var f = t.fuel;
+      if (!isNum(f.fpl) || f.fpl <= 0) return card('Result', '<p class="sub">Enter fuel per lap.</p>');
+      if (isNum(f.laps)) {
+        var need = (f.laps + (isNum(f.margin) ? f.margin : 0)) * f.fpl;
+        h += stat('Fuel needed', F(need)) + stat('Weight of that fuel', isNum(s.density) ? fx(need * s.density, 1) + ' kg' : '-');
+        if (isNum(f.inTank)) {
+          var add = need - f.inTank;
+          h += stat(add > 0 ? 'Add' : 'Spare after finish', F(Math.abs(add))) + (add > 0 && isNum(s.density) ? stat('Weight to add', fx(add * s.density, 1) + ' kg') : '');
+        }
+        if (isNum(s.tank) && need > s.tank) h += '<div class="warn w-med">That is more than the tank holds (' + F(s.tank) + '). Plan a fuel stop.</div>';
+      }
+      if (isNum(f.inTank)) h += stat('Laps on fuel in tank', fx(f.inTank / f.fpl, 1));
+      return card('Result', h || '<p class="sub">Enter laps to go.</p>');
+    }
+    if (S.tool === 'pc') {
+      var p = t.pc;
+      if (!isNum(p.p1) || !isNum(p.t1) || !isNum(p.t2)) return card('Result', '<p class="sub">Fill all three boxes.</p>');
+      var p2 = (p.p1 + ATM_PSI) * (p.t2 + 273.15) / (p.t1 + 273.15) - ATM_PSI;
+      return card('Result', stat('Gauge will read about', P(p2)) + stat('Change', Pd(p2 - p.p1)));
+    }
+    if (S.tool === 'cw') {
+      var w = t.cw, tot = 0, ok = true;
+      for (i = 0; i < C4.length; i++) { if (!isNum(w[C4[i]])) ok = false; else tot += w[C4[i]]; }
+      if (!ok || tot <= 0) return card('Result', '<p class="sub">Enter all four corners.</p>');
+      var pc = function (v) { return fx(v / tot * 100, 1) + '%'; };
+      return card('Result', stat('Total', fx(tot, 1)) + stat('Front', pc(w.FL + w.FR)) + stat('Rear', pc(w.RL + w.RR)) + stat('Left', pc(w.FL + w.RL)) + stat('Right', pc(w.FR + w.RR)) +
+        stat('Diagonal FL + RR', pc(w.FL + w.RR)) + stat('Diagonal FR + RL', pc(w.FR + w.RL)) + '<p class="hint">50% on each diagonal means equal cross weight.</p>');
+    }
+    if (S.tool === 'cv') {
+      var cv = t.cv, cat = CONV[cv.cat] ? cv.cat : 'Pressure', list = CONV[cat];
+      if (!isNum(cv.val)) return card('Result', '<p class="sub">Enter a value.</p>');
+      if (cat === 'Temperature') {
+        var c = cv.from === '°F' ? (cv.val - 32) * 5 / 9 : (cv.from === 'K' ? cv.val - 273.15 : cv.val);
+        return card('Result', stat('°C', fx(c, 2)) + stat('°F', fx(c * 9 / 5 + 32, 2)) + stat('K', fx(c + 273.15, 2)));
+      }
+      var base = null, dens = isNum(s.density) ? s.density : 0.745;
+      for (i = 0; i < list.length; i++) if (list[i][0] === cv.from) base = list[i][1] === -1 ? cv.val * dens : cv.val * list[i][1];
+      for (i = 0; i < list.length; i++) h += stat(list[i][0], fx(list[i][1] === -1 ? base / dens : base / list[i][1], 3));
+      return card('Result', h);
+    }
+    return '';
+  }
+  function refreshTool() { var e = $('toolOut'); if (e) e.innerHTML = toolOut(); }
+
+  /* ---------- stopwatch ---------- */
+  function wElapsed() { return W.acc + (W.running ? Date.now() - W.start : 0); }
+  function fmtWatch(ms) { var t = Math.floor(ms / 100), ts = t % 10, s = Math.floor(t / 10), m = Math.floor(s / 60); return m + ':' + pad(s % 60) + '.' + ts; }
+  function wSplits() {
+    if (!W.splits.length) return '';
+    var h = '<div class="tblw"><table><tr><th>Split</th><th class="n">Total</th><th class="n">This split</th></tr>';
+    for (var i = W.splits.length - 1; i >= 0; i--) h += '<tr><td>' + (i + 1) + '</td><td class="n">' + fmtWatch(W.splits[i]) + '</td><td class="n">' + fmtWatch(W.splits[i] - (i ? W.splits[i - 1] : 0)) + '</td></tr>';
+    return h + '</table></div>';
+  }
+  function startTick() { stopTick(); if (!W.running) return; watchTimer = setInterval(function () { var e = $('watchDisp'); if (e) e.innerHTML = fmtWatch(wElapsed()); }, 100); }
+  function stopTick() { if (watchTimer) { clearInterval(watchTimer); watchTimer = null; } }
+
+  /* ---------- data & sync view ---------- */
+  function vData() {
+    var s = st(), h = '<h2>Data &amp; Sync</h2>';
+    h += '<div class="warn ' + (cacheOk() ? 'w-ok' : 'w-med') + '" id="cacheSt">' + cacheStatus() + '</div>';
+    if (window.location.protocol === 'https:') h += card('Wi-Fi sync to laptop', '<p class="sub">Not available in the version installed from the internet: browsers block a secure web app from talking to the laptop helper. Use the backup files below instead. To add a backup file to the laptop history, run on the laptop: <b>python3 serve.py --merge yourfile.json</b></p>');
+    else h += card('Wi-Fi sync to laptop (no internet needed)', laptopPanel());
+    h += card('Settings',
+      row([col(3, fld('Car / team name', inp('settings', s, 'car', 's'))), col(3, fld('Screen theme', sel('settings', s, 'theme', [{ v: 'light', l: 'Light (sunlight)' }, { v: 'dark', l: 'Dark (night)' }]))), col(3, '')]) +
+      '<p class="lb" style="margin-top:6px">Defaults for new sessions (fill once)</p>' +
+      row([col(4, fld('Driver 1', inp('settings', s, 'defDrivers.0', 's'))), col(4, fld('Driver 2', inp('settings', s, 'defDrivers.1', 's'))), col(4, fld('Driver 3', inp('settings', s, 'defDrivers.2', 's'))), col(4, fld('Driver 4', inp('settings', s, 'defDrivers.3', 's')))]) +
+      row([col(3, fld('Car number', inp('settings', s, 'defCarNo', 's'))), col(3, fld('Transponder', inp('settings', s, 'defTransponder', 's'))), col(3, fld('Class', inp('settings', s, 'defClass', 's')))]) +
+      row([col(3, fld('Pressure unit', sel('settings', s, 'pUnit', [{ v: 'psi', l: 'psi' }, { v: 'bar', l: 'bar' }, { v: 'kpa', l: 'kPa' }]))), col(3, fld('Temperature unit', sel('settings', s, 'tUnit', [{ v: 'C', l: '°C' }, { v: 'F', l: '°F' }]))), col(3, fld('Fuel unit', sel('settings', s, 'fUnit', [{ v: 'L', l: 'Litres' }, { v: 'gal', l: 'US gallons' }])))]) +
+      '<p class="hint">Changing units only changes the display. Data is kept the same underneath.</p>' +
+      row([col(3, fld('Target hot pressure front', inp('settings', s, 'targetHotF', 'p'), pu().l)), col(3, fld('Target hot pressure rear', inp('settings', s, 'targetHotR', 'p'), pu().l)), col(3, fld('Allowed +/- from target', inp('settings', s, 'hotTol', 'p'), pu().l))]) +
+      row([col(3, fld('Minimum tread', inp('settings', s, 'minTread', 'n'), 'mm')), col(3, fld('Fuel density', inp('settings', s, 'density', 'n'), 'kg per L')), col(3, fld('Tank capacity', inp('settings', s, 'tank', 'f'), fu().l))]) +
+      row([col(3, fld('Clean lap window', inp('settings', s, 'cleanPct', 'n'), '% of best')), col(3, fld('Flag fuel per lap off by more than', inp('settings', s, 'fplCheck', 'n'), '%')), col(3, fld('Warn before drive time limits', inp('settings', s, 'ruleWarn', 'n'), 'min'))]) +
+      row([col(3, fld('Tyre reading: max In - Out spread', inp('settings', s, 'spreadThr', 'td'), tl())), col(3, fld('Tyre reading: middle vs edges', inp('settings', s, 'midThr', 'td'), tl())), col(3, '')]) +
+      '<p class="hint">Leave a box empty to switch that check off. Use your tyre supplier\'s numbers for the tyre reading thresholds.</p>' +
+      fld('Pre-run checklist (one item per line, shown on every run)', inp('settings', s, 'checklist', 'ta', 'e.g.\nWheel nuts torqued\nCold pressures set\nFuel checked\nTape and covers off')) +
+      '<p class="hint">Edit the list between events, not in the middle of a session (ticks are matched by position).</p>' +
+      (canWake() ? chk('settings', s, 'keepAwake', 'Keep the screen on while PitLog is open') : '') +
+      (navigator.vibrate ? chk('settings', s, 'buzz', 'Vibrate on drive time warnings') : ''));
+    if (canSaveFile()) {
+      h += card('Backup files (works offline)', btn('Save backup file', 'fileBackup', null, 'pri') + (canShareFile() ? btn('Share backup', 'shareBackup') : '') +
+        btn('Save runs spreadsheet (CSV)', 'fileCsv') + (canShareFile() ? btn('Share CSV', 'shareCsv') : '') +
+        '<p class="hint">Share sends the file to Google Drive, email, Quick Share and so on. A backup file can be restored on this phone, another phone or the iPad (put it in the laptop "backups" folder, then use "Get latest backup from laptop" on the iPad).</p>' +
+        '<label class="fld"><span class="lb">Open a backup file to restore</span><input type="file" id="fileIn" accept=".json,application/json"></label>');
+    }
+    if (installPrompt) h += card('Install', btn('Install PitLog on this device', 'install', null, 'pri') + '<p class="hint">Adds PitLog to your home screen as its own app that works offline.</p>');
+    h += card('Backup and export as text (works offline)', btn('Make backup', 'exportJSON', null, 'pri') + btn('Export spreadsheet (CSV)', 'exportCSV') +
+      '<span id="mailWrap"></span><textarea id="exportBox" rows="6" placeholder="Backup or CSV text appears here. Tap and hold, Select All, Copy, then paste it into Notes or an email."></textarea>' +
+      '<p class="hint">Last backup made: ' + dateTime(DB.lastBackup) + '. A backup is only safe once you have copied it off this iPad (or synced).</p>');
+    var prev = null;
+    try { prev = localStorage.getItem(KEY_PREV); } catch (e) { prev = null; }
+    h += card('Restore from backup', '<textarea id="importBox" rows="4" placeholder="Paste backup text here"></textarea>' + btn('Restore (replaces everything)', 'restore', null, 'dng') +
+      (prev ? btn('Undo last restore / delete', 'undoRestore') : ''));
+    var used = 0;
+    try { used = (JSON.stringify(DB).length + (prev ? prev.length : 0)) * 2; } catch (e2) { used = 0; }
+    var lg = '';
+    for (var i = 0; i < Math.min(30, DB.log.length); i++) lg += '<tr><td>' + dateTime(DB.log[i].t) + '</td><td>' + esc(DB.log[i].m) + '</td></tr>';
+    h += card('Storage and activity', '<p>' + DB.sessions.length + ' sessions, ' + DB.runs.length + ' runs. About ' + Math.round(used / 1024) + ' KB used. Safari gives each web app about 5 MB, so export and delete old sessions well before that.</p>' +
+      (lg ? '<div class="tblw"><table><tr><th>When</th><th>What</th></tr>' + lg + '</table></div>' : '') + '<p class="hint">PitLog ' + VERSION + '</p>');
+    h += card('Free up space', btn('Remove all sessions and runs from this iPad', 'wipe', null, 'dng') + '<p class="hint">Use at the end of a season after a successful sync. The laptop history keeps everything. Settings are kept. You can undo once with "Undo last restore / delete".</p>');
+    return h;
+  }
+  /* ---------- offline status ---------- */
+  function swOk() { return !!(navigator.serviceWorker && navigator.serviceWorker.controller); }
+  function cacheOk() { var ac = window.applicationCache; return (!!ac && (ac.status === 1 || ac.status === 4)) || swOk(); }
+  function cacheStatus() {
+    var ac = window.applicationCache;
+    if (!ac) {
+      if (swOk()) return 'Saved for offline use. PitLog works with no internet.';
+      if (navigator.serviceWorker && window.isSecureContext) return 'Saving for offline use. Close and reopen PitLog once, then this turns green.';
+      return 'This copy cannot work offline. On Android, install PitLog from its https web address (see README).';
+    }
+    var m = { 0: 'Not saved for offline use yet. Open PitLog from the laptop address while on its Wi-Fi.', 1: 'Saved for offline use. PitLog works with no Wi-Fi.', 2: 'Checking for a new version...',
+      3: 'Saving for offline use, please wait...', 4: 'New version downloaded. Close and reopen PitLog to use it.', 5: 'Offline copy was removed. Reinstall from the laptop.' };
+    return m[ac.status] || 'Offline status unknown.';
+  }
+  function updateCacheSt() { var e = $('cacheSt'); if (e) { e.innerHTML = cacheStatus(); e.className = 'warn ' + (cacheOk() ? 'w-ok' : 'w-med'); } }
+
+  /* ---------- export / import ---------- */
+  function csvCell(v) { if (v === null || v === undefined) return ''; var s = String(v); if (/[",\n\r]/.test(s)) s = '"' + s.replace(/"/g, '""') + '"'; return s; }
+  function csvText() {
+    var pul = pu().l, tu = st().tUnit, ful = fu().l, Hd = ['Session date', 'Event', 'Track', 'Session type', 'Car', 'Car number', 'Transponder', 'Class', 'Line-up', 'Run', 'Driver', 'Driver change', 'Tyre set', 'Compound', 'Weather', 'Ambient (' + tu + ')', 'Track temp (' + tu + ')',
+      'Time out', 'Time in', 'Track time', 'Laps', 'Best lap', 'Clean avg', 'Std dev (s)', 'Fuel before (' + ful + ')', 'Fuel after (' + ful + ')', 'Fuel used (' + ful + ')', 'Fuel per lap (' + ful + ')', 'Fuel added (' + ful + ')', 'Stop time (s)', 'New tyres'], i, c;
+    var groups = [['Cold', 'b.p', 'p', pul], ['Hot', 'a.p', 'p', pul]];
+    for (i = 0; i < groups.length; i++) for (c = 0; c < 4; c++) Hd.push(groups[i][0] + ' ' + C4[c] + ' (' + groups[i][3] + ')');
+    for (c = 0; c < 4; c++) Hd.push('Build ' + C4[c] + ' (' + pul + ')');
+    for (c = 0; c < 4; c++) Hd.push('Rec cold ' + C4[c] + ' (' + pul + ')');
+    for (c = 0; c < 4; c++) { Hd.push('Temp ' + C4[c] + ' inner (' + tu + ')'); Hd.push('Temp ' + C4[c] + ' middle (' + tu + ')'); Hd.push('Temp ' + C4[c] + ' outer (' + tu + ')'); }
+    for (c = 0; c < 4; c++) Hd.push('Brake ' + C4[c] + ' (' + tu + ')');
+    for (c = 0; c < 4; c++) { Hd.push('Tread before ' + C4[c] + ' (mm)'); Hd.push('Tread after ' + C4[c] + ' (mm)'); }
+    Hd.push('Ride height F (mm)', 'Ride height R (mm)', 'Oil (' + tu + ')', 'Water (' + tu + ')', 'Entry', 'Mid', 'Exit', 'Setup changes', 'Notes', 'Work done', 'Lap times');
+    var lines = [Hd.map(csvCell).join(',')];
+    var runs = DB.runs.slice().sort(function (a, b) {
+      var sa = findSession(a.sessionId) || {}, sb = findSession(b.sessionId) || {};
+      if ((sa.date || '') !== (sb.date || '')) return (sa.date || '') > (sb.date || '') ? 1 : -1;
+      if (a.sessionId !== b.sessionId) return (sa.created || 0) - (sb.created || 0);
+      return a.no - b.no;
+    });
+    function nv(kind, v) { return trim0(toShow(kind, v), dpOf(kind)); }
+    for (i = 0; i < runs.length; i++) {
+      var r = runs[i], s = findSession(r.sessionId) || {}, k = calc(r), row_ = [s.date, s.event, s.track, s.type, s.car, s.carNo, s.transponder, s.cls, lineup(s).join(' / '), r.no, drvOf(r, s), r.stop.driverChange ? 'yes' : '', r.tyreSet, r.compound, r.weather, nv('t', r.ambient), nv('t', r.trackT),
+        hms(r.timeOut), hms(r.timeIn), isNum(k.trackMs) ? dur(k.trackMs) : '', k.laps, isNum(k.best) ? lapFmt(k.best) : '', isNum(k.cleanAvg) ? lapFmt(k.cleanAvg) : '', trim0(k.sd, 3),
+        nv('f', r.b.fuel), nv('f', r.a.fuel), nv('f', k.fuelUsed), trim0(toShow('f', k.fpl), 3), nv('f', r.stop.fuelAdded), r.stop.dur, r.stop.tyresChanged ? 'yes' : ''];
+      for (c = 0; c < 4; c++) row_.push(nv('p', r.b.p[C4[c]]));
+      for (c = 0; c < 4; c++) row_.push(nv('p', r.a.p[C4[c]]));
+      for (c = 0; c < 4; c++) row_.push(nv('p', k.build[C4[c]]));
+      for (c = 0; c < 4; c++) row_.push(nv('p', k.rec[C4[c]]));
+      for (c = 0; c < 4; c++) { var tc = r.a.t[C4[c]]; row_.push(nv('t', tc.i), nv('t', tc.m), nv('t', tc.o)); }
+      for (c = 0; c < 4; c++) row_.push(nv('t', r.a.brake[C4[c]]));
+      for (c = 0; c < 4; c++) row_.push(r.b.tread[C4[c]], r.a.tread[C4[c]]);
+      row_.push(r.b.rhF, r.b.rhR, nv('t', r.a.oil), nv('t', r.a.water), r.a.fbE, r.a.fbM, r.a.fbX, r.setup, r.a.notes, r.stop.work, r.a.lapTimes);
+      lines.push(row_.map(csvCell).join(','));
+    }
+    return lines.join('\n');
+  }
+  function exportCSV() { showExport(csvText(), 'PitLog CSV ' + today()); }
+  function exportJSON() {
+    DB.lastBackup = Date.now();
+    log('Backup made');
+    save();
+    showExport(JSON.stringify(DB), 'PitLog backup ' + today());
+  }
+  function showExport(txt, subject) {
+    var e = $('exportBox');
+    if (e) { e.value = txt; try { e.focus(); e.setSelectionRange(0, txt.length); } catch (err) { /* ignore */ } }
+    var m = $('mailWrap');
+    if (m) m.innerHTML = txt.length < 60000 ? '<a class="btn" href="mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(txt) + '">Email it</a>' : '<span class="sub">Too big to email in one go. Copy and paste instead.</span>';
+  }
+  function restore() {
+    var e = $('importBox'), txt = e ? e.value.trim() : '', d = null;
+    if (!txt) { alert('Paste the backup text into the box first.'); return; }
+    try { d = JSON.parse(txt); } catch (err) { alert('That text is not a valid PitLog backup. Make sure you copied all of it.'); return; }
+    if (isObj(d) && isObj(d.db)) d = d.db;
+    if (!isObj(d) || !isArr(d.sessions) || !isArr(d.runs)) { alert('That text is not a valid PitLog backup.'); return; }
+    if (!confirm('Replace everything on this device (' + DB.sessions.length + ' sessions, ' + DB.runs.length + ' runs) with the backup (' + d.sessions.length + ' sessions, ' + d.runs.length + ' runs)?')) return;
+    try { localStorage.setItem(KEY_PREV, JSON.stringify(DB)); } catch (err2) { if (!confirm('Could not keep an undo copy (storage full). Restore anyway?')) return; }
+    DB = normalize(d);
+    log('Restored backup (' + d.sessions.length + ' sessions, ' + d.runs.length + ' runs)');
+    save(); go('sessions');
+  }
+  function undoRestore() {
+    var p = null;
+    try { p = localStorage.getItem(KEY_PREV); } catch (e) { p = null; }
+    if (!p) return;
+    var d = null;
+    try { d = JSON.parse(p); } catch (e2) { alert('Undo copy could not be read.'); return; }
+    if (!confirm('Swap back to the data from before the last restore or delete (' + (d.sessions || []).length + ' sessions, ' + (d.runs || []).length + ' runs)?')) return;
+    try { localStorage.setItem(KEY_PREV, JSON.stringify(DB)); } catch (e3) { /* ignore */ }
+    DB = normalize(d);
+    log('Undo: swapped back to earlier data');
+    save(); go('sessions');
+  }
+  function wipe() {
+    var pc = pendingCount();
+    if (!confirm('Remove ALL sessions and runs from this iPad? Anything already synced stays in the laptop history.')) return;
+    if (!confirm(pc ? 'WARNING: ' + pc + ' change(s) have NOT been synced to the laptop and will be lost. Continue anyway?' : 'Are you sure?')) return;
+    try { localStorage.setItem(KEY_PREV, JSON.stringify(DB)); } catch (e) { if (!confirm('Could not keep an undo copy. Delete anyway?')) return; }
+    DB.sessions = []; DB.runs = []; DB.tomb = []; DB.sync.state = {};
+    log('Removed all sessions and runs from the iPad');
+    save(); go('sessions');
+  }
+
+  /* ---------- wi-fi sync to laptop ---------- */
+  function tombstone(kind, id) { if (DB.sync.state[id] !== undefined) DB.tomb.push({ id: id, kind: kind, t: Date.now() }); }
+  function pendingItems() {
+    var stt = DB.sync.state, out = [], i;
+    for (i = 0; i < DB.sessions.length; i++) if (stt[DB.sessions[i].id] !== DB.sessions[i].modified) out.push({ k: 's', id: DB.sessions[i].id });
+    for (i = 0; i < DB.runs.length; i++) if (stt[DB.runs[i].id] !== DB.runs[i].modified) out.push({ k: 'r', id: DB.runs[i].id });
+    for (i = 0; i < DB.tomb.length; i++) out.push({ k: 'd', id: DB.tomb[i].id });
+    return out;
+  }
+  function r3(v) { return isNum(v) ? round(v, 3) : null; }
+  function summary(run) {
+    var r = calc(run), o = { laps: r.laps, best: r3(r.best), cleanAvg: r3(r.cleanAvg), cleanN: r.cleanN, sd: r3(r.sd), fuelUsed: r3(r.fuelUsed), fpl: r3(r.fpl), nextFuel: r3(r.nextFuel),
+      trackSec: isNum(r.trackMs) ? Math.round(r.trackMs / 1000) : null, build: {}, rec: {}, tAvg: {}, spread: {}, mid: {}, wear: {}, warnN: r.warn.length, warn: [] };
+    for (var i = 0; i < C4.length; i++) {
+      var c = C4[i];
+      o.build[c] = r3(r.build[c]); o.rec[c] = r3(r.rec[c]); o.tAvg[c] = r3(r.tyre[c].avg); o.spread[c] = r3(r.tyre[c].spread); o.mid[c] = r3(r.tyre[c].mid); o.wear[c] = r3(r.wear[c]);
+    }
+    for (i = 0; i < r.warn.length; i++) o.warn.push(r.warn[i].m);
+    return o;
+  }
+  function syncLog(m) { DB.sync.log.unshift({ t: Date.now(), m: m }); if (DB.sync.log.length > 100) DB.sync.log.length = 100; }
+  function laptopBase() {
+    var a = (st().laptop || '').trim();
+    if (a) { if (!/^https?:\/\//.test(a)) a = 'http://' + a; return a.replace(/\/+$/, ''); }
+    if (/^https?:$/.test(window.location.protocol)) return window.location.protocol + '//' + window.location.host;
+    return '';
+  }
+  function xhr(method, url, body, cb, timeoutMs) {
+    var x = new XMLHttpRequest(), done = false, t = null;
+    function fin(ok, status, text) { if (done) return; done = true; if (t) clearTimeout(t); cb(ok, status, text || ''); }
+    try { x.open(method, url, true); } catch (e) { fin(false, 0, ''); return; }
+    x.onreadystatechange = function () { if (x.readyState === 4) fin(x.status >= 200 && x.status < 300, x.status, x.responseText); };
+    t = setTimeout(function () { try { x.abort(); } catch (e2) { /* ignore */ } fin(false, 0, ''); }, timeoutMs || 30000);
+    try { if (body !== null) x.setRequestHeader('Content-Type', 'text/plain'); x.send(body); } catch (e3) { fin(false, 0, ''); }
+  }
+  var laptopTransport = xhr;
+  function lapMsg(html) { var e = $('lapMsg'); if (e) e.innerHTML = html; }
+  function laptopPanel() {
+    var y = DB.sync, pc = pendingCount(), lg = '';
+    for (var i = 0; i < Math.min(15, y.log.length); i++) lg += '<tr><td>' + dateTime(y.log[i].t) + '</td><td>' + esc(y.log[i].m) + '</td></tr>';
+    return row([col(2, fld('Laptop address', inp('settings', st(), 'laptop', 's', laptopBase() || 'e.g. 192.168.1.23:8000'))),
+      col(2, '<div style="padding-top:18px">' + btn('Sync to laptop now' + (pc ? ' (' + pc + ')' : ''), 'lapSync', null, 'pri') + btn('Get latest backup from laptop', 'lapFetch', null, 'sm') + '</div>')]) +
+      '<div id="lapMsg" class="hint">' + (pc ? pc + ' change' + (pc > 1 ? 's' : '') + ' waiting to sync. ' : 'Everything is synced. ') + 'Last sync: ' + dateTime(y.lastSync) + (DB.lastLaptop ? ' (' + esc(DB.lastLaptop.file) + ')' : '') + '</div>' +
+      '<p class="hint">Run serve.py on the laptop and join the same Wi-Fi. No internet needed. Leave the address empty to use the one PitLog was installed from. ' +
+      'Each sync saves a full dated backup on the laptop and updates the laptop history (runs.csv and sessions.csv for Excel or Google Sheets). Sync never deletes anything on the laptop.</p>' +
+      (lg ? '<div class="tblw"><table><tr><th>When</th><th>Sync log</th></tr>' + lg + '</table></div>' : '');
+  }
+  function lapSync() {
+    var base = laptopBase();
+    if (!base) { alert('Enter the laptop address first, for example 192.168.1.23:8000'); return; }
+    if (syncBusy) return;
+    flush();
+    var snap = {}, calcs = {}, tombIds = [], i, nS = DB.sessions.length, nR = DB.runs.length;
+    for (i = 0; i < DB.sessions.length; i++) snap[DB.sessions[i].id] = DB.sessions[i].modified;
+    for (i = 0; i < DB.runs.length; i++) { snap[DB.runs[i].id] = DB.runs[i].modified; calcs[DB.runs[i].id] = summary(DB.runs[i]); }
+    for (i = 0; i < DB.tomb.length; i++) tombIds.push(DB.tomb[i].id);
+    var body = JSON.stringify({ app: 'PitLog', version: VERSION, sent: Date.now(), db: DB, calc: calcs });
+    syncBusy = true;
+    lapMsg('Syncing to the laptop...');
+    laptopTransport('POST', base + '/sync', body, function (ok, status, text) {
+      syncBusy = false;
+      var r = null, m;
+      try { r = JSON.parse(text); } catch (e) { r = null; }
+      if (ok && r && r.ok && r.sessions === nS && r.runs === nR) {
+        for (var k in snap) if (snap.hasOwnProperty(k)) DB.sync.state[k] = snap[k];
+        DB.tomb = DB.tomb.filter(function (t) { return tombIds.indexOf(t.id) < 0; });
+        for (i = 0; i < tombIds.length; i++) delete DB.sync.state[tombIds[i]];
+        DB.lastBackup = DB.sync.lastSync = Date.now();
+        DB.lastLaptop = { t: Date.now(), file: r.file };
+        var h = r.history || {};
+        m = 'Sync OK: ' + (h.inserted || 0) + ' new, ' + (h.updated || 0) + ' updated, ' + (h.deleted || 0) + ' marked deleted. Laptop now holds ' + h.sessions + ' sessions, ' + h.runs + ' runs.';
+        DB.sync.lastResult = 'OK';
+        syncLog(m); log('Synced to laptop (' + r.file + ')'); save(); render();
+        lapMsg('<span class="good"><b>' + esc(m) + '</b></span>');
+      } else {
+        if (ok && r && r.ok) m = 'Sync check failed: the laptop received ' + r.sessions + ' sessions and ' + r.runs + ' runs, the iPad has ' + nS + ' and ' + nR + '. Try again.';
+        else m = r && r.err ? 'Sync failed: ' + r.err : 'Sync failed: could not reach the laptop at ' + base + '. Check: same Wi-Fi, serve.py is running, address is right.';
+        DB.sync.lastResult = 'failed';
+        syncLog(m); save();
+        lapMsg('<span class="bad"><b>' + esc(m) + '</b></span>');
+      }
+    }, 90000);
+  }
+  function lapFetch() {
+    var base = laptopBase();
+    if (!base) { alert('Enter the laptop address first, for example 192.168.1.23:8000'); return; }
+    lapMsg('Getting the latest backup from the laptop...');
+    laptopTransport('GET', base + '/backups/latest', null, function (ok, status, text) {
+      var r = null;
+      try { r = JSON.parse(text); } catch (e) { r = null; }
+      if (r && r.ok && isObj(r.data) && isObj(r.data.db)) r.data = r.data.db;
+      if (!ok || !r || !r.ok || !isObj(r.data)) { lapMsg('<span class="bad"><b>' + esc(r && r.err ? r.err : 'Could not get a backup from ' + base + '.') + '</b></span>'); return; }
+      var box = $('importBox');
+      if (box) box.value = JSON.stringify(r.data);
+      lapMsg('Loaded ' + esc(r.file) + ' (' + (r.data.sessions || []).length + ' sessions, ' + (r.data.runs || []).length + ' runs) into the Restore box below. Tap <b>Restore</b> to use it.');
+    }, 90000);
+  }
+
+  /* ---------- actions ---------- */
+  function go(view) { S.view = view; saveUI(); render(); window.scrollTo(0, 0); }
+  function createRun(sid) {
+    var list = runsOf(sid), prev = list.length ? list[list.length - 1] : null, r = runTemplate();
+    r.id = uid(); r.sessionId = sid; r.no = prev ? prev.no + 1 : 1; r.created = r.modified = Date.now();
+    var lu = lineup(findSession(sid));
+    r.driver = lu[0] || '';
+    if (prev) {
+      var pf = [], c, i;
+      var dv = prev.driver || lu[0] || '';
+      if (prev.stop.driverChange && lu.length > 1) { dv = lu[(lu.indexOf(prev.driver) + 1) % lu.length]; pf.push('driver ' + dv + ' (driver change ticked on Run ' + prev.no + ')'); }
+      else if (dv && lu.length > 1) pf.push('driver ' + dv);
+      r.driver = dv;
+      if (!prev.stop.tyresChanged) {
+        if (prev.tyreSet) { r.tyreSet = prev.tyreSet; r.compound = prev.compound; pf.push('tyre set'); }
+        var tc = false;
+        for (i = 0; i < C4.length; i++) { c = C4[i]; if (isNum(prev.a.tread[c])) { r.b.tread[c] = prev.a.tread[c]; tc = true; } }
+        if (tc) pf.push('tread (from Run ' + prev.no + ' after)');
+      }
+      var nf = calc(prev).nextFuel;
+      if (isNum(nf)) { r.b.fuel = nf; pf.push('fuel (fuel left + fuel added)'); }
+      if (isNum(prev.b.rhF) || isNum(prev.b.rhR)) { r.b.rhF = prev.b.rhF; r.b.rhR = prev.b.rhR; pf.push('ride heights'); }
+      if (prev.weather) { r.weather = prev.weather; pf.push('weather'); }
+      if (pf.length) r.prefill = { from: prev.no, f: pf };
+    }
+    DB.runs.push(r);
+    var s = findSession(sid);
+    log('Created Run ' + r.no + ' in ' + sessName(s));
+    save();
+    return r;
+  }
+  function parseTimeInput(txt, base) {
+    var m = /^\s*(\d{1,2})[:.](\d{2})(?:[:.](\d{2}))?\s*$/.exec(txt || '');
+    if (!m) return null;
+    var h = +m[1], mi = +m[2], se = m[3] ? +m[3] : 0;
+    if (h > 23 || mi > 59 || se > 59) return null;
+    var d = new Date(base || Date.now());
+    d.setHours(h, mi, se, 0);
+    return d.getTime();
+  }
+  var ACT = {
+    nav: function (v) { if (v === 'analysis' && S.sessionId) S.an.sessionId = S.sessionId; go(v); },
+    newSession: function () {
+      var s = sessionTemplate();
+      s.id = uid(); s.created = s.modified = Date.now(); s.date = today(); s.car = st().car;
+      s.drivers = st().defDrivers.slice(0, 4); s.carNo = st().defCarNo; s.transponder = st().defTransponder; s.cls = st().defClass;
+      DB.sessions.push(s); log('Created session'); save();
+      S.sessionId = s.id; go('session');
+    },
+    openSession: function (id) { S.sessionId = id; go('session'); },
+    carFilter: function (c) { S.carFilter = c || ''; go('sessions'); },
+    refreshDrv: function () { var e = $('drvBox'), s = curSession(); if (e && s) e.innerHTML = driverCard(s, Date.now()); },
+    copySession: function () {
+      var o = curSession(), s = sessionTemplate();
+      s.id = uid(); s.created = s.modified = Date.now();
+      s.event = o.event; s.track = o.track; s.date = o.date; s.type = o.type; s.cls = o.cls;
+      s.raceLen = o.raceLen; s.minDrive = o.minDrive; s.maxDrive = o.maxDrive; s.maxStint = o.maxStint;
+      DB.sessions.push(s); log('Added another car to ' + sessName(o)); save();
+      S.sessionId = s.id; go('session');
+      alert('New session made for another car with the same event, track, date, type, class and drive time rules. Fill in its car number, transponder and drivers.');
+    },
+    delSession: function () {
+      var s = curSession(), rs = runsOf(s.id);
+      if (!confirm('Delete "' + sessName(s) + '" and its ' + rs.length + ' run(s) from this iPad?')) return;
+      var everywhere = confirm('Was this session a mistake?\n\nOK = yes, also mark it deleted in the laptop history on the next sync.\nCancel = no, keep it in the laptop history (just freeing space on the iPad).');
+      for (var i = 0; i < rs.length; i++) { if (everywhere) tombstone('run', rs[i].id); delete DB.sync.state[rs[i].id]; }
+      if (everywhere) tombstone('session', s.id);
+      delete DB.sync.state[s.id];
+      DB.runs = DB.runs.filter(function (r) { return r.sessionId !== s.id; });
+      DB.sessions = DB.sessions.filter(function (x) { return x.id !== s.id; });
+      log('Deleted session ' + sessName(s) + ' (' + rs.length + ' runs)'); save(); go('sessions');
+    },
+    newRun: function () { var r = createRun(S.sessionId); S.runId = r.id; S.runTab = 'before'; go('run'); },
+    openRun: function (id) { var r = findRun(id); if (!r) return; S.runId = id; S.runTab = r.timeIn ? 'results' : (r.timeOut ? 'after' : 'before'); go('run'); },
+    openRunRes: function (id) { S.runId = id; S.runTab = 'results'; go('run'); },
+    runTab: function (t) { S.runTab = t; flush(); go('run'); },
+    stamp: function (f) { var r = curRun(); if (r[f] && !confirm('Replace ' + hms(r[f]) + ' with the time now?')) return; r[f] = Date.now(); r.modified = Date.now(); save(); render(); },
+    editStamp: function (f) {
+      var r = curRun(), v = prompt('Enter time as HH:MM or HH:MM:SS (24-hour)', r[f] ? hms(r[f]) : '');
+      if (v === null) return;
+      var t = parseTimeInput(v, r[f] || r.created);
+      if (t === null) { alert('Could not read that time. Example: 14:05 or 14:05:30'); return; }
+      r[f] = t; r.modified = Date.now(); save(); render();
+    },
+    clearStamp: function (f) { var r = curRun(); if (!confirm('Clear this time?')) return; r[f] = null; r.modified = Date.now(); save(); render(); },
+    dismissPrefill: function () { var r = curRun(); r.prefill = null; r.modified = Date.now(); save(); render(); },
+    useRec: function (pid) {
+      var run = curRun(), prev = findRun(pid), pr = calc(prev), lines = [];
+      for (var i = 0; i < C4.length; i++) if (isNum(pr.rec[C4[i]])) lines.push(C4[i] + ' ' + P(pr.rec[C4[i]]));
+      if (!confirm('Fill cold pressures with Run ' + prev.no + ' recommendation?\n' + lines.join(', ') + '\nYou still set the tyres to these yourself.')) return;
+      for (i = 0; i < C4.length; i++) if (isNum(pr.rec[C4[i]])) run.b.p[C4[i]] = round(pr.rec[C4[i]], 4);
+      run.modified = Date.now(); save(); render();
+    },
+    delRun: function () {
+      var r = curRun();
+      if (!confirm('Delete Run ' + r.no + '? This cannot be undone here.')) return;
+      tombstone('run', r.id);
+      DB.runs = DB.runs.filter(function (x) { return x.id !== r.id; });
+      log('Deleted Run ' + r.no + ' in ' + sessName(findSession(r.sessionId))); save(); go('session');
+    },
+    anSession: function (id) { S.an.sessionId = id; go('analysis'); },
+    tool: function (t) { S.tool = t; go('tools'); },
+    fuelAvg: function () { S.t.fuel.fpl = sessFpl(S.sessionId, null).avg; saveUI(); render(); },
+    wStart: function () { if (W.running) { W.acc = wElapsed(); W.running = false; } else { W.start = Date.now(); W.running = true; } saveW(); render(); },
+    wSplit: function () { if (!W.running) return; W.splits.push(wElapsed()); saveW(); render(); },
+    wReset: function () { if (W.splits.length && !confirm('Clear the stopwatch and splits?')) return; W = { running: false, start: 0, acc: 0, splits: [] }; saveW(); render(); },
+    wSave: function () {
+      var run = curRun(); if (!run) return;
+      var secs = round(wElapsed() / 1000, 1);
+      if (!confirm('Save ' + secs + ' s as the pit stop time for Run ' + run.no + '?')) return;
+      run.stop.dur = secs; run.modified = Date.now(); save(); alert('Saved to Run ' + run.no + '.');
+    },
+    stratPick: function (n) { S.t.strat.pick = +n; saveUI(); refreshTool(); },
+    stratFill: stratFill,
+    wLaps: function () {
+      var run = curRun(); if (!run || !W.splits.length) return;
+      var laps = [];
+      for (var i = 0; i < W.splits.length; i++) laps.push(lapFmt((W.splits[i] - (i ? W.splits[i - 1] : 0)) / 1000));
+      if (!confirm('Add ' + laps.length + ' lap time(s) to Run ' + run.no + '?\n' + laps.join(' '))) return;
+      run.a.lapTimes = (String(run.a.lapTimes || '').trim() ? String(run.a.lapTimes).trim() + ' ' : '') + laps.join(' ');
+      run.modified = Date.now(); save(); alert('Added to Run ' + run.no + '. Check them on its After tab.');
+    },
+    fileBackup: function () { backupFile(false); }, shareBackup: function () { backupFile(true); },
+    fileCsv: function () { csvFile(false); }, shareCsv: function () { csvFile(true); },
+    install: function () { if (!installPrompt) return; installPrompt.prompt(); installPrompt = null; },
+    exportCSV: exportCSV, exportJSON: exportJSON, restore: restore, undoRestore: undoRestore, wipe: wipe,
+    lapSync: lapSync, lapFetch: lapFetch
+  };
+
+  /* ---------- events ---------- */
+  function onClick(e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.getAttribute && el.getAttribute('data-act')) {
+        var a = el.getAttribute('data-act');
+        if (ACT[a]) { e.preventDefault(); ACT[a](el.getAttribute('data-arg'), el); }
+        return;
+      }
+      el = el.parentNode;
+    }
+  }
+  function scopeObj(scope) {
+    if (scope === 'run') return curRun();
+    if (scope === 'session') return curSession();
+    if (scope === 'settings') return DB.settings;
+    if (scope === 'sync') return DB.sync;
+    if (scope === 'ui') return S;
+    return null;
+  }
+  function onField(e) {
+    var el = e.target;
+    if (!el || !el.getAttribute) return;
+    if (el.id === 'fileIn' && e.type === 'change') { openBackupFile(el); return; }
+    var scope = el.getAttribute('data-scope');
+    if (!scope) return;
+    var obj = scopeObj(scope);
+    if (!obj) return;
+    var kind = el.getAttribute('data-kind'), path = el.getAttribute('data-path'), val;
+    if (kind === 'b') val = !!el.checked;
+    else if (kind === 's' || kind === 'ta') val = el.value;
+    else if (kind === 'lap') val = parseLap(String(el.value || ''));
+    else val = toStore(kind, num(el.value));
+    var isSel = el.tagName === 'SELECT';
+    if (isSel && e.type === 'input') return;
+    if (getPath(obj, path) === val && e.type === 'change' && !isSel) { if (scope !== 'ui') scheduleSave(true); return; }
+    setPath(obj, path, val);
+    if (scope === 'ui') { saveUI(); if (isSel) render(); else refreshTool(); return; }
+    if (scope === 'run' || scope === 'session') obj.modified = Date.now();
+    if (scope === 'run') updateLive();
+    if (scope === 'session') { var dw = $('drvWrap'); if (dw) dw.innerHTML = drvWrapHtml(obj); }
+    if (scope === 'settings' && path === 'keepAwake') applyWake();
+    if (scope === 'settings' && isSel) { save(); render(); return; }
+    scheduleSave(e.type === 'change');
+  }
+
+  /* ---------- render ---------- */
+  function render() {
+    document.body.className = st().theme === 'dark' ? 'dark' : '';
+    if (S.view === 'run' && !curRun()) S.view = curSession() ? 'session' : 'sessions';
+    if (S.view === 'session' && !curSession()) S.view = 'sessions';
+    var v = S.view, body;
+    if (v === 'session') body = vSession();
+    else if (v === 'run') body = vRun();
+    else if (v === 'analysis') body = vAnalysis();
+    else if (v === 'tools') body = vTools();
+    else if (v === 'data') body = vData();
+    else body = vSessions();
+    $('app').innerHTML = renderTop() + '<div class="wrap">' + body + '</div>';
+    if (v === 'analysis') drawChart();
+    if (v === 'tools') { refreshTool(); if (S.tool === 'timer') startTick(); else stopTick(); } else stopTick();
+    if (v === 'run') updateLive();
+    startDrvTick();
+    saveUI();
+  }
+
+  function init() {
+    load(); loadUI();
+    document.addEventListener('click', onClick, false);
+    document.addEventListener('input', onField, false);
+    document.addEventListener('change', onField, false);
+    window.addEventListener('pagehide', flush, false);
+    window.addEventListener('beforeunload', flush, false);
+    window.addEventListener('resize', function () { if (S.view === 'analysis') drawChart(); }, false);
+    if (window.applicationCache) {
+      var evs = ['checking', 'downloading', 'progress', 'cached', 'noupdate', 'updateready', 'obsolete', 'error'];
+      for (var i = 0; i < evs.length; i++) window.applicationCache.addEventListener(evs[i], updateCacheSt, false);
+      window.applicationCache.addEventListener('updateready', function () {
+        try { window.applicationCache.swapCache(); } catch (e) { /* ignore */ }
+        if (confirm('A new version of PitLog was installed. Reload now? Your data is kept.')) window.location.reload();
+      }, false);
+    }
+    if (navigator.serviceWorker && window.isSecureContext && !window.applicationCache) {
+      var hadController = !!navigator.serviceWorker.controller, reloading = false;
+      try {
+        navigator.serviceWorker.register('sw.js').then(function () { updateCacheSt(); })['catch'](function () { updateCacheSt(); });
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          updateCacheSt();
+          if (!hadController || reloading) { hadController = true; return; }
+          reloading = true;
+          if (confirm('A new version of PitLog was installed. Reload now? Your data is kept.')) window.location.reload();
+        });
+      } catch (e3) { /* ignore */ }
+    }
+    window.addEventListener('beforeinstallprompt', function (ev) { ev.preventDefault(); installPrompt = ev; if (S.view === 'data') render(); }, false);
+    document.addEventListener('visibilitychange', function () { applyWake(); }, false);
+    applyWake();
+    render();
+  }
+
+  window.PitLog = {
+    db: function () { return DB; }, ui: function () { return S; }, calc: calc, act: ACT, render: render,
+    setLaptopTransport: function (fn) { laptopTransport = fn; }, pending: pendingItems, strat: function (I) { return stratCalc(I); }, payload: payload
+  };
+  init();
+})();
+</script>
+</body>
+</html>

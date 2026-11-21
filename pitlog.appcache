@@ -1,0 +1,9 @@
+CACHE MANIFEST
+# PitLog 1.3.0 (change this line whenever you update any file, so the iPad picks up the new version)
+
+CACHE:
+index.html
+icon.png
+
+NETWORK:
+*
